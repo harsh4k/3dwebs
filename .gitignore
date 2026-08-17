@@ -1,0 +1,67 @@
+# ─────────────────────────────────────────────────────────────
+# Coffee Digital
+#
+# ⚠️ github.com/harsh4k/coffeedigital is currently PUBLIC.
+# Two exclusions below exist because of that, not for hygiene.
+# See TBD.md → S7. If the repo is made private, they can be lifted.
+# ─────────────────────────────────────────────────────────────
+
+# Client credentials — contains 27 third-party client logos and award
+# claims that have not been cleared for publication. See TBD.md → B1, B2.
+creds/
+
+# Archived third-party source. Kept locally for study; republishing another
+# company's HTML/CSS in a public repo is not ours to do. Our own written
+# analysis (reference/trionn/*.md) IS committed.
+reference/trionn/html/
+
+# Harsh's GLOBAL Claude setup — 544 files, 13MB. It predates this project and
+# is not project code. It also vendors ~500 third-party agent skills whose
+# licences are not ours to redistribute from a public repo.
+# Our project tooling lives in .claude/ and skills/{README,routing,agents,
+# mcps,hooks,workflows} — those ARE committed.
+skills/Setup/
+
+# ── Secrets ──────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ── Node / Next ──────────────────────────────────────────────
+node_modules/
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# ── Tooling ──────────────────────────────────────────────────
+.vercel/
+.turbo/
+coverage/
+.playwright-mcp/
+test-results/
+playwright-report/
+*.log
+npm-debug.log*
+
+# ── Generated assets ─────────────────────────────────────────
+# Optimised derivatives are rebuilt by scripts/optimise-images.mjs
+public/work/**/*-[0-9]*.avif
+public/work/**/*-[0-9]*.webp
+
+# ── OS / editor ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# ── Obsidian ─────────────────────────────────────────────────
+.obsidian/workspace*
+.obsidian/cache
+.trash/

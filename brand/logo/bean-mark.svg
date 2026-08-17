@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 91 100" role="img" aria-label="Coffee Digital bean mark">
+  <title>Coffee Digital bean mark</title>
+  <desc>
+    A single 'e' bean. Reconstructed from creds/logo.jpeg by measurement, not tracing.
+    Measured: ring outer width 392px, bar width 403px, total height 443px, stroke 32px,
+    cut line at 46.5% of height, lower arc terminating 16 degrees below the horizontal.
+    Normalised to height 100. Colour is inherited via currentColor.
+  </desc>
+  <g fill="currentColor">
+    <!-- filled upper dome: flat edge sits on the cut line and overhangs the ring slightly -->
+    <path d="M0,46.5 A45.5,46.5 0 0 1 91,46.5 Z"/>
+    <!-- open lower bowl: sweeps from left round through the bottom, stopping short at the right -->
+    <path d="M4.85,46.5 A40.65,49.9 0 0 0 84.58,60.26"
+          fill="none" stroke="currentColor" stroke-width="7.2"/>
+  </g>
+</svg>
