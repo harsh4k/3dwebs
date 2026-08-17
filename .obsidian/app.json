@@ -1,1 +1,14 @@
-{}
+{
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "relative",
+  "useMarkdownLinks": false,
+  "attachmentFolderPath": "brand/attachments",
+  "showUnsupportedFiles": false,
+  "promptDelete": true,
+  "userIgnoreFilters": [
+    "skills/Setup/",
+    "node_modules/",
+    ".claude/hooks/",
+    "reference/trionn/html/"
+  ]
+}
