@@ -1,6 +1,19 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": [".claude/hooks/vault-context.mjs"],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Edit|Write",
@@ -15,6 +28,18 @@
             "type": "command",
             "command": "node",
             "args": [".claude/hooks/guard-fabrication.mjs"],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": [".claude/hooks/decision-log.mjs"],
             "timeout": 10
           }
         ]
@@ -38,11 +63,14 @@
       "Glob",
       "Grep"
     ],
+    "ask": [
+      "Bash(git push:*)"
+    ],
     "deny": [
       "Read(./.env)",
       "Read(./.env.*)",
-      "Bash(git push:*)",
       "Bash(git reset --hard:*)",
+      "Bash(git push --force:*)",
       "Bash(rm -rf:*)"
     ]
   }

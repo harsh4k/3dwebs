@@ -26,7 +26,7 @@ skills/
 ├── routing.md     condition → tool. The auto-invocation contract
 ├── agents/        the 3 new agents, and why the other 7 already exist
 ├── mcps/          MCP evaluation, verified-existing only
-├── hooks/         the 2 enforcement hooks
+├── hooks/         2 enforcement + 2 vault-memory hooks
 ├── workflows/     repeatable multi-step sequences
 └── Setup/         ⚠️ pre-existing 544-file global setup — NOT ours, do not duplicate
 ```
@@ -102,12 +102,14 @@ Full evaluation in [[mcps/README|mcps/README]]. Summary:
 
 ## Hooks
 
-Two, and they enforce the two rules most likely to erode under time pressure. Both tested — 8/8 cases pass.
+Four. Two enforce the rules most likely to erode under time pressure; two make the Obsidian vault behave as live project memory. All tested — 17/17 cases pass.
 
-| Hook | Blocks |
-|---|---|
-| `guard-tokens.mjs` | Raw hex outside `tokens.css` · the retired brown palette · `box-shadow` · inline easings and durations |
-| `guard-fabrication.mjs` | Banned schema fields (`year`, `metrics`, `outcome`, `testimonial`, …) · invented-fact phrasings in `src/content/` |
+| Hook | Event | Does |
+|---|---|---|
+| `guard-tokens.mjs` | `PreToolUse` | **Blocks** raw hex outside `tokens.css`, the retired brown palette, `box-shadow`, inline easings and durations |
+| `guard-fabrication.mjs` | `PreToolUse` | **Blocks** banned schema fields, invented-fact phrasings, and the cut "most awarded" superlative |
+| `vault-context.mjs` | `SessionStart` | Injects open blockers, recent resolutions and the latest decision from the vault |
+| `decision-log.mjs` | `Stop` | Notes when a decision-bearing doc changed but `brain.md` did not. Never blocks |
 
 Detail and test results in [[hooks/README|hooks/README]]. Wired in `.claude/settings.json`.
 
@@ -121,5 +123,5 @@ Detail and test results in [[hooks/README|hooks/README]]. Wired in `.claude/sett
 2. **Don't fabricate tool names.** Every MCP was verified to exist. Two of three named in the brief do not, and they are marked as such rather than written up.
 3. **Don't build duplicate agents.** Three of six proposed agents already existed under another name.
 4. **Prefer official over popular.** Mobbin's official server over the unofficial scraper; no community Motion.dev server.
-5. **Enforce mechanically what matters most.** Two hooks, not ten.
+5. **Enforce mechanically what matters most.** Four hooks, not ten — and only the two absolute rules block.
 6. **Route, don't remind.** [[routing]] exists so Harsh never has to name a tool.

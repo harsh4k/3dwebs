@@ -4,7 +4,7 @@ tags: [tooling, hooks, enforcement]
 
 # Hooks
 
-Two hooks. They enforce the two rules whose violation would do the most damage, and which are most likely to erode under time pressure.
+Four hooks. Two **enforce** the rules whose violation would do the most damage; two make the Obsidian vault behave as live project memory rather than a folder someone has to remember to open.
 
 Scripts live in `.claude/hooks/`, wired in `.claude/settings.json`.
 Related: [[../routing|routing]] · [[../../CLAUDE|CLAUDE.md]]
@@ -58,9 +58,31 @@ Blocks three things:
 
 ---
 
+## `vault-context.mjs`
+
+**Event:** `SessionStart`
+
+Reads `TBD.md` and `brain.md` and injects a compact state summary — open blockers, open section questions, the three most recent resolutions, the latest recorded decision, and whether `src/` exists yet.
+
+This is what makes the vault **context storage** rather than passive files: every session starts knowing what is unresolved and what was already decided, instead of spending a turn asking. Output is a few hundred characters, deliberately — the documents are on disk and readable; this is a pointer, not a dump.
+
+Phrased as factual statements, never imperatives. Imperative text in injected context reads as an out-of-band instruction and trips prompt-injection defenses — the same convention as the global `session-context.mjs`.
+
+## `decision-log.mjs`
+
+**Event:** `Stop`
+
+`brain.md` has a silent failure mode: decisions get made in a session and never written down, so months later nobody remembers why the palette has an ink token or why there is no CMS.
+
+If a decision-bearing document changed (`PRD.md`, `Design.md`, `architecture.md`, `TBD.md`, `pages/*.md`, `brand/palette.md`, `brand/brand-audit.md`) and `brain.md` did not, it emits **one line**. `TBD.md` changing is the strongest signal — it usually means something was resolved.
+
+**It does not block**, and it says explicitly that routine edits need no entry. A nagging hook gets disabled, and a disabled hook enforces nothing.
+
+---
+
 ## Test results
 
-Both hooks were tested before being documented. **11/11 cases behave correctly.**
+All four hooks were tested before being documented. **17/17 cases behave correctly.**
 
 | # | Case | Expected | Result |
 |---|---|---|---|
@@ -75,6 +97,20 @@ Both hooks were tested before being documented. **11/11 cases behave correctly.*
 | T9 | The cut "most awarded" superlative | deny | ✅ denied, cites TBD B2 |
 | T10 | Softened variant "one of the most awarded" | deny | ✅ denied |
 | T11 | The approved factual framing (six award bodies) | allow | ✅ allowed |
+| T12 | `vault-context` on a clean tree | inject state | ✅ blockers, resolutions, decision count, phase |
+| T13 | `decision-log`, clean tree | silent | ✅ silent |
+| T14 | Page spec dirty, `brain.md` clean | note | ✅ fired |
+| T15 | Page spec **and** `brain.md` dirty | silent | ✅ silent |
+| T16 | `README.md` only | silent | ✅ silent — not decision-bearing |
+| T17 | `TBD.md` dirty | note | ✅ fired |
+| T18 | `Design.md` + page spec | note, both named | ✅ "Design.md and a page spec" |
+| T19 | Clean tree | silent | ✅ silent |
+
+### A bug this caught
+
+T14–T16 initially inverted: the hook stayed silent when it should have fired and fired when it should not. The cause was mine — the `git()` helper `.trim()`ed the whole `git status --porcelain` output, and an unstaged modification's line begins with a space (`" M path"`). Trimming the string stripped that space from the **first** line only, shifting `slice(3)` by one character and corrupting that path. Whichever file sorted first was invisible to the hook.
+
+Fixed by not trimming the output, filtering on line length, and handling rename arrows. Worth recording because the hook *looked* like it worked in the first casual test — Node's async stdout on Windows interleaved the output with the shell's echo, which made a real inversion look like a display artifact.
 
 Re-run after any edit:
 
@@ -90,7 +126,8 @@ echo '{"tool_input":{"file_path":"src/features/x.tsx","content":"#FF0000"}}' \
 1. **Fail open.** Any parse error exits silently. A hook bug must never block legitimate work.
 2. **Explain, don't just refuse.** Every denial names the rule and the document to read.
 3. **Narrow scope.** A hook that fires on false positives gets disabled, and then enforces nothing.
-4. **Two, not ten.** Only rules where violation is both likely and costly earn a hook.
+4. **Four, not ten.** Only rules where violation is both likely and costly earn a hook.
+5. **Never block on a judgement call.** `guard-*` block, because their rules are absolute. `decision-log` only notes, because whether an edit constitutes a decision is a judgement the hook cannot make.
 
 ## Not hooked, and why
 

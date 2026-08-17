@@ -155,6 +155,7 @@ Things found during research that changed the plan:
 - **Check the client's existing site before the brief's reference.** More was learned from `coffeedigital.in` than from any amount of competitor analysis.
 - **Verify before describing.** Two MCPs in the brief don't exist. Writing them up plausibly would have been the same failure class as inventing a testimonial.
 - **Constraints are content.** "No metrics exist" isn't an obstacle to design around — it's what makes the schema-as-enforcement idea work.
+- **A test that looks like it passed hasn't necessarily passed.** `decision-log.mjs` shipped inverted in its first version — silent when it should fire, firing when it should be silent. The cause was `.trim()` on `git status --porcelain` output, which strips the leading space from an unstaged modification's first line and shifts `slice(3)` by one character, so whichever file sorted first was invisible. The first test run *appeared* fine only because Node's async stdout on Windows interleaved the hook's output with the shell's echo, making a real inversion look like a display artifact. Re-running with captured output exposed it immediately. **When output ordering looks odd, capture it before dismissing it.**
 
 ---
 
@@ -185,6 +186,23 @@ This is the more interesting of the three, because **the constraint improved the
 The fact remains unknown, and the docs should keep saying so. The `tier` field means promotion stays a one-line content edit if provenance is ever confirmed — which is exactly why it's in the schema.
 
 **Pattern across all three:** the honest handling was cheaper than the risky one, and in B2's case produced better copy. Worth remembering the next time a constraint looks like a loss.
+
+## D13 — Obsidian direct, no MCP (2026-08-17)
+
+**Rejected `mcp-obsidian`.** It reaches a vault over HTTP through a running Obsidian instance plus the Local REST API community plugin. Here the vault **is** the working directory — the same files, already fully readable and writable. It would have added a dependency, two failure modes (app closed, plugin dead) and four setup steps for zero capability.
+
+Same test that rejected Mobbin: relevance over capability, fewer is better.
+
+**What actually mattered was configuring the vault**, which was running on pure defaults:
+
+- **90% of the vault was noise.** 276 of 308 markdown files came from `skills/Setup/` — the global setup, not project content. Search, graph and quick-switcher were all competing with it. Excluded; the index is now 32 files, all ours.
+- **Link rot was one drag away.** `alwaysUpdateLinks` was off, so moving any note in the Obsidian UI would silently break its inbound links. This vault has 303 of them, and `Design` alone has 41 pointing at it.
+
+**Two hooks make the vault live memory rather than passive files:** `vault-context.mjs` reads open blockers and recent decisions into every session start; `decision-log.mjs` notes when a decision-bearing document changed but `brain.md` didn't.
+
+The second one exists because this file's failure mode is silence — decisions get made and simply never written down. It does not block, because whether an edit constitutes a decision is a judgement a hook cannot make.
+
+**Lesson recorded separately below:** the first version of `decision-log.mjs` was inverted by a one-character parsing bug, and the first test *looked* like it passed.
 
 ---
 

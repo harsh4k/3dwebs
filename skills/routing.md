@@ -81,6 +81,9 @@ These fire from `.claude/settings.json` on every `Edit` and `Write`. They cannot
 | Inline `cubic-bezier()` or raw duration | `guard-tokens.mjs` | **Blocked** |
 | Banned schema field added (`year`, `metrics`, `outcome`, `testimonial`, …) | `guard-fabrication.mjs` | **Blocked** |
 | Invented-fact phrasing in `src/content/` | `guard-fabrication.mjs` | **Blocked** |
+| The cut "most awarded" superlative, or a softened variant | `guard-fabrication.mjs` | **Blocked** |
+| **Session starts** | `vault-context.mjs` | Injects open blockers, recent resolutions, latest decision, phase |
+| **Session ends** with a decision-bearing doc changed but `brain.md` untouched | `decision-log.mjs` | Notes it — does not block |
 
 ---
 
