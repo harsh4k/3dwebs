@@ -91,8 +91,8 @@ The asset pipeline for `/work`. See [[../../pages/work#Asset tiers|work — asse
 Run in order. Any failure blocks launch.
 
 ```
-1. ⛔ TBD blockers          B1 logo rights · B2 awards superlative ·
-                            B3 Tier-B confirmation. ALL must be resolved
+1. ⛔ TBD blockers          none open (B1/B2/B3 resolved 2026-08-17).
+                            Re-check TBD.md for any newly raised blocker
 2. Fabrication audit        every visible claim traces to
                             brand-audit → Confirmed, or is marked Proposed
 3. Performance              Lighthouse CI, throttled mobile.

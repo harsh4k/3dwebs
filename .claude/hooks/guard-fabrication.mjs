@@ -69,6 +69,10 @@ const BANNED_CLAIMS = [
   [/\b\d+\s*%\s*(?:increase|growth|uplift|improvement|conversion)/i, "a performance metric"],
   [/\btrusted\s+by\s+\d+/i, "an unsourced client count"],
   [/\b\d{2,}\s*\+\s*(?:clients|brands|projects)\b/i, "an unsourced count — the confirmed figures are 28 projects and 27 named marks"],
+  // Cut 2026-08-17 (TBD B2). Also catches the softened variants — the
+  // qualifier does not fix the missing basis.
+  [/\b(?:the\s+)?most\s+awarded\b/i, "the cut 'most awarded' superlative — replaced by the factual framing naming six award bodies. See TBD.md B2"],
+  [/\b(?:one\s+of|among)\s+(?:the\s+)?(?:india'?s\s+)?most\s+awarded/i, "a softened form of the cut superlative — still has no cited basis"],
 ];
 for (const [re, what] of BANNED_CLAIMS) {
   const m = body.match(re);

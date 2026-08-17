@@ -46,11 +46,13 @@ Both are worth making **mechanically impossible** rather than merely discouraged
 
 **Event:** `PreToolUse` on `Edit|Write` · **Scope:** `src/content/` only
 
-Blocks two things:
+Blocks three things:
 
 **1. Banned schema fields** — `year`, `metrics`, `outcome`, `results`, `testimonial`, `founded`, `teamSize`, `headcount`. The `Project` schema has no fields for these *by design* ([[../../architecture#5 The content system|architecture §5]]); this stops that constraint being quietly widened.
 
 **2. Invented-fact phrasings** — founding years, tenure claims, headcounts, locations, performance metrics, unsourced client counts. Each pattern was checked against the deck and the legacy site and appears in neither.
+
+**3. The cut superlative** — *"the most awarded…"* and its softened variants (*"one of the most awarded"*, *"among India's most awarded"*). Cut on 2026-08-17 ([[../../TBD#✅ B2|TBD B2]]); the hook stops it drifting back in. The qualifier does not fix the missing basis, so the softened forms are blocked too.
 
 **Scope is deliberately narrow** — `src/content/` only. Fabrication enters through content, not components, and a wider net would nag about ordinary prose.
 
@@ -58,7 +60,7 @@ Blocks two things:
 
 ## Test results
 
-Both hooks were tested before being documented. **8/8 cases behave correctly.**
+Both hooks were tested before being documented. **11/11 cases behave correctly.**
 
 | # | Case | Expected | Result |
 |---|---|---|---|
@@ -70,6 +72,9 @@ Both hooks were tested before being documented. **8/8 cases behave correctly.**
 | T6 | "Founded in 2010… team of 25… based in Mumbai… increased conversions by 40%" | deny | ✅ all 5 claims reported |
 | T7 | Confirmed content (`info@coffeedigital.in`, the tagline) | allow | ✅ allowed |
 | T8 | `// founded in 2010` in a component | allow | ✅ allowed — out of scope |
+| T9 | The cut "most awarded" superlative | deny | ✅ denied, cites TBD B2 |
+| T10 | Softened variant "one of the most awarded" | deny | ✅ denied |
+| T11 | The approved factual framing (six award bodies) | allow | ✅ allowed |
 
 Re-run after any edit:
 

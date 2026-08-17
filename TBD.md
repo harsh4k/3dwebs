@@ -18,30 +18,31 @@ Upstream: [[brand/brand-audit#❌ Missing|brand-audit]] · [[PRD#21 Open questio
 
 ## ⛔ Launch blockers
 
-### B1 — Client logo usage rights
+**None outstanding.** All three were resolved on 2026-08-17 — see below and the [[#Resolution log|resolution log]].
 
-**Need:** written confirmation that Coffee Digital may display the marks of 27 clients — Google, Emirates, Lenovo, Motorola, MTV, Johnson & Johnson, Abbott, Sun Pharma, Toyota, Domino's, Pidilite, Colors/Viacom18, NSE, and others.
-**Owner:** Coffee Digital
-**Affects:** [[pages/home#§2 — Proof|home §2]], [[pages/about#§3 — Clients|about §3]], [[pages/work|work]]
-**Risk if wrong:** trademark exposure, and a takedown request that guts the site's main proof.
-**Fallback if refused:** a **typographic client list**. The client *names* are confirmed facts and can be stated in text regardless of mark usage. The section survives; only its form changes.
-**Note:** many client agreements permit portfolio use. This may already be settled — it needs checking, not assuming.
+### ✅ B1 — Client logo usage rights — RESOLVED
 
-### B2 — "Perhaps, the most awarded team in digital media in India"
+**Resolution (2026-08-17, Harsh): rights confirmed.** Coffee Digital may display the 27 client marks.
+**Effect:** [[pages/home#§2 — Proof|home §2]] and [[pages/about#§3 — Clients|about §3]] ship as designed — the mark grid, not the typographic fallback.
+**Standing condition:** this is a blanket confirmation, not a per-brand licence review. If any individual client objects post-launch, that mark is removed and the name retained in text — the names are confirmed facts independent of mark usage.
 
-**Need:** written sign-off, or a factual basis (a ranking, a citation, a year).
-**Owner:** Coffee Digital
-**Affects:** [[pages/about#The superlative|about §2]]
-**Risk if wrong:** an unqualified superlative with no cited basis. ASCI exposure, and trivially challengeable by a competitor.
-**Fallback if refused:** *"recognised at Cannes, One Show, D&AD, the Webbys, and Goafest."* Every word verifiable from the deck — and arguably stronger than the superlative.
+### ✅ B2 — "Perhaps, the most awarded team in digital media in India" — RESOLVED: CUT
 
-### B3 — Which Tier-B sites still run Coffee Digital's build
+**Resolution (2026-08-17, Harsh): the superlative is cut.** No sign-off was claimed, so it does not ship.
+**Replacement — factual framing, every word verifiable from deck slide 3:**
 
-**Need:** for each of B2X, Toyota (Prado & Prius), Lenovo, Colors TV, Spykar, Van Heusen and Domino's — is the site live today still Coffee Digital's work, or has the brand since redesigned?
-**Owner:** Coffee Digital
-**Affects:** [[pages/work#Asset tiers|work — asset tiers]]
-**Risk if wrong:** presenting a screenshot of another agency's current work as ours. A misrepresentation, and for a design agency a reputational one.
-**Current handling:** Tier-B projects show **deck imagery with no outbound link** until answered. The site can ship this way — but the question should be asked.
+> Recognised at Cannes, One Show, D&AD, the Webby Awards, the New York Festival, and Goafest.
+
+**Why this is the better outcome:** an unqualified superlative invites the question *"says who?"* and carries ASCI exposure. Six named award bodies answer the question before it is asked. It is specific where the superlative was vague, and it cannot be challenged.
+**Effect:** [[pages/about#§2 — Awards|about §2]].
+
+### ✅ B3 — Tier-B provenance — RESOLVED: conservative handling stands
+
+**Resolution (2026-08-17, Harsh): ship the conservative handling.** Tier-B projects show **deck imagery with no outbound link**.
+
+⚠️ **This is a decision, not a finding.** It was not established that these sites *have* been redesigned — we chose the handling that is safe either way. B2X, Toyota (Prado & Prius), Lenovo, Colors TV, Spykar, Van Heusen and Domino's are presented via the deck screenshot, which is the genuine historical artefact of Coffee Digital's work, with no claim about the site live today.
+
+**Promotion path:** if the client later confirms a specific build is still theirs, that project moves to Tier A — re-capture, add `liveUrl`, done. One content edit per project, no component changes.
 
 ---
 
@@ -127,6 +128,9 @@ Record decisions here as they land, with the date. This is the audit trail for w
 
 | Date | ID | Resolution | Decided by |
 |---|---|---|---|
+| 2026-08-17 | **B1** | **Client logo rights confirmed.** The 27 marks ship as designed | Harsh |
+| 2026-08-17 | **B2** | **Superlative cut.** Replaced with a factual framing naming six award bodies | Harsh |
+| 2026-08-17 | **B3** | **Conservative Tier-B handling adopted** — deck imagery, no outbound link. A decision, not a finding; projects can be promoted to Tier A if provenance is later confirmed | Harsh |
 | 2026-08-17 | — | Palette locked to `#FFFAF3` `#FFF2DB` `#FFE5BF` `#F62440`; `--ink` `#3F2210` derived from the brand stripe | Harsh |
 | 2026-08-17 | — | `/work` uses a modal with shallow routing, not detail routes | Harsh |
 | 2026-08-17 | — | Work imagery re-captured from live sites, tiered | Harsh |

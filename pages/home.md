@@ -105,12 +105,12 @@ Fallback:           Decorative only. Every state it shows also exists in the
 | Content | Three counters — international awards, national awards, named brands. The 27 client marks. Award-body names |
 | Layout | Counters on a 3-col row (stacked on mobile), client marks in a quiet grid below |
 | Visual | Ground has walked to `--cream`. Counters at `--fs-display-m`. Marks monochrome `--ink`, going full colour on hover |
-| Assets | 27 client logos ⛔ **pending rights** — see [[../TBD\|TBD]] |
+| Assets | 27 client logos — ✅ **rights confirmed** 2026-08-17, [[../TBD#✅ B1\|TBD B1]] |
 | Components | `Counter`, `Reveal`, `Stripe` |
 
 **Counter values — derived by counting [[../brand/brand-audit#Awards — S1 slide 3, verbatim|confirmed awards]], not invented.** The exact figures are locked during implementation against that list, and each counter carries a plain-text caption naming the bodies, so the number is never an unsupported claim.
 
-> ⛔ If logo rights are refused, this becomes a **typographic** client list — names set large in `--ink`. The section survives; only its form changes.
+The mark grid ships as designed. If any individual client objects post-launch, that mark is removed and the **name retained in text**.
 
 ### Motion — counter roll
 
@@ -306,7 +306,7 @@ Implementation:     ONE ScrollTrigger writing ONE CSS variable on :root.
 | Hero tagline | ✅ Confirmed — legacy site |
 | Hero paragraph | ✅ Confirmed — deck slide 2 |
 | Proof counters | ✅ Derived by counting confirmed awards |
-| Client marks | ✅ Confirmed — deck slide 4 · ⛔ rights pending |
+| Client marks | ✅ Confirmed — deck slide 4 · ✅ rights confirmed |
 | Featured projects | ✅ Confirmed — deck slides 5–32 |
 | Service pillars | ✅ Confirmed — deck slide 2 |
 | Service one-liners | 💡 Proposed |

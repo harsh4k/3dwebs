@@ -269,7 +269,7 @@ Motion-heavy is not licence to be heavy.
 1. Every performance target in §16 met on a throttled mobile profile
 2. Zero WCAG AA failures in automated testing plus a manual keyboard pass
 3. Every claim on the site traces to [[brand/brand-audit#✅ Confirmed]] or is marked Proposed
-4. All three ⛔ blockers in [[TBD]] resolved
+4. No open ⛔ blockers in [[TBD]] *(the original three were resolved 2026-08-17)*
 5. The site is fully usable with `prefers-reduced-motion` enabled and with JS disabled
 6. The comparison test passes: with logos removed, our pages are not confusable with the reference
 
@@ -282,9 +282,9 @@ Motion-heavy is not licence to be heavy.
 
 | Risk | Impact | Likelihood | Mitigation |
 |---|---|---|---|
-| **Client logo rights not granted** | Severe — guts `/work` and the proof section | Medium | ⛔ Blocker in [[TBD]]. Fallback: name clients in text, drop the marks |
-| **Awards superlative challenged** | Legal/ASCI exposure | Low–Medium | ⛔ Blocker. Fallback: list the awards, drop the superlative |
-| **Tier-B sites since redesigned** | Misrepresentation | **High** | Tiering in [[pages/work]]; no live capture presented as ours without confirmation |
+| ~~Client logo rights not granted~~ | — | — | ✅ **Resolved** 2026-08-17 — rights confirmed. Residual: an individual client objecting post-launch → drop that mark, keep the name in text |
+| ~~Awards superlative challenged~~ | — | — | ✅ **Resolved** 2026-08-17 — superlative cut for a factual framing. Risk eliminated rather than mitigated |
+| **Tier-B provenance unestablished** | Misrepresentation | **High** | ✅ **Handled** 2026-08-17 — deck imagery, no outbound link, no claim about the current site. The underlying fact is still unknown; the handling is safe either way |
 | Motion budget breached late | Performance failure at the end | Medium | Budgets in CI from the first commit |
 | Voice decision reversed after copy is written | Rework across all specs | Medium | Flagged early; copy kept in content modules, not components |
 | Low-resolution deck imagery | Cheap-looking `/work` | Medium | Tier-A re-capture; art direction that makes softness deliberate |
@@ -293,16 +293,16 @@ Motion-heavy is not licence to be heavy.
 
 ## 21. Open questions
 
-Tracked with owners in [[TBD]]. The ones that change the work:
+Tracked with owners in [[TBD]]. **All three launch blockers were resolved on 2026-08-17** — logo rights confirmed, the superlative cut, Tier-B handling settled.
 
-1. **⛔ Client logo usage rights** — governs `/work` and the proof section
-2. **⛔ Basis for "most awarded in India"** — ships or is cut
-3. **⛔ Which Tier-B sites are still Coffee Digital's build** — governs capture
-4. **Voice** — legacy lowercase vs deck corporate. Affects every line of copy
-5. **Phone, address, socials** — govern `/contact` and `LocalBusiness` schema
-6. **Slide 14 discrepancy** — titled "Uncle Sams Kitchen", links `samskriti.in`
-7. **Budget bands in ₹** — needed before the form ships
-8. **Futura licence vs open substitute** — affects the type system
+Remaining, in order of how much they change the work:
+
+1. **Voice** — legacy lowercase vs deck corporate. Affects every line of copy. **Settle before writing any**
+2. **Phone, address, socials** — govern `/contact` and `LocalBusiness` schema
+3. **Budget bands in ₹** — needed before the form ships
+4. **Slide 14 discrepancy** — titled "Uncle Sams Kitchen", links `samskriti.in`. Entry withheld meanwhile
+5. **Futura licence vs open substitute** — affects the type system
+6. **Repo visibility** — public or private; governs what may be committed
 
 ## 22. Future considerations
 

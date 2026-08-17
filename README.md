@@ -87,7 +87,7 @@ graph TD
 | Content | Typed static modules + Zod. **No CMS** |
 | Projects | 28, tiered A/B/C by what the imagery can honestly claim |
 | JS budget | <140KB gzipped |
-| Blockers | 3 ⛔ — see [[TBD]] |
+| Blockers | ✅ None — all 3 resolved 2026-08-17, see [[TBD]] |
 
 ## Signature ideas
 

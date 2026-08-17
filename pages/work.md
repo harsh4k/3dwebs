@@ -29,15 +29,27 @@ Most agency sites would invent the rest. **We don't.** Everything below is desig
 
 ## Asset tiers
 
-The hardest honesty problem on the site. 20 of 26 URLs return 200 — but for large brands, **the site live today is almost certainly someone else's redesign.** Screenshotting `lenovo.com` in 2026 and captioning it "our work" is a misrepresentation.
+The hardest honesty problem on the site. 20 of 26 URLs return 200 — but a 200 only proves the domain is up. It says nothing about **who built what is on it now.** For large brands with in-house teams and agency rosters, we cannot assume the current site is Coffee Digital's work, and screenshotting `lenovo.com` in 2026 to caption it "our work" would be a misrepresentation.
+
+The tier system exists to keep that distinction visible in the data, so it can never be lost by accident.
 
 | Tier | Meaning | Imagery | Live link |
 |---|---|---|---|
 | **A** | Bespoke build plausibly still running Coffee Digital's work | Playwright capture, 2× DPR, 1440×900 + 390×844 | ✅ Yes |
-| **B** | Large brand, site near-certainly redesigned since | **Deck crop only** — the actual historical artefact — duotoned + grained | ❌ No, until confirmed |
+| **B** | Large brand; provenance of the current live site is not established | **Deck crop only** — the actual historical artefact — duotoned + grained | ❌ No |
 | **C** | Dead, blocked, or no URL ever existed | Deck crop, duotoned + grained | ❌ No |
 
-⛔ **Tier B cannot be resolved without the client.** Which builds are still theirs is a launch blocker in [[../TBD|TBD]]. Until answered, Tier-B projects appear with deck imagery and **no outbound link**.
+### Tier B — ✅ resolved 2026-08-17
+
+**Decision: ship the conservative handling.** Tier-B projects show deck imagery with **no outbound link**. See [[../TBD#✅ B3|TBD B3]].
+
+⚠️ **This is a decision, not a finding.** We did *not* establish that these sites have been redesigned. We chose the handling that is correct either way: the deck screenshot is the genuine historical artefact of Coffee Digital's work, and showing it makes **no claim about the site live today**. Linking out would make exactly that claim, so we don't.
+
+Applies to: **B2X · Toyota Prado · Toyota Prius · Lenovo · Colors TV · Spykar · Van Heusen · Domino's.**
+
+**Promotion path.** If the client later confirms a specific build is still theirs, that project moves to Tier A — re-capture via `scripts/capture-work.mjs`, add `liveUrl`, done. One content edit, no component changes. The tier field exists precisely so this stays cheap.
+
+**Copy discipline for Tier B.** Because we make no claim about the current site, the tile and modal must not imply one. No "visit live site", no "see it in action", no present tense that suggests the work is what's running now. State the client, the project, and the deliverables — nothing more.
 
 ### The 28
 
@@ -54,22 +66,22 @@ The hardest honesty problem on the site. 20 of 26 URLs return 200 — but for la
 | Uncle Sams Kitchen | Uncle Sams Kitchen | A | ✅ |
 | ⚠️ *slide-14 entry* | *unresolved* | — | **withheld** |
 | Indiabulls Housing Finance | Indiabulls | C | — |
-| B2X Germany | B2X | B | ⛔ |
+| B2X Germany | B2X | B | — |
 | Electrotherm Corporate | Electrotherm | A | ✅ |
-| Toyota Land Cruiser Prado | Toyota | B | ⛔ |
+| Toyota Land Cruiser Prado | Toyota | B | — |
 | Emirates Digital Campaign | Emirates | C | — |
-| Lenovo | Lenovo | B | ⛔ |
+| Lenovo | Lenovo | B | — |
 | Motorola | Motorola | A | ✅ |
-| Colors TV — 5 countries | Viacom18 | B | ⛔ |
+| Colors TV — 5 countries | Viacom18 | B | — |
 | Aegon Life | Aegon | C | — |
 | Lodha Palava | Lodha | A | ✅ |
 | Fevicol Design Ideas | Pidilite | A | ✅ |
 | Google Pixel Support | Google / B2X | C | — |
-| Toyota Prius | Toyota | B | ⛔ |
+| Toyota Prius | Toyota | B | — |
 | Tata Nano | Tata Motors | C | — |
-| Spykar | Spykar | B | ⛔ |
-| Van Heusen | Van Heusen | B | ⛔ |
-| Dominos Pizza India | Domino's | B | ⛔ |
+| Spykar | Spykar | B | — |
+| Van Heusen | Van Heusen | B | — |
+| Dominos Pizza India | Domino's | B | — |
 | Indiabulls Foundation | Indiabulls | A | ✅ |
 
 ⚠️ Slide 14 is titled "Uncle Sams Kitchen" but links `samskriti.in`. One is wrong. **The entry is withheld from the site** until the client resolves it ([[../TBD|TBD]]).

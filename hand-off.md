@@ -19,8 +19,8 @@ A new marketing website for **Coffee Digital**, a digital agency in India with a
 | | |
 |---|---|
 | ✅ Done | Brand extraction · reference library · all specification documents · tooling and enforcement |
+| ✅ Unblocked | **All 3 launch blockers resolved 2026-08-17** — logo rights confirmed, superlative cut, Tier-B handling settled |
 | ⬜ Not started | **All implementation.** No `src/`, no `package.json`, no dependencies installed |
-| ⛔ Blocked | 3 launch blockers outside our control — see [[TBD]] |
 
 ### Completed
 
@@ -110,16 +110,16 @@ node scripts/capture-work.mjs              # Tier-A asset capture
 |---|---|---|
 | Logo and stripe SVGs are **reconstructions** | Medium | Measured and visually verified, but not the originals. Request source vectors — [[TBD#S6\|S6]] |
 | Wordmark exists only as a 916×85 PNG | Medium | Cropped from the deck. Needs vector |
-| Tier-B projects have no confirmed provenance | **High** | ⛔ [[TBD#B3\|B3]]. Currently shown with deck imagery and no outbound link |
+| Tier-B provenance is still unknown | Medium | **Handled, not solved.** Deck imagery, no outbound link, no claim about the current site — safe either way. Promote to Tier A if provenance is ever confirmed. [[TBD#✅ B3\|B3]] |
 | Slide 14 contradicts itself | Low | Entry withheld until resolved — [[TBD#S3\|S3]] |
 | Budget bands are USD-shaped in the reference | Low | Must be set in ₹ — [[TBD#S2\|S2]] |
 | 5 legacy-only projects have no assets | Low | Excluded until assets exist |
 
 ## Next three tasks
 
-1. **Ask the client the three ⛔ blockers.** They gate launch and are outside our control. B1 (logo rights) can change the shape of two sections, so it should be asked first, not last.
-2. **Settle the voice decision** ([[TBD#S1|S1]]). Every line of copy depends on it, and reversing it later is expensive.
-3. **Scaffold + tokens + content schema.** Everything else builds on these three, and the schema is what makes Rule 0 structural.
+1. **Settle the voice decision** ([[TBD#S1|S1]]). Now the highest-leverage open question — every line of copy depends on it, and reversing it after copy is written is expensive. Recommendation: the legacy lowercase register.
+2. **Scaffold + tokens + content schema.** Everything else builds on these three, and the schema is what makes Rule 0 structural.
+3. **Build home → work.** Home sets the motion vocabulary; work is the hardest page and will surface any weakness in the primitives early.
 
 ## Gotchas
 

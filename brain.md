@@ -126,7 +126,7 @@ CLAUDE.md already forbids hardcoded hex and invented facts. Prose rules are advi
 
 - **The deck gives names, URLs and screenshots. Nothing else.** No briefs, dates, outcomes, metrics or testimonials exist anywhere.
 - **No phone, address, or social handles** exist in any source.
-- **3 launch blockers** are outside our control — logo rights, the awards superlative, Tier-B confirmation. See [[TBD]].
+- ~~3 launch blockers outside our control~~ — **all resolved 2026-08-17**, see [[#D12 — The three blockers, resolved (2026-08-17)|D12]]. One residual constraint survives: **Tier-B provenance is still factually unknown**, which is why those projects carry no outbound link.
 - **`#F62440` is AA-large only.** It permanently constrains where red can appear.
 - **Work imagery is low-resolution** for anything not re-capturable — max 500KB, many under 100KB, cropped from a 4:3 deck.
 - **The repo is public**, which constrains what may be committed.
@@ -170,13 +170,31 @@ Applied at every review, indefinitely:
 
 ---
 
+## D12 — The three blockers, resolved (2026-08-17)
+
+**B1 — logo rights: confirmed.** The 27 marks ship as designed. The typographic fallback is retired, though the principle behind it survives as the post-launch remedy: if a client objects, drop the mark and keep the name, because the names are confirmed facts independent of mark usage.
+
+**B2 — the superlative: cut.** *"Perhaps, the most awarded team in digital media in India"* does not ship. Replaced with *"Recognised at Cannes, One Show, D&AD, the Webby Awards, the New York Festival, and Goafest."*
+
+This is the more interesting of the three, because **the constraint improved the work**. A superlative invites *"says who?"* and carries ASCI exposure. Six named bodies answer the question before it's asked, and cannot be challenged. The risk wasn't mitigated — it was eliminated, and the line got better. Softened variants ("one of the most awarded", "among India's most awarded") are also out: the qualifier doesn't fix the absent basis.
+
+**B3 — Tier-B provenance: conservative handling adopted.** Deck imagery, no outbound link.
+
+⚠️ **Worth being precise about what this is.** We did not learn that Lenovo, Domino's, Colors, Spykar, Van Heusen, Toyota or B2X have been redesigned. We chose the handling that is correct whether they have or not: the deck screenshot is the genuine historical artefact, and showing it makes no claim about the site live today. Linking out *would* make that claim, so we don't.
+
+The fact remains unknown, and the docs should keep saying so. The `tier` field means promotion stays a one-line content edit if provenance is ever confirmed — which is exactly why it's in the schema.
+
+**Pattern across all three:** the honest handling was cheaper than the risky one, and in B2's case produced better copy. Worth remembering the next time a constraint looks like a loss.
+
+---
+
 ## Open questions
 
-Tracked in [[TBD]]. The ones that keep me up:
+Tracked in [[TBD]]. Now that the blockers are closed:
 
-- **Logo rights (B1)** is the largest single risk. If refused, the proof sections change form entirely. Worth asking *first*, not last.
-- **The voice decision (S1)** should be settled before a line of copy is written. Reversing it later is expensive.
-- **Tier B (B3)** may resolve to "most of these were redesigned years ago", which would shrink the honest portfolio considerably. Better to know early.
+- **The voice decision (S1)** is the highest-leverage question left. It should be settled before a line of copy is written; reversing it later is expensive.
+- **Tier-B provenance** is closed as a *decision* but still open as a *fact*. If the client ever volunteers which builds are still theirs, several projects gain a live link and the portfolio gets stronger.
+- **Contact data (N1–N3)** — phone, address, socials. Not blocking, because the presence pattern means each is a one-line edit whenever it arrives.
 
 ---
 

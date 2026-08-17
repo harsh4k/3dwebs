@@ -74,13 +74,19 @@ Fallback:           Fully visible
 
 **Set as a record, not as badges.** Award-logo grids read as decoration and invite scepticism. A typographic list — body name, category, result — reads as a citation, and citations are checkable. It also sidesteps a second logo-rights problem on top of the client-logo one.
 
-### The superlative
+### The framing line — ✅ resolved
 
-⛔ The deck closes this slide with *"Perhaps, the most awarded team in digital media in India."*
+The deck closes this slide with *"Perhaps, the most awarded team in digital media in India."*
 
-**This does not ship without written client sign-off.** It is an unqualified superlative with no cited basis — ASCI exposure, and a claim a competitor could challenge. Blocker in [[../TBD|TBD]].
+**Decision (2026-08-17): the superlative is cut.** It does not ship. See [[../TBD#✅ B2|TBD B2]].
 
-**If refused,** the fallback is stronger anyway: let the list speak, with a factual framing line such as *"recognised at Cannes, One Show, D&AD, the Webbys, and Goafest."* Every word of that is verifiable from the deck.
+**What ships instead**, set above the award groups:
+
+> Recognised at Cannes, One Show, D&AD, the Webby Awards, the New York Festival, and Goafest.
+
+Every word is verifiable from deck slide 3. It is the stronger line: a superlative invites *"says who?"* and carries ASCI exposure; six named bodies answer that before it is asked. Specific beats emphatic.
+
+**Do not reintroduce the superlative**, in this or any softened form ("one of the most awarded", "among India's most awarded"). The qualifier does not fix the problem — the claim still has no cited basis.
 
 ```
 Trigger:            Each award group enters viewport
@@ -107,7 +113,9 @@ Fallback:           Reduced motion → rules and values present, no draw.
 | Layout | Quiet grid, generous space |
 | Visual | Ground `--peach`. Monochrome `--ink`, full colour on hover |
 
-⛔ **Rights pending** — [[../TBD|TBD]]. Fallback if refused: a typographic list of client names set large. **The names themselves are confirmed facts and can be stated in text regardless of mark usage.**
+✅ **Rights confirmed** (2026-08-17) — [[../TBD#✅ B1|TBD B1]]. The mark grid ships as designed.
+
+If any individual client objects post-launch, that mark is removed and the **name retained in text** — the names are confirmed facts independent of mark usage.
 
 ---
 
@@ -171,8 +179,9 @@ Routes to [[contact]]. Deck slide 34 copy.
 | Positioning paragraph | ✅ Confirmed — legacy site, verbatim |
 | ~17 awards | ✅ Confirmed — deck slide 3, verbatim |
 | Award grouping | ✅ Confirmed — deck's own grouping |
-| "Most awarded team" superlative | ⛔ **Blocked** pending sign-off |
-| 27 client marks | ✅ Confirmed — deck slides 4 & 33 · ⛔ rights pending |
+| Framing line (six award bodies) | ✅ Confirmed — derived from the award list |
+| ~~"Most awarded team" superlative~~ | ❌ **Cut** 2026-08-17. Do not reintroduce |
+| 27 client marks | ✅ Confirmed — deck slides 4 & 33 · ✅ rights confirmed |
 | Careers line | ✅ Confirmed — legacy site, verbatim |
 | CTA copy | ✅ Confirmed — deck slide 34 |
 | Founding year, team size, location, origin story | ❌ **Do not exist. Do not write them.** |

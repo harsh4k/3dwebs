@@ -75,7 +75,7 @@ The legacy site names eight service areas in a different, more characterful voic
 - Silver – Abby's (Banner)
 - Silver – Abby Awards (Mainstream)
 
-⛔ The deck also states: *"Perhaps, the most awarded team in digital media in India."* This is an **unqualified superlative with no cited basis**. It does not ship without written client sign-off. Logged in [[../TBD|TBD]].
+❌ The deck also states: *"Perhaps, the most awarded team in digital media in India."* This is an **unqualified superlative with no cited basis**. **Cut 2026-08-17** — it does not ship, in this or any softened form ([[../TBD#✅ B2|TBD B2]]). What ships instead: *"Recognised at Cannes, One Show, D&AD, the Webby Awards, the New York Festival, and Goafest"* — every word verifiable from the list above.
 
 ### Clients — S1 slide 4 logo plate
 
@@ -83,7 +83,7 @@ Google Pixel · Colors (Viacom18) · Lenovo · MTV · Hippo · Motorola · Spyka
 
 **Social-media clients** — S1 slide 33: Zee Studio HD · Zee Café · History TV18 · NSE (National Stock Exchange of India) · Spykar
 
-⛔ Displaying 22 + 5 third-party marks requires usage rights we do not have. Logged in [[../TBD|TBD]].
+✅ Usage rights for these 22 + 5 third-party marks were **confirmed by the client on 2026-08-17** ([[../TBD#✅ B1|TBD B1]]). If an individual client objects post-launch, that mark is removed and the **name retained in text** — the names are confirmed facts independent of mark usage.
 
 ### Work — S1 slides 5–32
 
@@ -206,9 +206,9 @@ Not in any source. **Must not be written.** Full register with owners in [[../TB
 | Project dates | `/work` shows no years |
 | Project briefs, outcomes, metrics | Case modal shows confirmed facts only — no results, no percentages |
 | Client testimonials | No testimonial section exists |
-| Client logo usage rights | ⛔ Launch blocker |
-| Basis for "most awarded in India" | ⛔ Launch blocker |
-| Which Tier-B sites are still Coffee Digital's build | ⛔ Launch blocker |
+| ~~Client logo usage rights~~ | ✅ Resolved 2026-08-17 — rights confirmed |
+| ~~Basis for "most awarded in India"~~ | ✅ Resolved 2026-08-17 — superlative cut |
+| ~~Which Tier-B sites are still Coffee Digital's build~~ | ✅ Resolved 2026-08-17 — conservative handling adopted; provenance still unestablished |
 | Original logo vector | Reconstruction used meanwhile |
 | Futura licence | Substitute face used meanwhile |
 | Photography of team, office, process | No such imagery on the site |
