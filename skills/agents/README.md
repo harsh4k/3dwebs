@@ -20,11 +20,11 @@ These cover planning, implementation, review, verification, SEO, and documentati
 
 ### New — 3 agents
 
-| Agent | Owns | File |
+| Agent | Owns | Definition |
 |---|---|---|
-| **`motion-engineer`** | GSAP, ScrollTrigger, Lenis, the six primitives, animation performance, reduced motion | `.claude/agents/motion-engineer.md` |
-| **`design-critic`** | Genericness, brand drift, hierarchy, reference-similarity, fabrication in visible copy. Read-only | `.claude/agents/design-critic.md` |
-| **`reference-researcher`** | Site and stack investigation from public sources; verifying tools exist | `.claude/agents/reference-researcher.md` |
+| **`motion-engineer`** | GSAP, ScrollTrigger, Lenis, the six primitives, animation performance, reduced motion | [[../../.claude/agents/motion-engineer\|motion-engineer]] |
+| **`design-critic`** | Genericness, brand drift, hierarchy, reference-similarity, fabrication in visible copy. Read-only | [[../../.claude/agents/design-critic\|design-critic]] |
+| **`reference-researcher`** | Site and stack investigation from public sources; verifying tools exist | [[../../.claude/agents/reference-researcher\|reference-researcher]] |
 
 ---
 
