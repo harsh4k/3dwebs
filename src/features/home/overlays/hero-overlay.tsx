@@ -5,7 +5,7 @@ import { RevealItem, RevealText } from '@/components/common/reveal';
 import { servicePillars } from '@/content/services';
 import { positioning, site, taglineLastWords } from '@/content/site';
 
-const TAGS = servicePillars.map((pillar) => pillar.name);
+const TAGS = servicePillars;
 
 const CTA_CLASS =
   'whitespace-nowrap text-[0.6875rem] font-normal uppercase leading-[1.1] tracking-[0.08em] underline decoration-from-font underline-offset-4 transition-opacity hover:opacity-70 md:text-[0.75rem]';
@@ -51,10 +51,10 @@ export const HeroOverlay = () => {
       </div>
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col gap-[1.25rem] px-[1.25rem] pb-[1.25rem] md:flex-row md:items-end md:justify-between md:gap-[2rem] md:px-[1.875rem] md:pb-[1.875rem]">
-        <ul aria-label="Services" className="flex flex-col gap-[0.375rem]">
-          {TAGS.map((tag, i) => (
+        <ul aria-label="Services" className="pointer-events-auto flex flex-col gap-[0.375rem]">
+          {TAGS.map((pillar, i) => (
             <RevealItem
-              key={tag}
+              key={pillar.slug}
               act="hero"
               tag="li"
               index={i}
@@ -62,7 +62,9 @@ export const HeroOverlay = () => {
               delay={720}
               className="text-[0.6875rem] font-light uppercase leading-[1.2] tracking-[0.06em] md:text-[0.75rem]"
             >
-              {tag}
+              <Link href={`/services#${pillar.slug}`} className="pointer-events-auto underline-offset-4 hover:underline">
+                {pillar.name}
+              </Link>
             </RevealItem>
           ))}
         </ul>

@@ -24,10 +24,8 @@
   justify-content: space-between;
   padding: 0 1.25rem;
   pointer-events: none;
-  border-bottom: 1px solid var(--overlay-line);
-  background: var(--overlay-scrim);
-  backdrop-filter: blur(var(--blur-overlay-header));
-  -webkit-backdrop-filter: blur(var(--blur-overlay-header));
+  border-bottom: none;
+  background: transparent;
 }
 
 @media (min-width: 768px) {
@@ -44,13 +42,63 @@
 .sm-logo {
   display: flex;
   align-items: center;
+  gap: 0.55rem;
   font-family: var(--font-display), sans-serif;
   font-size: 1rem;
   line-height: 1.1;
-  color: var(--overlay-ink);
+  color: var(--ink);
   text-decoration: none;
   user-select: none;
   cursor: pointer;
+}
+
+.sm-logo-mark {
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.sm-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  pointer-events: auto;
+}
+
+.sm-talk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent);
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+
+.sm-talk:hover,
+.sm-talk:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.staggered-menu-wrapper[data-open] .sm-talk {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--ink) 35%, transparent);
+}
+
+.staggered-menu-wrapper[data-open] .sm-talk:hover,
+.staggered-menu-wrapper[data-open] .sm-talk:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .sm-toggle {
@@ -61,7 +109,7 @@
   overflow: visible;
   border: none;
   background: transparent;
-  color: var(--overlay-ink);
+  color: var(--ink);
   font-family: var(--font-display), sans-serif;
   font-size: 1rem;
   font-weight: 500;
@@ -74,7 +122,7 @@
 }
 
 .sm-toggle:focus-visible {
-  outline: 2px solid var(--overlay-ink);
+  outline: 2px solid var(--ink);
   outline-offset: 4px;
   border-radius: 4px;
 }
@@ -147,8 +195,12 @@
   padding: 6em 2em 2em;
   background: var(--paper);
   opacity: 0;
-  pointer-events: auto;
+  pointer-events: none;
   cursor: auto;
+}
+
+.staggered-menu-wrapper[data-open] .staggered-menu-panel {
+  pointer-events: auto;
 }
 
 [data-position='left'] .staggered-menu-panel {
@@ -259,4 +311,35 @@
   .staggered-menu-wrapper[data-open] .sm-logo {
     color: var(--ink);
   }
+}
+
+.sm-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 2.5rem;
+}
+
+.sm-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-radius: 999px;
+  color: var(--ink);
+}
+
+.sm-social:hover,
+.sm-social:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.sm-social svg {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
 }

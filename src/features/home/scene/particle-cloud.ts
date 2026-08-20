@@ -527,6 +527,7 @@ export const buildParticleCloud = (
 
 const pointerTint = new Color();
 const scatterTint = new Color();
+const waveSettle = new Color();
 
 export interface CloudUpdate {
   /** Cursor position in world space, or null when the pointer is away. */
@@ -696,6 +697,10 @@ export const updateCloud = (cloud: ParticleCloud, update: CloudUpdate): void => 
   const wSizeBoost = waveConfig ? waveConfig.sizeBoost : 1;
   const wTrough = waveConfig ? waveConfig.troughShade : 0;
   const wLift = waveConfig ? waveConfig.lift : 0;
+  if (waveConfig) waveSettle.set(waveConfig.settleColor);
+  const wSettleR = waveSettle.r;
+  const wSettleG = waveSettle.g;
+  const wSettleB = waveSettle.b;
   const wInvAmp = wAmp > 0 ? 1 / (2 * wAmp) : 0;
   // Grid metrics for the edge fade (dissolve the wave's borders, no hard line). The grid
   // is tilted + yawed, so we invert those to recover a particle's grid-local position.
@@ -991,14 +996,14 @@ export const updateCloud = (cloud: ParticleCloud, update: CloudUpdate): void => 
           waveSize *= 1 - t * t * (3 - 2 * t);
         }
       }
-      // Troughs darken so the sparse grid reads on the light backdrop.
-      waveShade = 1 - wTrough * (0.5 - Math.min(0.5, Math.max(-0.5, rip * wInvAmp))) * we;
-      // White emissive lift: the settled curtain is far and obliquely lit, so the white beads read
-      // dark grey — floor their emissive up to the hand/X bright-white range (below the bloom
-      // threshold → brightens, no glow). Ramp in over the **back half** of each particle's journey
-      // (like the albedo→white lerp) so the mid-transition streams keep their pink bloom.
+      // Troughs darken so the sparse grid reads roast, like the glyph / hand / tree.
+      const crest = 0.5 + Math.min(0.5, Math.max(-0.5, rip * wInvAmp));
+      waveShade = 1 - wTrough * (1 - crest) * we;
+      // Orange-peach bloom on the crests (shared `bloomParticles` tint). Ramp in over the
+      // back half so mid-transition streams keep the vortex bloom. Crests take the lift;
+      // troughs stay ink.
       const lr = we < 0.5 ? 0 : (we - 0.5) / 0.5;
-      waveLift = wLift * lr * lr * (3 - 2 * lr);
+      waveLift = wLift * lr * lr * (3 - 2 * lr) * crest;
     }
 
     // Cursor repulsion (idle, faded out while scattering).
@@ -1027,8 +1032,8 @@ export const updateCloud = (cloud: ParticleCloud, update: CloudUpdate): void => 
       targetZ += Math.cos(time * idleSpeed * 0.8 + phase) * idleAmp;
     }
     // Only the biggest particles glow (so only they, and the cursor-touched ones, bloom).
-    // Faded out through the wave transform so the clean grid has no stray highlights.
-    const bloomGlowVal = bloomMask[i] * bigGlow * (1 - waveEased);
+    // The wave keeps them — orange-tinted below — so the curtain matches the other figures.
+    const bloomGlowVal = bloomMask[i] * bigGlow;
 
     // Scan-in reveal: particles below the rising line grow in; a pink bloom band trails it (tinted
     // below, where `scanGlowVal` is fed into the emissive with the shared bloom-particle colour).
@@ -1105,9 +1110,14 @@ export const updateCloud = (cloud: ParticleCloud, update: CloudUpdate): void => 
     const scanGlowR = scatterTint.r * scanGlowVal;
     const scanGlowG = scatterTint.g * scanGlowVal;
     const scanGlowB = scatterTint.b * scanGlowVal;
-    const targetR = Math.max(pTintR * heat, sTintR * bloom, bloomGlowVal, scanGlowR, waveLift);
-    const targetG = Math.max(pTintG * heat, sTintG * bloom, bloomGlowVal, scanGlowG, waveLift);
-    const targetB = Math.max(pTintB * heat, sTintB * bloom, bloomGlowVal, scanGlowB, waveLift);
+    // Hero beads stay white on the glyph / hand / tree. On the settled wave they take the
+    // orange bloom-particle tint so the curtain sparks peach, not white-on-cream.
+    const heroR = waving ? bloomGlowVal * scatterTint.r : bloomGlowVal;
+    const heroG = waving ? bloomGlowVal * scatterTint.g : bloomGlowVal;
+    const heroB = waving ? bloomGlowVal * scatterTint.b : bloomGlowVal;
+    const targetR = Math.max(pTintR * heat, sTintR * bloom, heroR, scanGlowR, waveLift * scatterTint.r);
+    const targetG = Math.max(pTintG * heat, sTintG * bloom, heroG, scanGlowG, waveLift * scatterTint.g);
+    const targetB = Math.max(pTintB * heat, sTintB * bloom, heroB, scanGlowB, waveLift * scatterTint.b);
     glow[i3] += (targetR - glow[i3]) * ease;
     glow[i3 + 1] += (targetG - glow[i3 + 1]) * ease;
     glow[i3 + 2] += (targetB - glow[i3 + 2]) * ease;
@@ -1118,15 +1128,14 @@ export const updateCloud = (cloud: ParticleCloud, update: CloudUpdate): void => 
     let colR = baseColors[i3] * keep;
     let colG = baseColors[i3 + 1] * keep;
     let colB = baseColors[i3 + 2] * keep;
-    // The morphed wave is pure white — but only lerp the albedo to white in the **second half**
-    // of the transform, so mid-transition the curves stay dark-albedo and read **pink** (the
-    // `bloom`-driven emissive dominates); white takes over as they settle into the wave.
+    // Settled wave stays ink (`settleColor`), same roast as the other figures. Lerp only in
+    // the second half so mid-transition the curves keep their baked hand shade.
     if (waving) {
       const wl = Math.max(0, (waveEased - 0.5) / 0.5);
       const wlE = wl * wl * (3 - 2 * wl);
-      colR += (1 - colR) * wlE;
-      colG += (1 - colG) * wlE;
-      colB += (1 - colB) * wlE;
+      colR += (wSettleR - colR) * wlE;
+      colG += (wSettleG - colG) * wlE;
+      colB += (wSettleB - colB) * wlE;
     }
     if (mesh.instanceColor) {
       const c = mesh.instanceColor.array as Float32Array;

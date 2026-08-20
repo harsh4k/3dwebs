@@ -10,6 +10,7 @@ import {
 } from '@/utils/seo/generate-page-metadata';
 import { getSiteStructuredData } from '@/utils/seo/structured-data';
 
+import '@/styles/tokens.css';
 import '@/app/globals.css';
 
 const onest = Onest({

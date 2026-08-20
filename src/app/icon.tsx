@@ -1,20 +1,19 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
 import { ImageResponse } from "next/og";
 
 /**
- * Favicon, generated from the brand mark at build time.
- *
- * The mark is the scene's glyph — two crossed bars — drawn here as two rotated rules rather than
- * imported from `public/assets/brand/logo.svg`, because Satori (what `ImageResponse` renders with)
- * doesn't rasterise external SVG files. The proportions match `sceneConfig.glyph`, so the tab icon and
- * the 3D hero are the same shape.
- *
- * File-based metadata: Next picks this up as `/icon` automatically — no `icons` entry needed.
+ * Favicon from the real bean-pair mark (`public/assets/hand/logo.jpeg`).
  */
 
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-export default function Icon() {
+export default async function Icon() {
+  const bytes = await readFile(join(process.cwd(), "public/assets/hand/logo.jpeg"));
+  const src = `data:image/jpeg;base64,${bytes.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -22,35 +21,11 @@ export default function Icon() {
           width: "100%",
           height: "100%",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#000000",
+          background: "#3f2210",
         }}
       >
-        <div style={{ position: "relative", display: "flex", width: 44, height: 44 }}>
-          <div
-            style={{
-              position: "absolute",
-              top: 18,
-              left: 0,
-              width: 44,
-              height: 8,
-              background: "#ffffff",
-              transform: "rotate(45deg)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 18,
-              left: 0,
-              width: 44,
-              height: 8,
-              background: "#ffffff",
-              transform: "rotate(-45deg)",
-            }}
-          />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} width={64} height={64} alt="" />
       </div>
     ),
     { ...size },

@@ -71,12 +71,12 @@ const fragmentShader = /* glsl */ `
             float infl = exp(-distance(st, mouse) * 1.8);
             uv += (st - mouse) * infl * 0.22;
 
-            // Палитра Superconscious: чёрный → индиго → электрический фиолет → лавандовый глоу
-            vec3 night    = vec3(0.020, 0.015, 0.045); // почти чёрный с фиолетовым подтоном
-            vec3 indigo   = vec3(0.10,  0.08,  0.32);  // глубокий индиго
-            vec3 violet   = vec3(0.34,  0.14,  0.72);  // насыщенный фиолет
-            vec3 electric = vec3(0.52,  0.24,  0.92);  // электрический пурпур
-            vec3 glow     = vec3(0.82,  0.72,  0.99);  // яркий лавандово-белый хотспот
+            // Roast ramp — matches src/styles/tokens.css (ink → muted → peach → cream → paper)
+            vec3 night    = vec3(0.247, 0.133, 0.063); // --ink
+            vec3 indigo   = vec3(0.420, 0.290, 0.200); // --ink-muted
+            vec3 violet   = vec3(1.000, 0.898, 0.749); // --peach
+            vec3 electric = vec3(1.000, 0.949, 0.859); // --cream
+            vec3 glow     = vec3(1.000, 0.980, 0.953); // --paper
 
             vec3 acc = vec3(0.0);
             float wsum = 0.0;
@@ -107,7 +107,7 @@ const fragmentShader = /* glsl */ `
             // Аддитивный «блум» хотспота — пересвет к бело-лавандовому, как в референсе
             vec2 hot = vec2(0.44 + 0.05 * sin(t * 1.1), 0.02 + 0.03 * cos(t));
             float hotGlow = exp(-distance(uv, hot) * 4.5);
-            col += vec3(0.78, 0.68, 1.0) * hotGlow * 0.7;
+            col += vec3(0.965, 0.141, 0.251) * hotGlow * 0.28; // --heat, one hot bloom
 
             // Лёгкое повышение насыщенности (без тёплого накала — чтобы синий оставался чистым)
             float luma = dot(col, vec3(0.299, 0.587, 0.114));

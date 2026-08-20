@@ -9,7 +9,7 @@ import type { Vector3Tuple } from "three";
  * geometry parameter lives here rather than scattered as magic numbers in the
  * builders — mirroring the CSS token rule (ADR-0004) for the WebGL layer, where
  * three.js materials can't consume Tailwind tokens directly. The container
- * backdrop token in `globals.css` (`--scene-backdrop`) is kept in sync with
+ * backdrop token in `src/styles/tokens.css` (`--scene-backdrop`) is kept in sync with
  * `colors.fog` here (same duplication rationale as the grid — ADR-0008).
  */
 
@@ -314,12 +314,11 @@ export interface WaveConfig {
   sizeBoost: number;
   /** Extra darkening of wave troughs so the sparse curtain reads on the light scene. */
   troughShade: number;
-  /** White **emissive lift** (HDR) added to the settled wave beads. The curtain sits far (z ≈ −120),
-   *  high and tilted, so the key light rakes it obliquely and the white beads read dark grey — much
-   *  darker than the well-lit hand/X beads. This floors their emissive up into the same bright-white
-   *  range (kept **below** `glow.bloom.threshold` 3.5 so they brighten without glowing). Ramps in
-   *  over the back half of each particle's journey so the mid-transition streams keep their pink. */
+  /** Emissive lift on settled **crests**, tinted with `bloomParticles` (orange). High enough
+   *  with the lit bead to clear `bloom.threshold` on the peaks; troughs stay dark. */
   lift: number;
+  /** Settled-curtain albedo. `--ink` #3F2210 — same roast as the glyph / hand / tree. */
+  settleColor: string;
   /** Progress window over which the hand transforms into the wave. */
   transformRange: [number, number];
   seed: number;
@@ -517,45 +516,33 @@ export interface BloomConfig {
   radius: number;
 }
 
-/** === PINK BLOOM PARTICLES — TUNE HERE ===
- *  Shared colour + glow of the pink-glowing beads (scatter burst, vortex streams, hand scan-in).
- *  Change `color` to recolour all of them at once; `glow` sets how hot they are (must clear
- *  `sceneConfig.bloom.threshold` to actually bloom). The bloom *pass* itself (spread/strength) is
- *  `sceneConfig.bloom` further below. */
+/** === ORANGE BLOOM PARTICLES — TUNE HERE ===
+ *  Scatter burst, vortex streams, hand scan-in. Saturated orange — `#b27b45` read brown,
+ *  `--heat` bloomed pink. Green channel is what keeps this orange (not red, not brown). */
 const BLOOM_PARTICLES: BloomParticlesConfig = {
-  // Deeper and further toward magenta than the old `#a774ff`: bloom blows the highlights out toward
-  // white, so a pale lilac source lands on screen as almost-no-colour. Cutting the green channel
-  // (0.17 → 0.09 linear) is what actually makes the band read as pink rather than as glare. Blue
-  // stays at full so it's still the channel that clears `bloom.threshold`.
-  color: "#b552ff",
+  color: "#ff6a00",
   glow: 5.5,
 };
 
 export const sceneConfig: SceneConfig = {
   bloomParticles: BLOOM_PARTICLES,
   colors: {
-    // Fog is kept light so the horizon isn't a dark trough. The floor fades to
-    // `fog` with distance and the sky meets it at `backdropBottom`, so if that
-    // shared value is much darker than the lit near-floor and the sky above it,
-    // it reads as a dark band across the middle. Matching it to their brightness
-    // makes the floor melt into the sky.
-    fog: "#868e96",
-    backdropTop: "#aab2ba",
-    // Must equal `fog` (see above) — the backdrop is unfogged, so any other value
-    // shows up as a seam where the fogged ground meets the sky.
-    backdropBottom: "#868e96",
-    particle: "#ffffff",
-    field: "#ffffff",
-    keyLight: "#ffffff",
-    skyFill: "#e6ecf2",
-    groundFill: "#8a929a",
-    dust: "#ffffff",
+    // Roast-light room. Hexes match `src/styles/tokens.css`. Fog equals
+    // `backdropBottom` so the horizon doesn't seam. `--scene-backdrop` in tokens
+    // is kept in sync with `fog`.
+    fog: "#fff2db",
+    backdropTop: "#fffaf3",
+    backdropBottom: "#fff2db",
+    particle: "#3f2210",
+    field: "#3f2210",
+    keyLight: "#fffaf3",
+    skyFill: "#fffaf3",
+    groundFill: "#fff2db",
+    dust: "#3f2210",
   },
   materials: {
-    // Chalk-matte white. Any metalness at all tints the particles with the grey
-    // environment and they stop reading as white, so it stays at zero and the
-    // environment contribution is almost switched off. Opaque — the transparency
-    // experiments (semi-transparent, soft edges, hollow centres) were all dropped.
+    // Matte ink. Metalness would tint the beads off-palette, so it stays at zero
+    // and the environment contribution is almost switched off. Opaque.
     particle: { roughness: 0.98, metalness: 0, envMapIntensity: 0.08 },
   },
   glyph: {
@@ -603,9 +590,8 @@ export const sceneConfig: SceneConfig = {
     // sculptural sketch rather than a solid, while the curtain still gets every instance. Past ~0.6
     // the silhouette starts breaking up; the wave is unaffected either way.
     sparse: 0.55,
-    // Emissive strength of the bottom-up scan-in band. It's tinted with the shared pink
-    // (`bloomParticles.color`), so this must be high enough that the tinted red+blue channels still
-    // clear `bloom.threshold` (3.5) and the band blooms **pink** (not just blue).
+    // Emissive strength of the bottom-up scan-in band. Tinted with `--heat`
+    // (`bloomParticles.color`); must still clear `bloom.threshold`.
     scanGlow: 6,
     seed: 90210,
   },
@@ -625,9 +611,10 @@ export const sceneConfig: SceneConfig = {
     rotation: 0,
     // Upsample 50k → ~150k (×3): finer, denser cloud to go with the smaller beads.
     density: 3,
-    // Pink band on the bottom-up materialise, same meaning (and the same 3.5 bloom threshold to
-    // clear) as `hand.scanGlow`. Lower than the hand's 6: the tree's beads are smaller and much
-    // denser, so an identical per-bead emissive piles up into a solid glowing slab.
+    // Heat band on the bottom-up materialise, same meaning (and the same bloom
+    // threshold to clear) as `hand.scanGlow`. Lower than the hand's 6: the tree's
+    // beads are smaller and much denser, so an identical per-bead emissive piles
+    // up into a solid glowing slab.
     scanGlow: 4.2,
     seed: 71717,
   },
@@ -657,10 +644,8 @@ export const sceneConfig: SceneConfig = {
     strength: 6,
     relax: 0.22,
     returnRelax: 0.035,
-    // Deepened from `#c49dff` for the same reason as `BLOOM_PARTICLES.color`: at 81 % lightness the
-    // touched beads bloomed to near-white and the hover read as a bright smudge rather than a
-    // colour. Kept a shade lighter than the scan band so hover and reveal aren't the same accent.
-    color: "#b579ff",
+    // Hover accent — peach, so scan/reveal can keep `--heat` as the one hot colour.
+    color: "#ffe5bf",
     // Blooms now (custom BloomPass), so a lower glow reads as a soft halo, not a white blob.
     glow: 3.6,
   },
@@ -766,10 +751,11 @@ export const sceneConfig: SceneConfig = {
     },
     // Small grid dots — a finer, sandier curtain (the grid is denser now).
     sizeBoost: 0.9,
-    // Full white — no trough darkening; the sphere lighting alone gives the wave form.
-    troughShade: 0,
-    // Lift the far, obliquely-lit curtain up to the hand/X bright-white range (below bloom 3.5).
-    lift: 2,
+    // Troughs drop toward ink so the curtain has the same roast depth as the other figures.
+    troughShade: 0.48,
+    // Crest bloom — orange `#ff6a00` via `bloomParticles`; peaks clear the threshold, troughs don't.
+    lift: 5.5,
+    settleColor: "#3f2210",
     // Start the crumble later — the hand holds framed for a beat after the camera arrives — then
     // run the morph over a long window so it plays out gradually and settles gently into the wave.
     transformRange: [0.66, 0.99],
@@ -812,7 +798,7 @@ export const sceneConfig: SceneConfig = {
     sway: 0.9,
     speed: [0.02, 0.05],
     size: 0.42,
-    opacity: 0.5,
+    opacity: 0.72,
     color: BLOOM_PARTICLES.color,
     seed: 5150,
   },

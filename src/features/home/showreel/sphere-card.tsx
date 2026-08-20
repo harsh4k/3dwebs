@@ -82,7 +82,7 @@ export const SphereCard = memo(function SphereCard({
       </div>
 
       <animated.div
-        className="absolute top-1/2 left-1/2 h-[300vh] w-[300vw] bg-black"
+        className="absolute top-1/2 left-1/2 h-[300vh] w-[300vw] bg-ink"
         style={{
           ...maskStyle,
           WebkitMaskSize: p.to(starMaskSize),
@@ -109,7 +109,7 @@ export const SphereCard = memo(function SphereCard({
 
           <animated.span
             aria-hidden
-            className="absolute top-1/2 left-1/2 z-[3] h-[12vh] w-[12vh] bg-white"
+            className="absolute top-1/2 left-1/2 z-[3] h-[12vh] w-[12vh] bg-paper"
             style={{
               ...maskStyle,
               WebkitMaskSize: 'contain',
@@ -119,11 +119,11 @@ export const SphereCard = memo(function SphereCard({
             }}
           />
 
-          <h2 className="pointer-events-none absolute top-[4vmin] left-[4vmin] z-[4] m-0 text-left text-[var(--sr-heading-1)] leading-[0.85] font-normal whitespace-nowrap text-white">
+          <h2 className="pointer-events-none absolute top-[4vmin] left-[4vmin] z-[4] m-0 text-left text-[var(--sr-heading-1)] leading-[0.85] font-normal whitespace-nowrap text-paper">
             <ScrollLetters text={headingTop} p={p} styleFn={blockLetterStyle} indexOffset={0} totalOverride={total} />
           </h2>
 
-          <h2 className="pointer-events-none absolute right-[4vmin] bottom-[4vmin] z-[4] m-0 flex flex-col items-end text-right text-[var(--sr-heading-2)] leading-[0.85] font-normal whitespace-nowrap text-white">
+          <h2 className="pointer-events-none absolute right-[4vmin] bottom-[4vmin] z-[4] m-0 flex flex-col items-end text-right text-[var(--sr-heading-2)] leading-[0.85] font-normal whitespace-nowrap text-paper">
             {headingBottom.map((line, i) => (
               <span key={line}>
                 <ScrollLetters
@@ -138,7 +138,7 @@ export const SphereCard = memo(function SphereCard({
           </h2>
 
           <animated.div
-            className="pointer-events-none absolute bottom-[5vmin] left-[4vmin] z-[4] flex max-w-[var(--sr-sphere-body-w)] flex-col gap-[1.8vmin] text-left text-[var(--sr-sphere-body-text)] leading-[1.45] font-light text-white"
+            className="pointer-events-none absolute bottom-[5vmin] left-[4vmin] z-[4] flex max-w-[var(--sr-sphere-body-w)] flex-col gap-[1.8vmin] text-left text-[var(--sr-sphere-body-text)] leading-[1.45] font-light text-paper"
             style={{
               opacity: p.to(sphereBodyReveal),
               transform: p.to((v) => `translateY(${(1 - sphereBodyReveal(v)) * 2.5}vmin)`),

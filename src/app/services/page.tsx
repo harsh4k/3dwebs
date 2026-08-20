@@ -6,7 +6,7 @@ export default function ServicesPage() {
     <InnerPage title="Services">
       <ul className="flex flex-col gap-[2rem]">
         {servicePillars.map((pillar) => (
-          <li key={pillar.slug}>
+          <li key={pillar.slug} id={pillar.slug} className="scroll-mt-[5rem]">
             <h2 className="text-[1.25rem] font-normal">{pillar.name}</h2>
             <ul className="mt-[0.75rem] list-disc pl-[1.25rem]">
               {pillar.items.map((item) => (

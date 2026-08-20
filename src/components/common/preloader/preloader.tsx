@@ -8,11 +8,10 @@ import { markPageRevealed, useSceneProgress } from "@/features/home/scene/scene-
 import { site } from "@/content/site";
 
 /**
- * Preloader — a black hold over the whole page until the 3D scene is worth looking at.
+ * Preloader — a paper hold over the whole page until the 3D scene is worth looking at.
  *
- * Minimal on purpose, and in the site's own language: the black of `--overlay-solid`, the display
- * face, extra-light uppercase letter-spaced type, and one hairline rule — the same rule motif the
- * header and the hero footer use. Nothing spins.
+ * Minimal on purpose, and in the site's own language: `--paper` ground, `--ink` type, extra-light
+ * uppercase letter-spaced type, and one hairline rule that fills with `--heat`. Nothing spins.
  *
  * **It tracks a real signal, not a timer.** `useSceneProgress` reports the scene's three gating steps
  * (hand cloud, tree cloud, warm-up pass), so the rule fills against actual work and the hand-off lands
@@ -103,7 +102,7 @@ export const Preloader = () => {
       // `z-[70]` clears the whole live stack — the scene and its overlays, the header, and the
       // mobile menu's portalled panel (z-50) and close button (z-60) — but stays under the cookie
       // preferences modal (z-100), which is the only thing that may ever sit above the loader.
-      className="pointer-events-none fixed inset-0 z-[70] flex flex-col items-center justify-center gap-[1.5rem] bg-overlay-solid font-display text-overlay-ink"
+      className="pointer-events-none fixed inset-0 z-[70] flex flex-col items-center justify-center gap-[1.5rem] bg-paper font-display text-ink"
       style={{ ...veil, visibility: veil.opacity.to((o) => (o < 0.01 ? "hidden" : "visible")) }}
       aria-hidden={leaving}
       role="status"
@@ -114,14 +113,14 @@ export const Preloader = () => {
       </span>
 
       {/* The hairline rule fills left-to-right — the same 1px motif as the header's brand rules. */}
-      <span aria-hidden className="relative block h-px w-[12rem] max-w-[60vw] bg-overlay-line">
+      <span aria-hidden className="relative block h-px w-[12rem] max-w-[60vw] bg-hairline">
         <animated.span
-          className="absolute inset-y-0 left-0 block bg-overlay-ink"
+          className="absolute inset-y-0 left-0 block bg-heat"
           style={{ width: fill.value.to((v) => `${Math.round(v * 100)}%`) }}
         />
       </span>
 
-      <animated.span className="text-[0.75rem] font-light tabular-nums tracking-[0.2em] text-overlay-strong">
+      <animated.span className="text-[0.75rem] font-light tabular-nums tracking-[0.2em] text-ink-muted">
         {fill.value.to((v) => `${String(Math.round(v * 100)).padStart(3, "0")}`)}
       </animated.span>
     </animated.div>

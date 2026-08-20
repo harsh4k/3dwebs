@@ -53,7 +53,7 @@ function StatCard({
 
   return (
     <div
-      className={`flex h-[10.625rem] w-[9.875rem] flex-col justify-between rounded-[1rem] border border-white/20 bg-black/40 p-[1.25rem] text-white backdrop-blur-overlay-glass max-lg:h-auto max-lg:min-h-[5.5rem] max-lg:w-auto max-lg:flex-1 max-lg:p-[0.75rem] lg:absolute lg:z-20 ${pos}`}
+      className={`flex h-[10.625rem] w-[9.875rem] flex-col justify-between rounded-[1rem] border border-paper/40 bg-ink/55 p-[1.25rem] text-paper backdrop-blur-overlay-glass max-lg:h-auto max-lg:min-h-[5.5rem] max-lg:w-auto max-lg:flex-1 max-lg:p-[0.75rem] lg:absolute lg:z-20 ${pos}`}
     >
       <p className="text-[3rem] leading-none max-lg:text-[1.5rem]">{value}</p>
       <p className="text-[1rem] leading-[1.2] max-lg:text-[0.75rem]">{label}</p>
@@ -132,7 +132,7 @@ export function ClosingStage({ active = true }: { active?: boolean }) {
             />
           ) : null}
           {active ? <HandsScene /> : null}
-          <p className="absolute top-[1.875rem] left-[1.875rem] z-20 w-[min(14.3125rem,70%)] text-[1.125rem] leading-[1.2] text-white uppercase max-lg:top-[1rem] max-lg:left-[1rem] max-lg:w-[min(18rem,80%)] max-lg:text-[0.8rem]">
+          <p className="absolute top-[1.875rem] left-[1.875rem] z-20 w-[min(14.3125rem,70%)] text-[1.125rem] leading-[1.2] text-paper uppercase max-lg:top-[1rem] max-lg:left-[1rem] max-lg:w-[min(18rem,80%)] max-lg:text-[0.8rem]">
             {site.tagline}
           </p>
           <div className="absolute right-[0.625rem] bottom-[0.625rem] left-[0.625rem] z-20 flex gap-[0.5rem] lg:static lg:contents">

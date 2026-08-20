@@ -1,4 +1,5 @@
-import { LiveDot } from '@/features/home/overlays/live-dot';
+import Link from 'next/link';
+
 import { RevealItem, RevealText } from '@/components/common/reveal';
 import { closingCopy, site } from '@/content/site';
 
@@ -44,18 +45,17 @@ export const TreeOverlay = () => {
         delay={340}
         className="pointer-events-auto absolute inset-x-[1.25rem] bottom-[1.25rem] flex flex-col gap-[0.5rem] border border-overlay-edge bg-overlay-glass p-[0.75rem] backdrop-blur-overlay-form md:inset-x-auto md:bottom-[2.5rem] md:left-1/2 md:w-auto md:-translate-x-1/2 md:flex-row md:items-center md:gap-[2.6875rem] md:p-0 md:py-[0.25rem] md:pl-[2rem] md:pr-[0.25rem]"
       >
-        <a
-          href="#showreel"
+        <Link
+          href="/work"
           className="text-[0.875rem] font-light leading-[1.1] text-overlay-ink underline decoration-from-font underline-offset-4 md:text-[1rem]"
         >
           see the work
-        </a>
+        </Link>
         <a
           href={`mailto:${site.email}`}
-          className="flex w-full items-center justify-center gap-[0.625rem] whitespace-nowrap bg-overlay-solid px-[1rem] py-[0.75rem] text-[0.875rem] leading-[1.2] transition-opacity hover:opacity-90 md:w-auto md:px-[2.9375rem] md:text-[1rem]"
+          className="flex w-full items-center justify-center whitespace-nowrap bg-ink px-[1rem] py-[0.75rem] text-[0.875rem] leading-[1.2] text-paper transition-opacity hover:opacity-90 md:w-auto md:px-[2.9375rem] md:text-[1rem]"
         >
           start a project
-          <LiveDot />
         </a>
       </RevealItem>
     </div>

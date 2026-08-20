@@ -1,41 +1,13 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-
-  /* Backdrop shown behind the WebGL canvas until it paints. Kept in sync with
-     `sceneConfig.colors.fog` (src/features/home/scene/scene.config.ts). */
-  --scene-backdrop: #8d959e;
-
-  /* Hero overlay palette (Figma frame 767:162, "Get Layers"). A glass UI laid over the
-     particle scene: white ink on translucent white/black surfaces. */
-  --overlay-ink: #ffffff; /* nav, hero words, labels, buttons */
-  --overlay-scrim: rgba(0, 0, 0, 0.1); /* header bar fill */
-  --overlay-glass: rgba(255, 255, 255, 0.1); /* tag pills + ghost button fill */
-  --overlay-line: rgba(255, 255, 255, 0.2); /* header underline + divider hairline */
-  --overlay-edge: rgba(255, 255, 255, 0.4); /* ghost button border + brand rules */
-  --overlay-strong: rgba(255, 255, 255, 0.8); /* stat left-border accents (hand section) */
-  --overlay-solid: #000000; /* primary (filled) button fill */
-  --overlay-accent: #6fff85; /* tiny "live" accent dot on the primary CTA (tree section) */
-
-  /* Brand lock — heat is fill/display only, never body text. */
-  --heat: #f62440;
-  --ink: #3f2210;
-  --paper: #fffaf3;
-  --cream: #fff2db;
-  --foam: #ffe5bf;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-scene-backdrop: var(--scene-backdrop);
   --font-sans: var(--font-onest);
-
-  /* Hero overlay (see :root above). */
   --font-display: var(--font-google-sans);
   --font-hero: var(--font-jost);
+
   --color-overlay-ink: var(--overlay-ink);
   --color-overlay-scrim: var(--overlay-scrim);
   --color-overlay-glass: var(--overlay-glass);
@@ -44,26 +16,25 @@
   --color-overlay-strong: var(--overlay-strong);
   --color-overlay-solid: var(--overlay-solid);
   --color-overlay-accent: var(--overlay-accent);
+
   --color-heat: var(--heat);
   --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
   --color-paper: var(--paper);
   --color-cream: var(--cream);
-  --color-foam: var(--foam);
-  --blur-overlay-header: 28px; /* header backdrop blur (Figma 28.15px) */
-  --blur-overlay-glass: 6px; /* pill/ghost-button backdrop blur (Figma 6.15px) */
-  --blur-overlay-form: 16px; /* tree-section contact form bar — stronger, reads clearly as glass */
-}
+  --color-peach: var(--peach);
+  --color-rule: var(--rule);
+  --color-hairline: var(--hairline);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --blur-overlay-header: 28px;
+  --blur-overlay-glass: 6px;
+  --blur-overlay-form: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--paper);
+  color: var(--ink);
   /* The home view is a scroll-driven experience: the body must grow with the
      scroll spacer, so no fixed height or flex-centering here. */
   min-height: 100vh;

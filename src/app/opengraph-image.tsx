@@ -18,14 +18,14 @@ export default function OpenGraphImage() {
           alignItems: 'center',
           justifyContent: 'center',
           gap: 44,
-          background: '#000000',
-          color: '#ffffff',
+          background: '#fffaf3',
+          color: '#3f2210',
         }}
       >
         <div style={{ display: 'flex', fontSize: 56, letterSpacing: 8, textTransform: 'uppercase' }}>
           {siteConfig.name}
         </div>
-        <div style={{ display: 'flex', width: 360, height: 1, background: 'rgba(255,255,255,0.4)' }} />
+        <div style={{ display: 'flex', width: 360, height: 1, background: '#9f8576' }} />
         <div
           style={{
             display: 'flex',
@@ -33,7 +33,7 @@ export default function OpenGraphImage() {
             textAlign: 'center',
             fontSize: 22,
             letterSpacing: 1,
-            color: 'rgba(255,255,255,0.8)',
+            color: '#6b4a33',
           }}
         >
           {siteConfig.description}

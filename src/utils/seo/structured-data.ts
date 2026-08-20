@@ -21,7 +21,7 @@ export function getSiteStructuredData() {
         "@id": `${siteConfig.url}/#organization`,
         name: siteConfig.name,
         url: siteConfig.url,
-        logo: `${siteConfig.url}/icon`,
+        logo: `${siteConfig.url}/assets/hand/logo.jpeg`,
       },
       {
         "@type": "WebSite",

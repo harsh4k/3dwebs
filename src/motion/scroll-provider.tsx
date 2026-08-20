@@ -66,11 +66,22 @@ function ScrollController() {
   }, [isEnableScroll, lenis]);
 
   useEffect(() => {
-    if (lenis && hash) {
-      setTimeout(() => {
-        scrollTo(hash, true);
-      }, 300);
-    }
+    const go = (id: string) => {
+      if (lenis) {
+        setTimeout(() => {
+          scrollTo(id, true);
+        }, 80);
+      }
+    };
+    if (hash) go(hash);
+    const fromWindow = window.location.hash.replace(/^#/, "");
+    if (fromWindow) go(fromWindow);
+    const onHash = () => {
+      const id = window.location.hash.replace(/^#/, "");
+      if (id) go(id);
+    };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
   }, [lenis, hash]);
 
   useEffect(() => {

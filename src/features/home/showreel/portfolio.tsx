@@ -59,18 +59,18 @@ export const Portfolio = memo(function Portfolio({
             <a
               key={item.title}
               href={item.href}
-              className="pointer-events-auto relative flex h-full w-[var(--pf-card-w)] max-w-[56rem] shrink-0 flex-col justify-between overflow-hidden rounded-[var(--radius-pf)] bg-[var(--pf-card)] p-[3.5vmin] text-white [backface-visibility:hidden] [transform:translateZ(0)]"
+              className="pointer-events-auto relative flex h-full w-[var(--pf-card-w)] max-w-[56rem] shrink-0 flex-col justify-between overflow-hidden rounded-[var(--radius-pf)] bg-[var(--pf-card)] p-[3.5vmin] text-paper [backface-visibility:hidden] [transform:translateZ(0)]"
             >
               {item.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={item.image}
                   alt=""
-                  className="absolute inset-0 z-0 size-full object-cover"
+                  className="absolute inset-0 z-0 size-full scale-[1.12] object-cover object-[center_18%]"
                   decoding="async"
                 />
               ) : null}
-              <div className="absolute inset-0 z-1 bg-[linear-gradient(to_top,rgb(0_0_0_/_0.7)_0%,transparent_68%)]" />
+              <div className="absolute inset-0 z-1 bg-[linear-gradient(to_top,color-mix(in_srgb,var(--ink)_70%,transparent)_0%,transparent_68%)]" />
               <p className="relative z-2 text-[1.7vmin] opacity-90">
                 {item.client} · {item.discipline}
               </p>

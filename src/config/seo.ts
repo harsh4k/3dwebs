@@ -12,5 +12,5 @@ export const siteConfig = {
   description: positioning,
   url: publicEnv.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
   author: site.name,
-  themeColor: '#000000',
+  themeColor: '#fffaf3',
 } as const;

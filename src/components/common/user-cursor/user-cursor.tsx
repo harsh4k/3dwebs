@@ -13,7 +13,7 @@ const LABEL_OX = SIZE * 0.9;
 const LABEL_OY = SIZE * 0.2 + 6;
 const TILT = 25;
 const CHROME =
-  ".staggered-menu-header, .staggered-menu-panel, .sm-toggle, .sm-logo";
+  ".staggered-menu-header, .staggered-menu-panel, .sm-toggle, .sm-logo, .sm-talk, .sm-header-actions";
 
 /**
  * Homepage pointer — Originkit UserCursor, ported to react-spring (Framer
@@ -110,7 +110,7 @@ export const UserCursor = () => {
         {site.name}
       </animated.div>
       <animated.div
-        className="absolute top-0 left-0 origin-[0%_0%] text-overlay-ink"
+        className="absolute top-0 left-0 origin-[0%_0%] text-ink"
         style={{ x: arrow.x, y: arrow.y, scale: scale.scale, width: SIZE, height: SIZE }}
       >
         <svg

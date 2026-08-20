@@ -1,26 +1,35 @@
 .showreel {
-  --background: #000000;
-  --foreground: #f5f1ec;
-  --ink: #07031a;
-  --pf-card: #14110e;
-  --cc-search: #161310;
-  --paper: #f5f1ec;
-  --paper-alt: #f3f1ec;
-  --cc-dark-ink: #f5f1ec;
-  --cc-light-ink: #1a1714;
-  --glass-dark: rgba(40, 36, 33, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-border-soft: rgba(255, 255, 255, 0.14);
-  --card-violet: radial-gradient(95% 80% at 50% 28%, #ddd6fe 0%, #9a73f0 38%, #6d28d9 68%, #34146e 100%);
-  --sr-nested-border: linear-gradient(45deg, #6d28d9, #9a73f0, #ddd6fe, #7c3aed, #34146e);
+  --pf-card: var(--ink);
+  --cc-search: var(--ink);
+  --paper-alt: var(--cream);
+  --cc-dark-ink: var(--paper);
+  --cc-light-ink: var(--ink);
+  --glass-dark: color-mix(in srgb, var(--ink) 55%, transparent);
+  --glass-border: color-mix(in srgb, var(--paper) 22%, transparent);
+  --glass-border-soft: color-mix(in srgb, var(--paper) 22%, transparent);
+  --card-violet: radial-gradient(
+    95% 80% at 50% 28%,
+    var(--paper) 0%,
+    var(--cream) 38%,
+    var(--peach) 68%,
+    var(--ink) 100%
+  );
+  --sr-nested-border: linear-gradient(
+    45deg,
+    var(--ink),
+    var(--peach),
+    var(--cream),
+    var(--paper),
+    var(--ink)
+  );
   --sr-nested-size: 42vmin;
   --sr-nested-step: 0.85vmin;
   --sr-nested-duration: 2s;
   --sr-nested-stagger: 0.1s;
-  --radius-btn: 8px;
-  --radius-card: 3vmin;
-  --radius-pf: 2.5vmin;
-  --radius-slider: 1.6vmin;
+  --radius-btn: 4px;
+  --radius-card: 12px;
+  --radius-pf: 12px;
+  --radius-slider: 10px;
   --pf-card-w: 44vw;
   --pf-card-h: 58vh;
   --pf-section-pt: 10vmin;
@@ -35,12 +44,16 @@
   --sr-heading-2: 24vmin;
   --sr-sphere-body-w: 52vmin;
   --sr-sphere-body-text: 2.4vmin;
-  color: var(--foreground);
-  background: #000;
+  color: var(--paper);
+  background: var(--ink);
 }
 
 .showreel-track {
   position: relative;
+}
+
+.sr-atmosphere {
+  z-index: 0;
 }
 
 .showreel-sticky {

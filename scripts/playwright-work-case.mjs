@@ -1,0 +1,26 @@
+import { chromium } from "playwright";
+
+const browser = await chromium.launch({ headless: true });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+await page.goto("http://localhost:3000/work?case=abbott-smartpack", { waitUntil: "networkidle" });
+const dialog = page.locator("dialog");
+await dialog.waitFor({ state: "visible", timeout: 15000 });
+const title = await page.locator("dialog h2").innerText();
+if (!title.includes("SmartPack")) throw new Error(`unexpected title: ${title}`);
+const live = await page.locator("dialog a", { hasText: "visit live site" }).count();
+if (live < 1) throw new Error("missing live link on Tier A");
+await page.keyboard.press("Escape");
+await page.waitForTimeout(400);
+const openAfterEsc = await page.locator("dialog[open]").count();
+if (openAfterEsc !== 0) throw new Error("dialog still open after Escape");
+await page.goto("http://localhost:3000/work?case=not-a-slug", { waitUntil: "networkidle" });
+await page.waitForTimeout(400);
+if (new URL(page.url()).searchParams.get("case")) throw new Error("unknown slug not cleaned");
+const stillOpen = await page.locator("dialog[open]").count();
+if (stillOpen !== 0) throw new Error("unknown slug opened a case");
+await page.goto("http://localhost:3000/work?case=lodha-palava", { waitUntil: "networkidle" });
+await dialog.waitFor({ state: "visible", timeout: 15000 });
+const palavaLive = await page.locator("dialog a", { hasText: "visit live site" }).count();
+if (palavaLive !== 0) throw new Error("Palava should have no live link");
+console.log("playwright work-case gates passed");
+await browser.close();

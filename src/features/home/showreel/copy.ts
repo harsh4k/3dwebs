@@ -13,6 +13,7 @@ export const showreelCopy = {
   startProject: 'start a project',
   mailto: `mailto:${site.email}`,
   workHref: '/work',
+  workIndexHref: '/work',
   marquee: [
     pillar(0)?.name ?? '',
     pillar(1)?.name ?? '',
@@ -20,17 +21,14 @@ export const showreelCopy = {
     site.tagline,
   ],
   card2: {
-    url: site.domain,
-    pillLabel: pillar(0)?.name ?? '',
-    pillTitle: pillar(0)?.items[0] ?? '',
-    lead: '',
-    leadStrong: pillar(0)?.proposedLine ?? '',
+    href: `/services#${pillar(0)?.slug ?? ''}`,
+    client: pillar(0)?.name ?? '',
+    title: pillar(0)?.proposedLine ?? '',
   },
   card3: {
-    url: site.domain,
-    searchText: pillar(1)?.items[0] ?? '',
-    lead: '',
-    leadStrong: pillar(1)?.proposedLine ?? '',
+    href: `/services#${pillar(1)?.slug ?? ''}`,
+    client: pillar(1)?.name ?? '',
+    title: pillar(1)?.proposedLine ?? '',
   },
   sphere: {
     headingTop: 'the digital',
@@ -48,6 +46,6 @@ export const showreelCopy = {
       client: project.client,
       discipline: project.deliverables.join(' · '),
       image: project.images[0]?.src ?? '',
-      href: project.liveUrl ?? '/work',
+      href: `/work?case=${project.slug}`,
     })),
 } as const;

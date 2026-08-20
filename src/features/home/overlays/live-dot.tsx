@@ -4,7 +4,7 @@
 import { animated, useSpring } from "@react-spring/web";
 
 /**
- * The little **green "live" square** on the tree-section CTA ("Start a Project"). It **blinks** — a
+ * The little **heat "live" square** on the tree-section CTA ("Start a Project"). It **blinks** — a
  * soft opacity pulse — to read as an active/available indicator (per the Figma).
  *
  * Motion is **spring-based** (hard rule #1 — no CSS keyframes/animations): a `useSpring` that loops
@@ -22,7 +22,7 @@ export const LiveDot = () => {
     <animated.span
       aria-hidden
       style={style}
-      className="size-[0.375rem] shrink-0 bg-overlay-accent"
+      className="size-[0.375rem] shrink-0 bg-heat"
     />
   );
 };

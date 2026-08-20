@@ -1,0 +1,34 @@
+/* Brand lock — the only file in src/ that may contain palette hex. */
+
+:root {
+  --paper: #fffaf3;
+  --cream: #fff2db;
+  --peach: #ffe5bf;
+  --heat: #f62440;
+
+  --ink: #3f2210;
+  --ink-muted: #6b4a33;
+  --ink-faint: #8b6b52;
+  --rule: #9f8576;
+  --hairline: #e8dccb;
+
+  --ground: var(--paper);
+  --background: var(--paper);
+  --foreground: var(--ink);
+
+  /* CSS fallback behind the WebGL canvas — matches sceneConfig.colors.fog. */
+  --scene-backdrop: var(--cream);
+
+  /*
+    Overlay aliases: type over the roast-light particle scene, and chrome that
+    still uses overlay-* class names. Heat is fill/display only — never body text.
+  */
+  --overlay-ink: var(--ink);
+  --overlay-scrim: color-mix(in srgb, var(--paper) 78%, transparent);
+  --overlay-glass: color-mix(in srgb, var(--paper) 55%, transparent);
+  --overlay-line: color-mix(in srgb, var(--ink) 18%, transparent);
+  --overlay-edge: var(--rule);
+  --overlay-strong: var(--ink);
+  --overlay-solid: var(--ink);
+  --overlay-accent: var(--heat);
+}

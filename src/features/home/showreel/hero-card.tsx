@@ -42,14 +42,14 @@ export const HeroCard = memo(function HeroCard({
   }, [tiltApi]);
 
   return (
-    <div className="relative size-full overflow-hidden rounded-[var(--radius-card)] bg-black">
+    <div className="relative size-full overflow-hidden rounded-[var(--radius-card)] bg-ink">
       <HeroGradient className="absolute inset-0 z-[1]" active={active} />
 
       <animated.header
         className="pointer-events-none absolute inset-0 z-[3] flex p-5 md:p-10"
         style={{ opacity: p.to(heroContentFade) }}
       >
-        <h2 className="flex flex-col items-start text-left text-[clamp(1.5rem,7vw,5.5rem)] font-normal leading-[0.95] tracking-[-0.03em] text-white">
+        <h2 className="flex flex-col items-start text-left text-[clamp(1.5rem,7vw,5.5rem)] font-normal leading-[0.95] tracking-[-0.03em] text-paper">
           {c.heroLines.map((line, i) => (
             <span key={line} className={i === 1 ? 'opacity-40' : undefined}>
               <ScrollLetters text={line} p={p} styleFn={heroLetterStyle} />
@@ -59,7 +59,7 @@ export const HeroCard = memo(function HeroCard({
       </animated.header>
 
       <div className="pointer-events-none absolute inset-0 z-[7] flex items-center justify-center">
-        <h3 className="text-center text-[3.6vmin] font-normal leading-tight text-white drop-shadow-lg [transform:rotate(-90deg)]">
+        <h3 className="text-center text-[3.6vmin] font-normal leading-tight text-paper drop-shadow-lg [transform:rotate(-90deg)]">
           <ScrollLetters text={c.browse} p={p} styleFn={(prog, i) => templatesLetterStyle(prog, i)} />
         </h3>
       </div>
@@ -81,7 +81,7 @@ export const HeroCard = memo(function HeroCard({
             style={{ transform: p.to((v) => `translateX(${heroSlidePan(v)}%)`) }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={images.stone} alt="" className="size-full object-cover" decoding="async" />
+            <img src={images.stone} alt="" className="size-full object-cover object-center" decoding="async" />
           </animated.div>
           <animated.div
             className="absolute top-0 left-full size-full overflow-hidden"
@@ -91,7 +91,7 @@ export const HeroCard = memo(function HeroCard({
             <img
               src={images.rotated}
               alt=""
-              className="size-full object-cover [transform:rotate(-90deg)_scale(1.65)]"
+              className="size-full object-cover object-center [transform:rotate(-90deg)_scale(1.85)]"
               decoding="async"
             />
           </animated.div>
@@ -99,20 +99,20 @@ export const HeroCard = memo(function HeroCard({
       </div>
 
       <animated.div
-        className="absolute bottom-0 left-0 z-[6] flex w-full flex-col gap-6 p-5 text-white md:p-10"
+        className="absolute bottom-0 left-0 z-[6] flex w-full flex-col gap-6 p-5 text-paper md:p-10"
         style={{ opacity: p.to(heroContentFade) }}
       >
         <p className="max-w-[36rem] text-[0.9375rem] leading-relaxed md:text-base">{c.heroBody}</p>
         <div className="pointer-events-auto flex flex-col items-stretch gap-3 md:flex-row md:items-center">
           <Link
             href={c.workHref}
-            className="rounded-[var(--radius-btn)] border border-white/40 px-7 py-3 text-center text-[0.9375rem]"
+            className="rounded-[var(--radius-btn)] border border-paper/40 px-7 py-3 text-center text-[0.9375rem]"
           >
             {c.seeWork}
           </Link>
           <a
             href={c.mailto}
-            className="rounded-[var(--radius-btn)] bg-white px-7 py-3 text-center text-[0.9375rem] font-medium text-black"
+            className="rounded-[var(--radius-btn)] bg-paper px-7 py-3 text-center text-[0.9375rem] font-medium text-ink"
           >
             {c.startProject}
           </a>

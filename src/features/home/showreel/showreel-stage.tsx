@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ProgressTrigger } from '@/components/animation/springs/progress-trigger';
 import { ClosingStage } from '@/features/footer/closing-stage';
+import { AtmosphereBackdrop } from './atmosphere-backdrop';
 import { assets } from './assets';
 import { showreelCopy as c } from './copy';
 import { HeroCard } from './hero-card';
@@ -148,7 +149,8 @@ export function ShowreelStage() {
 
       <div ref={trackRef} className="showreel-track relative" style={{ height: `${geo.trackVh}vh` }}>
         <div className="showreel-sticky p-[4vmin]">
-          <animated.div aria-hidden className="absolute inset-0 z-0 bg-white" style={{ opacity: s.backdrop }} />
+          <AtmosphereBackdrop />
+          <animated.div aria-hidden className="absolute inset-0 z-0 bg-paper" style={{ opacity: s.backdrop }} />
 
           <animated.div
             aria-hidden
@@ -182,11 +184,9 @@ export function ShowreelStage() {
                   style={{ transform: s.side90, zIndex: s.z1, opacity: s.card1Opacity }}
                 >
                   <ServiceCard
-                    variant="dark"
-                    url={c.card2.url}
-                    pillLabel={c.card2.pillLabel}
-                    pillTitle={c.card2.pillTitle}
-                    leadStrong={c.card2.leadStrong}
+                    href={c.card2.href}
+                    client={c.card2.client}
+                    title={c.card2.title}
                     bg={assets.card2}
                   />
                 </animated.div>
@@ -196,10 +196,9 @@ export function ShowreelStage() {
                   style={{ transform: s.side180, zIndex: s.z2, opacity: s.card1Opacity }}
                 >
                   <ServiceCard
-                    variant="light"
-                    url={c.card3.url}
-                    searchText={c.card3.searchText}
-                    leadStrong={c.card3.leadStrong}
+                    href={c.card3.href}
+                    client={c.card3.client}
+                    title={c.card3.title}
                     bg={assets.card3}
                   />
                 </animated.div>
@@ -245,7 +244,7 @@ export function ShowreelStage() {
             style={{ opacity: s.ctaReveal, transform: s.ctaTranslate }}
           >
             <Link
-              href={c.workHref}
+        href={c.workIndexHref}
               className="pointer-events-auto inline-flex items-center justify-center rounded-[var(--radius-btn)] bg-[var(--ink)] px-[4.2vmin] py-[2vmin] text-[2.1vmin] leading-none text-[var(--paper)]"
             >
               {c.carouselCta}

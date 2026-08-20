@@ -4,8 +4,8 @@
   "description": "the digital branding people",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#FFFAF3",
+  "theme_color": "#FFFAF3",
   "icons": [
     {
       "src": "/icon",

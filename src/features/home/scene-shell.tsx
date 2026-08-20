@@ -18,14 +18,13 @@ export function SceneShell({ children }: { children: ReactNode }) {
       const start = flow - window.innerHeight;
       const t = Math.min(1, Math.max(0, (window.scrollY - start) / (window.innerHeight * 0.55)));
       el.style.opacity = String(1 - t);
-      el.style.pointerEvents = t >= 1 ? 'none' : 'auto';
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
-    <div ref={ref} className="fixed inset-0 z-10 isolate overflow-hidden">
+    <div ref={ref} className="pointer-events-none fixed inset-0 z-10 isolate overflow-hidden">
       {children}
     </div>
   );

@@ -140,5 +140,8 @@ export const projects: Project[] = raw.map((p, i) => validate(ProjectSchema, p, 
 
 export const featuredProjects = projects.filter((p) => p.featured);
 
+export const projectBySlug = (slug: string): Project | undefined =>
+  projects.find((project) => project.slug === slug);
+
 /** Confirmed from the credentials deck: 28 entries across slides 5–32. */
 export const TOTAL_PROJECTS = 28;
