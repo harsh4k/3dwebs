@@ -13,11 +13,11 @@ const year = new Date().getFullYear();
 
 /** End-of-page close. Confirmed copy only — no address, no invented socials. */
 export function SiteFooter() {
-  const hair = 'bg-ink';
-  const mute = 'text-ink/80';
+  const hair = 'bg-paper';
+  const mute = 'text-paper/80';
 
   return (
-    <footer className="relative flex h-full min-h-0 flex-col bg-heat px-[1.25rem] pt-[3.5rem] pb-[1.25rem] font-display text-ink md:px-[4rem] md:pt-[5rem] md:pb-[1.75rem] lg:px-[5rem]">
+    <footer className="relative flex h-full min-h-0 flex-col bg-heat px-[1.25rem] pt-[3.5rem] pb-[1.25rem] font-display text-paper md:px-[4rem] md:pt-[5rem] md:pb-[1.75rem] lg:px-[5rem]">
       <div className="flex items-start justify-between gap-[1.5rem]">
         <p className="max-w-[16ch] text-[clamp(2rem,4.2vw,3.75rem)] font-bold uppercase leading-[0.9] tracking-[-0.02em] text-balance">
           <span className="block">{closingCopy[0]}</span>
@@ -25,7 +25,7 @@ export function SiteFooter() {
         </p>
         <a
           href="#top"
-          className="grid size-[2.5rem] shrink-0 place-items-center bg-ink text-paper md:size-[2.75rem]"
+          className="grid size-[2.5rem] shrink-0 place-items-center bg-paper text-ink md:size-[2.75rem]"
           aria-label="Back to top"
         >
           <span aria-hidden className="text-[1.125rem] leading-none">

@@ -13,7 +13,7 @@ import {
 } from "@/features/home/overlays";
 import { ParticleScene, sceneConfig } from "@/features/home/scene";
 import { SceneShell } from "@/features/home/scene-shell";
-import { ShowreelStage } from "@/features/home/showreel/showreel-stage";
+import { WorkCarousel } from "@/features/home/work-carousel";
 import { SiteHeader } from "@/features/navigation/site-header";
 
 /**
@@ -27,7 +27,7 @@ import { SiteHeader } from "@/features/navigation/site-header";
  * `<SiteHeader>`, and per-scene UI overlays (`<HeroOverlay>` for the glyph,
  * `<HandOverlay>` for the hand, `<WaveOverlay>` for the wave) that `<ScrollFade>`
  * cross-fades with scroll so each shows only while its scene is on screen. A dev-only `<TuningPanel>`
- * (mounts with `?tune`) live-tweaks the pink particles + bloom. All are client-safe leaves, so
+ * (mounts with `?tune`) live-tweaks the heat particles + bloom. All are client-safe leaves, so
  * this view stays a Server Component (hard rule #6). One `sr-only` `<h1>` names
  * the landmark; the visible headings are decorative.
  */
@@ -66,13 +66,11 @@ export const HomeView = () => {
         </ScrollFade>
       </SceneShell>
       {/* Scroll length of the hero sequence, then a hold so the tree stays on screen
-          before the showreel. Hold is not part of scene progress (that is already 1). */}
+          before the work helix. Hold is not part of scene progress (that is already 1). */}
       <div aria-hidden className="w-full" style={{ height: `${sceneConfig.sequence.scrollVh}vh` }} />
       <div aria-hidden className="w-full" style={{ height: `${sceneConfig.sequence.treeHoldVh}vh` }} />
-      <ShowreelStage />
-      <noscript>
-        <SiteFooter />
-      </noscript>
+      <WorkCarousel />
+      <SiteFooter />
       {/* Black hold until the scene's assets and shaders are ready — see `Preloader`. */}
       <Preloader />
       {/* Dev-only live tuning panel for the pink particles + bloom — mounts only with `?tune`. */}

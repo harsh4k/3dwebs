@@ -195,6 +195,37 @@ Fallback:           Static image at final treatment
 
 ---
 
+## §3b — Work helix (post-sequence)
+
+**Purpose:** after the particle sequence, let the visitor browse every *confirmed* project in `content/projects.ts` without inventing the withheld remainder of the 28. Recession on the helix means not the card in focus — already seen above, or not yet reached below.
+
+| | |
+|---|---|
+| Content | All confirmed projects. Client, title, deliverables. Click opens the case modal. Count is `projects.length`, not the deck total. |
+| Layout | Sticky `100svh` stage inside a track of `max(200, n × 28)` vh. Document scroll maps to helix slot `0…n−1`. |
+| Visual | Ground `--cream`. Dither palettes read `--ink` / `--paper` from tokens. One `--heat` rule under the active title. |
+| Assets | Deck imagery from each project. No live Tier-B links. |
+| Components | `WorkCarousel`, `CaseModal` |
+
+```
+Trigger:            Document scroll through the section (Lenis)
+Animation:          Cards ride a vertical helix; off-focus cards dissolve
+                    into ordered dither + directional blur. Entry plays once.
+Duration:           Scrubbed to scroll; entry ~2.4s spin
+Easing:             Helix lerp + snap from the dither-blur reference
+Scroll relationship: Page scroll drives slot. Drag/click-to-focus stay on the canvas.
+Desktop:            Hover rack-focus + cursor trail
+Tablet / Mobile:    Scroll-driven helix only — no trail, no hover
+Purpose:            Makes a long set of projects a single spatial object
+                    instead of a catalogue dump after the 3D sequence
+Fallback:           Reduced motion and no-JS → stacked list of the same
+                    projects, fully visible. WebGL is enhancement.
+```
+
+The wave overlay teaser stays. `/work` stays the archive.
+
+---
+
 ## §4 — Services
 
 **Purpose:** name the three pillars, route to `/services`. Three lines, no more.
@@ -286,7 +317,7 @@ Implementation:     ONE ScrollTrigger writing ONE CSS variable on :root.
 |---|---|---|---|
 | Hero | Full viewport, per-line reveal | Full viewport | 90vh, per-block reveal |
 | Proof | 3-col counters, 6-col mark grid | 3-col, 4-col grid | Stacked, 3-col grid |
-| Work | 2-col offset, parallax | 2-col, no parallax | 1-col, no parallax |
+| Work helix | Sticky viewport, scroll-driven | Same, no trail | Same, no trail |
 | Services | Full-width rows | Full-width rows | Full-width rows |
 | CTA | Full-bleed display | Full-bleed | Reduced display size |
 | Cursor | Bean | None | None |
@@ -297,7 +328,8 @@ Implementation:     ONE ScrollTrigger writing ONE CSS variable on :root.
 - Client marks are SVG, inlined as a sprite — 27 separate requests would be indefensible.
 - Work imagery lazy-loads below the fold with blur placeholders.
 - The ramp writes one variable; no section paints its own ground.
-- No WebGL, no video, no carousel on this page.
+- Work helix WebGL is dynamically imported and paused off-screen; the particle canvas pauses while the helix is in view.
+- Reduced-motion visitors get the project list without the helix.
 
 ## Content sources
 

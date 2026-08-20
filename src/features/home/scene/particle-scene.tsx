@@ -32,6 +32,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { VignetteShader } from "three/examples/jsm/shaders/VignetteShader.js";
 
 import { subscribeToTicker } from "@/lib/animation/ticker";
+import { isWorkCarouselVisible } from "@/features/home/work-carousel/scene-gate";
 import {
   byTier,
   clampedPixelRatio,
@@ -1044,7 +1045,7 @@ export const ParticleScene = () => {
     const budget = frameBudgetMs(tier);
     const unsubscribeTicker = subscribeToTicker(
       (time) => {
-        if (paused || !onScreen || document.hidden) return;
+        if (paused || !onScreen || document.hidden || isWorkCarouselVisible()) return;
         renderFrame(time);
       },
       () => budget,
@@ -1187,7 +1188,7 @@ export const ParticleScene = () => {
   return (
     <div
       ref={containerRef}
-      className="h-full w-full transform-gpu backface-hidden will-change-transform"
+      className="pointer-events-none h-full w-full transform-gpu backface-hidden will-change-transform"
       aria-hidden="true"
     />
   );
