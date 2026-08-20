@@ -4,9 +4,4 @@ export type StaggeredMenuItem = {
   link: string;
 };
 
-export type StaggeredMenuSocialItem = {
-  label: string;
-  link: string;
-};
-
 export type MenuPosition = 'left' | 'right';

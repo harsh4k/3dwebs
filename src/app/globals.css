@@ -5,7 +5,7 @@
   --foreground: #171717;
 
   /* Backdrop shown behind the WebGL canvas until it paints. Kept in sync with
-     `sceneConfig.colors.fog` (src/components/common/scene/scene.config.ts). */
+     `sceneConfig.colors.fog` (src/features/home/scene/scene.config.ts). */
   --scene-backdrop: #8d959e;
 
   /* Hero overlay palette (Figma frame 767:162, "Get Layers"). A glass UI laid over the

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { useStaggeredMenu } from "./use-staggered-menu";
 
-import type { MenuPosition, StaggeredMenuItem, StaggeredMenuSocialItem } from "./types";
+import type { MenuPosition, StaggeredMenuItem } from "./types";
 import type { CSSProperties } from "react";
 
 import "./staggered-menu.css";
@@ -15,8 +15,6 @@ type StaggeredMenuProps = {
   position?: MenuPosition;
   colors?: string[];
   items?: StaggeredMenuItem[];
-  socialItems?: StaggeredMenuSocialItem[];
-  displaySocials?: boolean;
   displayItemNumbering?: boolean;
   className?: string;
   logoLabel: string;
@@ -34,8 +32,6 @@ export const StaggeredMenu = ({
   position = "right",
   colors = ["var(--foam)", "var(--cream)"],
   items = [],
-  socialItems = [],
-  displaySocials = false,
   displayItemNumbering = true,
   className,
   logoLabel,
@@ -163,25 +159,6 @@ export const StaggeredMenu = ({
               </li>
             ))}
           </ul>
-          {displaySocials && socialItems.length > 0 ? (
-            <div className="sm-socials" aria-label="Social links">
-              <h3 className="sm-socials-title">Socials</h3>
-              <ul className="sm-socials-list" role="list">
-                {socialItems.map((social) => (
-                  <li key={social.label} className="sm-socials-item">
-                    <a
-                      href={social.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="sm-socials-link"
-                    >
-                      {social.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
         </div>
       </aside>
     </div>

@@ -6,7 +6,7 @@
  * Render the output inside a `<script type="application/ld+json">` tag.
  */
 
-import { siteConfig } from "@/lib/site";
+import { siteConfig } from "@/config/seo";
 
 /**
  * Organization + WebSite schema for the site root. Emit once, in the root

@@ -1,5 +1,5 @@
 import { servicePillars } from '@/content/services';
-import { InnerPage } from '@/views/inner';
+import { InnerPage } from '@/features/page-shell/inner';
 
 export default function ServicesPage() {
   return (

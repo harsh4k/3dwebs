@@ -1,5 +1,5 @@
 /**
- * Shared scroll progress `0 → 1` for the pinned Auralis sequence — **computed at most once per
+ * Shared scroll progress `0 → 1` for the pinned hero sequence — **computed at most once per
  * frame**, no matter how many callers ask for it.
  *
  * Progress is measured against `sequence.scrollVh` only. Later acts (the showreel) add their own
@@ -10,11 +10,11 @@
  * own rAF — this only dedupes the measurement.
  */
 
-import { sceneConfig } from '@/components/common/scene/scene.config';
+import { sceneConfig } from '@/features/home/scene/scene.config';
 
 const clamp01 = (v: number): number => (v < 0 ? 0 : v > 1 ? 1 : v);
 
-/** Scrollable distance in px for the Auralis sequence; `-1` = needs re-measuring. */
+/** Scrollable distance in px for the hero sequence; `-1` = needs re-measuring. */
 let scrollMax = -1;
 let observer: ResizeObserver | null = null;
 
@@ -35,7 +35,7 @@ const ensureObserver = (): void => {
 let cachedProgress = 0;
 let cachedAt: number | null = null;
 
-/** Scroll progress `0 → 1` through the pinned Auralis sequence. */
+/** Scroll progress `0 → 1` through the pinned hero sequence. */
 export const getScrollProgress = (): number => {
   ensureObserver();
   const now = document.timeline.currentTime;

@@ -1,5 +1,5 @@
 import { featuredProjects, TOTAL_PROJECTS } from '@/content/projects';
-import { InnerPage } from '@/views/inner';
+import { InnerPage } from '@/features/page-shell/inner';
 
 export default function WorkPage() {
   return (

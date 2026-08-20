@@ -4,7 +4,7 @@
 import { animated, useSpring } from "@react-spring/web";
 import { useEffect, useState } from "react";
 
-import { markPageRevealed, useSceneProgress } from "@/components/common/scene/scene-ready";
+import { markPageRevealed, useSceneProgress } from "@/features/home/scene/scene-ready";
 import { site } from "@/content/site";
 
 /**

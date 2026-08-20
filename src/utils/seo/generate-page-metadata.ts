@@ -12,7 +12,7 @@
 
 import { Metadata, Viewport } from "next";
 
-import { siteConfig } from "@/lib/site";
+import { siteConfig } from "@/config/seo";
 
 interface MetadataProps {
   title?: string;

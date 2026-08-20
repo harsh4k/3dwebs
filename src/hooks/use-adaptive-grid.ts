@@ -13,7 +13,7 @@
 
 import { useCallback, useEffect } from "react";
 
-import { useResizeLoop } from "@/hooks/animation/user-resize-loop";
+import { useResizeLoop } from "@/hooks/animation/use-resize-loop";
 
 /** Root font-size (px) the design is measured against. */
 const FONT_BASE = 16;

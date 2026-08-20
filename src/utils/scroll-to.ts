@@ -1,17 +1,12 @@
 /**
- * @fileoverview Utility function for smooth scrolling to elements or positions
- * Handles both scrolling to element IDs and numeric positions
- * Temporarily disables scroll state during animation if scroll is enabled
+ * Smooth-scroll to an element id or a numeric Y position.
+ * Temporarily disables Lenis while native scrollTo runs.
  */
 
-//if lenis
 import { useScroll } from "@/hooks/smooth-scroll/use-scroll";
-//endif
 
 export const scrollTo = (id?: string | number, immediate?: boolean) => {
-  //if lenis
   const isEnabled = useScroll.getState().isEnableScroll;
-  //endif
 
   if (typeof id === "string") {
     const el = document.getElementById(id);
@@ -19,11 +14,9 @@ export const scrollTo = (id?: string | number, immediate?: boolean) => {
       return;
     }
 
-    //if lenis
     if (isEnabled) {
       useScroll.setState({ isEnableScroll: false });
     }
-    //endif
 
     setTimeout(() => {
       window.scrollTo({
@@ -48,7 +41,6 @@ export const scrollTo = (id?: string | number, immediate?: boolean) => {
 
   function getDistanceFromTop(element: HTMLElement) {
     const rect = element.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    return rect.top + scrollTop;
+    return rect.top + window.scrollY;
   }
 };

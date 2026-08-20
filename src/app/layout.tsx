@@ -3,7 +3,7 @@ import { Jost, Onest, Outfit } from 'next/font/google';
 
 import { AdaptiveGrid } from '@/components/common/grid';
 import { ReducedMotion } from '@/components/common/reduced-motion';
-import { ScrollLayout } from '@/layouts/scroll-layout';
+import { ScrollProvider } from '@/motion/scroll-provider';
 import {
   generateMetadata,
   generateViewport,
@@ -47,11 +47,11 @@ export default function RootLayout({
             __html: JSON.stringify(getSiteStructuredData()),
           }}
         />
-        <ScrollLayout>
+        <ScrollProvider>
           <AdaptiveGrid />
           <ReducedMotion />
           {children}
-        </ScrollLayout>
+        </ScrollProvider>
       </body>
     </html>
   );

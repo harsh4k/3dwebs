@@ -2,7 +2,6 @@
  * @fileoverview Hooks for accessing and responding to window dimensions.
  *
  * - useWindowWidth: current window width
- * - useWindowHeight: current window height
  * - useWindowSize: both width and height
  *
  * All three read from a **single shared store**: one debounced `resize`
@@ -84,13 +83,5 @@ export function useWindowWidth(): number {
     subscribe,
     () => snapshot.width,
     () => SERVER_SNAPSHOT.width,
-  );
-}
-
-export function useWindowHeight(): number {
-  return useSyncExternalStore(
-    subscribe,
-    () => snapshot.height,
-    () => SERVER_SNAPSHOT.height,
   );
 }

@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 
-import { tuning } from "@/components/common/scene";
+import { tuning } from "@/features/home/scene";
 
 /**
  * **Dev tuning panel** — live sliders for the pink bloom particles (colour + glow) and the bloom pass

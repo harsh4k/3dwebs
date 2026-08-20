@@ -1,2 +1,2 @@
 export { StaggeredMenu } from "./staggered-menu";
-export type { StaggeredMenuItem, StaggeredMenuSocialItem } from "./types";
+export type { StaggeredMenuItem } from "./types";

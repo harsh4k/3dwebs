@@ -4,18 +4,12 @@
  * Global configuration for all Spring components.
  * Controls behavior and features across the entire application.
  *
- * disableOnMobile: Controls which spring animations are disabled on mobile devices
- * - hover: Disable hover animations on mobile (default: true since no hover on mobile)
- * - inview: Disable in-view animations on mobile
- * - spring: Disable basic spring animations on mobile
- * - springtrigger: Disable scroll-triggered animations on mobile
+ * disableOnMobile: which spring families skip on narrow viewports.
  */
 interface SpringsConfig {
   mobileWidth: number;
   disableOnMobile: {
-    hover: boolean;
     inview: boolean;
-    spring: boolean;
     springtrigger: boolean;
   };
 }
@@ -23,9 +17,7 @@ interface SpringsConfig {
 export const springsConfig: SpringsConfig = {
   mobileWidth: 768,
   disableOnMobile: {
-    hover: true,
     inview: false,
-    spring: false,
     springtrigger: false,
   },
 } as const;

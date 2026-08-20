@@ -1,5 +1,5 @@
 import { closingCopy, site } from '@/content/site';
-import { InnerPage } from '@/views/inner';
+import { InnerPage } from '@/features/page-shell/inner';
 
 export default function ContactPage() {
   return (

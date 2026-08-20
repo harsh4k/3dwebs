@@ -73,23 +73,17 @@ export const useStaggeredMenu = ({ position, onMenuOpen, onMenuClose }: UseStagg
     const numberEls = Array.from(
       panel.querySelectorAll<HTMLElement>(".sm-panel-list[data-numbering] .sm-panel-item"),
     );
-    const socialTitle = panel.querySelector<HTMLElement>(".sm-socials-title");
-    const socialLinks = Array.from(panel.querySelectorAll<HTMLElement>(".sm-socials-link"));
     const offscreen = position === "left" ? -100 : 100;
 
     if (reduced()) {
       gsap.set([panel, ...layers], { xPercent: 0, opacity: 1 });
       if (itemEls.length) gsap.set(itemEls, { yPercent: 0, rotate: 0 });
       if (numberEls.length) gsap.set(numberEls, { "--sm-num-opacity": 1 });
-      if (socialTitle) gsap.set(socialTitle, { opacity: 1 });
-      if (socialLinks.length) gsap.set(socialLinks, { y: 0, opacity: 1 });
       return gsap.timeline({ paused: true });
     }
 
     if (itemEls.length) gsap.set(itemEls, { yPercent: 140, rotate: 10 });
     if (numberEls.length) gsap.set(numberEls, { "--sm-num-opacity": 0 });
-    if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
-    if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
 
     const tl = gsap.timeline({ paused: true });
     layers.forEach((el, i) => {
@@ -128,29 +122,6 @@ export const useStaggeredMenu = ({ position, onMenuOpen, onMenuClose }: UseStagg
             stagger: { each: 0.08, from: "start" },
           },
           itemsStart + 0.1,
-        );
-      }
-    }
-
-    if (socialTitle || socialLinks.length) {
-      const socialsStart = panelInsertTime + panelDuration * 0.4;
-      if (socialTitle) {
-        tl.to(socialTitle, { opacity: 1, duration: 0.5, ease: "power2.out" }, socialsStart);
-      }
-      if (socialLinks.length) {
-        tl.to(
-          socialLinks,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.55,
-            ease: "power3.out",
-            stagger: { each: 0.08, from: "start" },
-            onComplete: () => {
-              gsap.set(socialLinks, { clearProps: "opacity" });
-            },
-          },
-          socialsStart + 0.04,
         );
       }
     }
@@ -196,10 +167,6 @@ export const useStaggeredMenu = ({ position, onMenuOpen, onMenuClose }: UseStagg
           panel.querySelectorAll<HTMLElement>(".sm-panel-list[data-numbering] .sm-panel-item"),
         );
         if (numberEls.length) gsap.set(numberEls, { "--sm-num-opacity": 0 });
-        const socialTitle = panel.querySelector<HTMLElement>(".sm-socials-title");
-        const socialLinks = Array.from(panel.querySelectorAll<HTMLElement>(".sm-socials-link"));
-        if (socialTitle) gsap.set(socialTitle, { opacity: 0 });
-        if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
         busyRef.current = false;
       },
     });

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { siteConfig } from "@/lib/site";
+import { siteConfig } from "@/config/seo";
 
 /**
  * Generates `/sitemap.xml`. Currently lists only the home route — add an entry

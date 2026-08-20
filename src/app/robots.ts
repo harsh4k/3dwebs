@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { siteConfig } from "@/lib/site";
+import { siteConfig } from "@/config/seo";
 
 /**
  * Generates `/robots.txt`. Allows all crawlers and points them at the sitemap.

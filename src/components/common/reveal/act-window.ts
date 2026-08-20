@@ -3,7 +3,7 @@
 
 import { useCallback, useSyncExternalStore } from "react";
 
-import { isPageRevealed } from "@/components/common/scene/scene-ready";
+import { isPageRevealed } from "@/features/home/scene/scene-ready";
 import { getScrollProgress } from "@/utils/scroll-progress";
 
 /**

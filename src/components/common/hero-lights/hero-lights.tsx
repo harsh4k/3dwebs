@@ -4,8 +4,8 @@
 import { animated, to, useSpring } from "@react-spring/web";
 import { useEffect } from "react";
 
-import { sceneConfig } from "@/components/common/scene";
-import { isPageRevealed } from "@/components/common/scene/scene-ready";
+import { sceneConfig } from "@/features/home/scene";
+import { isPageRevealed } from "@/features/home/scene/scene-ready";
 import { getScrollProgress } from "@/utils/scroll-progress";
 
 /**
