@@ -8,7 +8,7 @@
  * ⚠️ TIER A ONLY. Tier B is deliberately excluded: for large brands the site
  * live today is almost certainly a later redesign by another agency, and
  * presenting that capture as Coffee Digital's work is a misrepresentation.
- * See pages/work.md → Asset tiers and TBD.md → B3.
+ * See specs/work.md → Asset tiers and TBD.md → B3.
  *
  * Output: public/work/<slug>/<slug>-<desktop|mobile>.png
  * Then run scripts/optimise-images.mjs to produce AVIF/WebP derivatives.
@@ -117,7 +117,7 @@ await browser.close();
 console.log(`\n${ok} captured, ${failed.length} failed`);
 if (failed.length) {
   console.log(`failed: ${failed.join(", ")}`);
-  console.log(`A dead Tier-A URL means the tier is wrong — recheck it against pages/work.md.`);
+  console.log(`A dead Tier-A URL means the tier is wrong — recheck it against specs/work.md.`);
   process.exit(1);
 }
 console.log(`Next: node scripts/optimise-images.mjs`);

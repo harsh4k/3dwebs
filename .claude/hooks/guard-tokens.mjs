@@ -34,6 +34,13 @@ const path = String(input.file_path ?? "").replace(/\\/g, "/");
 const body = String(input.content ?? input.new_string ?? "");
 
 if (!path || !body) process.exit(0);
+
+// Only police THIS project. Without the root check the `/src/` test matches
+// any sibling project on disk, and the hook blocks writes it has no business
+// touching.
+const root = String(process.env.CLAUDE_PROJECT_DIR ?? process.cwd()).replace(/\\/g, "/");
+if (root && !path.toLowerCase().startsWith(root.toLowerCase())) process.exit(0);
+
 if (!/\/src\//.test(path)) process.exit(0); // only police application code
 
 const isTokenFile = /\/src\/styles\/tokens\.css$/.test(path);

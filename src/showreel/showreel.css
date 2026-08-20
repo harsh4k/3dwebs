@@ -1,0 +1,124 @@
+.showreel {
+  --background: #000000;
+  --foreground: #f5f1ec;
+  --ink: #07031a;
+  --pf-card: #14110e;
+  --cc-search: #161310;
+  --paper: #f5f1ec;
+  --paper-alt: #f3f1ec;
+  --cc-dark-ink: #f5f1ec;
+  --cc-light-ink: #1a1714;
+  --glass-dark: rgba(40, 36, 33, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-soft: rgba(255, 255, 255, 0.14);
+  --card-violet: radial-gradient(95% 80% at 50% 28%, #ddd6fe 0%, #9a73f0 38%, #6d28d9 68%, #34146e 100%);
+  --sr-nested-border: linear-gradient(45deg, #6d28d9, #9a73f0, #ddd6fe, #7c3aed, #34146e);
+  --sr-nested-size: 42vmin;
+  --sr-nested-step: 0.85vmin;
+  --sr-nested-duration: 2s;
+  --sr-nested-stagger: 0.1s;
+  --radius-btn: 8px;
+  --radius-card: 3vmin;
+  --radius-pf: 2.5vmin;
+  --radius-slider: 1.6vmin;
+  --pf-card-w: 44vw;
+  --pf-card-h: 58vh;
+  --pf-section-pt: 10vmin;
+  --pf-section-pb: 10vmin;
+  --pf-gap: 2.5vmin;
+  --sr-card-w: 42vmin;
+  --sr-card-h: 62vmin;
+  --sr-carousel-r: 27vmin;
+  --sr-flyback: 40vmin;
+  --sr-hero-pad: 8vmin;
+  --sr-heading-1: 18vmin;
+  --sr-heading-2: 24vmin;
+  --sr-sphere-body-w: 52vmin;
+  --sr-sphere-body-text: 2.4vmin;
+  color: var(--foreground);
+  background: #000;
+}
+
+.showreel-track {
+  position: relative;
+}
+
+.showreel-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sr-portfolio {
+  transform: translateY(100%);
+  pointer-events: none;
+}
+
+.sr-portfolio-fallback {
+  display: grid;
+  gap: 1.25rem;
+  padding: 8vmin 8vw 12vmin;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.sr-portfolio-fallback a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sr-portfolio-fallback span {
+  opacity: 0.7;
+}
+
+.sr-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.sr-nested-squares {
+  width: var(--sr-nested-size);
+  height: var(--sr-nested-size);
+}
+
+.sr-nested-square {
+  position: absolute;
+  padding: calc((var(--i) + 1) * var(--sr-nested-step));
+  border: 2px solid transparent;
+  border-image: var(--sr-nested-border) 1;
+  transform: scale(1) rotate(90deg);
+  animation: sr-nested-pulse var(--sr-nested-duration) ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * var(--sr-nested-stagger));
+}
+
+.sr-nested-squares[data-active='false'] .sr-nested-square {
+  animation-play-state: paused;
+}
+
+@keyframes sr-nested-pulse {
+  from {
+    transform: scale(0) rotate(0deg);
+  }
+  to {
+    transform: scale(2) rotate(180deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .showreel {
+    --pf-card-w: 78vw;
+    --pf-card-h: 52vh;
+    --pf-section-pt: 12vmin;
+    --pf-section-pb: 10vmin;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showreel * {
+    animation: none !important;
+  }
+}

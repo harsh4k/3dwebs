@@ -7,7 +7,7 @@ tags: [design-system, tokens, motion]
 The visual and motion system for the Coffee Digital website.
 
 Upstream: [[PRD]] · [[brand/palette|palette]] · [[brand/brand-audit|brand-audit]] · [[reference/trionn/notes|reference/trionn/notes]]
-Downstream: [[architecture]] · [[pages/home|page specs]]
+Downstream: [[architecture]] · [[specs/home|page specs]]
 
 > **The governing rule:** a component may never define a colour, a duration, an easing curve, or a type size. It consumes a token. The only file permitted to contain a raw hex value is `tokens.css` — enforced by a hook, see [[skills/hooks/README|skills/hooks]].
 
@@ -141,7 +141,7 @@ Inline links are `--ink` with a 1px underline at 0.35 opacity that reaches full 
 
 ### Navigation
 
-See [[pages/navigation|pages/navigation]].
+See [[specs/navigation|specs/navigation]].
 
 ### Card
 
@@ -149,7 +149,7 @@ Only on `/work` tiles and service pillars. **No border, no shadow, no radius.** 
 
 ### Image
 
-`--radius-none`. 16:10 for project tiles, 3:2 for portrait contexts. Always explicit dimensions. Tier-C imagery carries a duotone in `--ink`/`--cream` plus grain so low resolution reads as art direction ([[pages/work#Asset tiers]]).
+`--radius-none`. 16:10 for project tiles, 3:2 for portrait contexts. Always explicit dimensions. Tier-C imagery carries a duotone in `--ink`/`--cream` plus grain so low resolution reads as art direction ([[specs/work#Asset tiers]]).
 
 ### Form control
 

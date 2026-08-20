@@ -60,7 +60,7 @@ Three stat cards, each with an **odometer-style digit roll** (the raw `012345678
 - Middle card sets its counter inside a white circle
 - Outer cards are **skewed on a 3D axis** (`perspective` + `transform-style` in the CSS), the left leaning one way, the right the other
 
-**Purpose:** makes numbers feel *counted* rather than typed. **Directly applicable** — Coffee Digital's awards tally is its strongest asset. See [[../../pages/about|pages/about]].
+**Purpose:** makes numbers feel *counted* rather than typed. **Directly applicable** — Coffee Digital's awards tally is its strongest asset. See [[../../specs/about|specs/about]].
 
 ## 5. `/work` — the offset grid
 
@@ -101,7 +101,7 @@ Two: an `Inspire · innovate · Impact` text marquee repeated 4×, and a partner
 
 Form: name, email, service select, message (min 20 chars), budget band, submit — plus reCAPTCHA v3, a Calendly alternative, and a plain mailto fallback. Budget bands: Under $5K / $5–15K / $15–30K / $30–60K / $60K+ / Not sure yet.
 
-**Purpose:** the budget selector qualifies leads before a call. **Strongly applicable** — see [[../../pages/contact|pages/contact]].
+**Purpose:** the budget selector qualifies leads before a call. **Strongly applicable** — see [[../../specs/contact|specs/contact]].
 
 ## 10. Cursor & micro-interactions
 

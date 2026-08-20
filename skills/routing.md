@@ -136,7 +136,7 @@ Auto-invocation is a **behavioural** claim, so test it behaviourally:
 
 1. Start a fresh session in this repo.
 2. Ask: *"add a hero section to the services page."*
-3. **Expected:** `impeccable` loads unprompted; `pages/services.md` is read before any code; `code-reviewer` runs afterwards without being asked.
+3. **Expected:** `impeccable` loads unprompted; `specs/services.md` is read before any code; `code-reviewer` runs afterwards without being asked.
 4. Then try writing `color: #FF0000` into a component. **Expected:** blocked by `guard-tokens.mjs` with a message pointing at `Design.md §3`.
 
 If step 3 doesn't happen, the routing table in [[../CLAUDE|CLAUDE.md]] needs to be more specific. If step 4 doesn't happen, the hook is misconfigured — check the paths in `.claude/settings.json`.

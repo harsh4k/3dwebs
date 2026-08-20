@@ -179,7 +179,7 @@ export const Project = z.object({
 
 1. **The schema cannot express a fabricated claim.** There is no `metrics` field, so no one can add one without a deliberate schema change and a review. The anti-fabrication rule is structural, not a convention.
 2. **`liveUrl` is optional.** Dead links can't be linked by accident.
-3. **`tier` is required.** No project enters the system without an explicit decision about what its imagery represents ([[pages/work#Asset tiers]]).
+3. **`tier` is required.** No project enters the system without an explicit decision about what its imagery represents ([[specs/work#Asset tiers]]).
 
 ### Optional data — the TBD pattern
 
@@ -306,7 +306,7 @@ Against the budgets in [[PRD#16 Performance requirements]].
 
 ## 12. Asset pipeline
 
-Detail in [[pages/work#Asset tiers]].
+Detail in [[specs/work#Asset tiers]].
 
 ```
 scripts/capture-work.mjs   Playwright → Tier-A live sites, 2× DPR,

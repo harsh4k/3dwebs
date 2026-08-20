@@ -50,8 +50,8 @@ Six sections. Estimated depth **~5 screens desktop**, well under the reference's
 |---|---|
 | Content | Wordmark. `the digital branding people` (confirmed tagline). Positioning line from the deck. Two CTAs: `see the work →`, `start a project →` |
 | Layout | Full viewport. Display type upper-left on a 12-col grid. Stripe as a full-bleed band along the bottom edge |
-| Visual | Ground `--paper`. Type `--ink`. One `--heat` element only: the `→` on the primary CTA |
-| Assets | `bean-pair.svg`, `stripe.svg`, wordmark |
+| Visual | Ground is the GetLayers flower-field loop (`--media-ground` fallback). Type `--media-ink`. One `--heat` element only: the `→` on the primary CTA |
+| Assets | `bean-pair.svg`, `stripe.svg`, wordmark, `public/hero/flower-field-*` |
 | Components | `Stripe`, `Button`, `Reveal`, `Cursor` |
 
 **Copy — confirmed, do not rewrite:**

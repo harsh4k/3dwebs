@@ -29,7 +29,7 @@ graph TD
   PRD["PRD<br/>requirements"]
   DES["Design<br/>tokens · motion"]
   ARCH["architecture<br/>feature-based"]
-  PAGES["pages/<br/>7 specs"]
+  PAGES["specs/<br/>7 specs"]
   CL["CLAUDE.md<br/>AI rules"]
   SK["skills/<br/>agents · hooks"]
   TBD["TBD<br/>gaps + blockers"]
@@ -58,7 +58,7 @@ graph TD
 | 4 | [[PRD]] | What must be true of the site |
 | 5 | [[Design]] | Tokens, type, motion, responsive behaviour |
 | 6 | [[architecture]] | How the code is organised |
-| 7 | [[pages/home\|pages/]] | Every section, fully specified |
+| 7 | [[specs/home\|specs/]] | Every section, fully specified |
 | 8 | [[CLAUDE\|CLAUDE.md]] | The rules for working here |
 | 9 | [[brain]] | Why things are the way they are |
 | 10 | [[TBD]] | What we still don't know |
@@ -70,7 +70,7 @@ graph TD
 ├── creds/          ⚠️ source deck + logo — gitignored
 ├── brand/          reconstructed SVGs, measured palette, source audit
 ├── reference/      Trionn audit + 37 screenshots
-├── pages/          7 page specs — the implementation contract
+├── specs/          7 page specs — the implementation contract
 ├── skills/         agents, routing, MCPs, hooks, runbooks
 ├── .claude/        agent definitions, hooks, settings
 └── src/            ⬜ not yet

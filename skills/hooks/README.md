@@ -74,7 +74,7 @@ Phrased as factual statements, never imperatives. Imperative text in injected co
 
 `brain.md` has a silent failure mode: decisions get made in a session and never written down, so months later nobody remembers why the palette has an ink token or why there is no CMS.
 
-If a decision-bearing document changed (`PRD.md`, `Design.md`, `architecture.md`, `TBD.md`, `pages/*.md`, `brand/palette.md`, `brand/brand-audit.md`) and `brain.md` did not, it emits **one line**. `TBD.md` changing is the strongest signal — it usually means something was resolved.
+If a decision-bearing document changed (`PRD.md`, `Design.md`, `architecture.md`, `TBD.md`, `specs/*.md`, `brand/palette.md`, `brand/brand-audit.md`) and `brain.md` did not, it emits **one line**. `TBD.md` changing is the strongest signal — it usually means something was resolved.
 
 **It does not block**, and it says explicitly that routine edits need no entry. A nagging hook gets disabled, and a disabled hook enforces nothing.
 

@@ -8,7 +8,7 @@ Everything known about Coffee Digital, split by **how much we can trust it**. Th
 
 > **The rule:** if a claim is not in the *Confirmed* section, it may not appear as fact on the website. No exceptions, no "it reads better this way".
 
-Related: [[palette]] · [[../PRD|PRD]] · [[../TBD|TBD]] · [[../pages/about|pages/about]]
+Related: [[palette]] · [[../PRD|PRD]] · [[../TBD|TBD]] · [[../specs/about|specs/about]]
 
 ## Sources
 
@@ -51,7 +51,7 @@ Directly present in a source. Quotable.
 | 🎨 Creative & Branding | Logo Design & Brand Identity · Video Production & Animation · Brochure, Leaflet, and Catalog Design · Print & Outdoor Advertising |
 | 🖥️ Technology & Development | Website Design & Development · Mobile App Development (iOS & Android) · IT Servicing & Support · Dedicated Resource/Team Provider |
 
-The legacy site names eight service areas in a different, more characterful voice: *strategy & creativity, design, development, ux/ui, branding, content development, e-commerce, seo*. Both are confirmed. See [[../pages/services|pages/services]] for how they reconcile.
+The legacy site names eight service areas in a different, more characterful voice: *strategy & creativity, design, development, ux/ui, branding, content development, e-commerce, seo*. Both are confirmed. See [[../specs/services|specs/services]] for how they reconcile.
 
 ### Awards — S1 slide 3, verbatim
 
@@ -87,7 +87,7 @@ Google Pixel · Colors (Viacom18) · Lenovo · MTV · Hippo · Motorola · Spyka
 
 ### Work — S1 slides 5–32
 
-**28 work entries.** Liveness checked 2026-08-17; tiering rationale in [[../pages/work|pages/work]].
+**28 work entries.** Liveness checked 2026-08-17; tiering rationale in [[../specs/work|specs/work]].
 
 | Slide | Project | URL | HTTP | Tier |
 |---|---|---|---|---|
@@ -187,8 +187,8 @@ Our creative decisions. Clearly ours, not the client's — and reversible.
 | **The Bean as cursor and loader** | [[../Design|Design]] |
 | `--heat` reserved for one hot element per viewport | [[palette]] |
 | `--ink` `#3F2210` derived from the stripe rather than invented | [[palette#2 Derived ink]] |
-| Careers becomes a section of `/about`, not a page | [[../pages/about|pages/about]] |
-| Awards presented as the lead differentiator on `/about` | [[../pages/about|pages/about]] |
+| Careers becomes a section of `/about`, not a page | [[../specs/about|specs/about]] |
+| Awards presented as the lead differentiator on `/about` | [[../specs/about|specs/about]] |
 | Legacy lowercase voice adopted over deck corporate voice | [[../PRD|PRD]] |
 
 ---

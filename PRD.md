@@ -7,7 +7,7 @@ tags: [prd, requirements]
 **Status:** Approved blueprint, pre-implementation · **Last updated:** 2026-08-17
 
 Sources of truth: [[brand/brand-audit|brand-audit]] · [[brand/palette|palette]] · [[reference/README|reference]]
-Downstream: [[Design]] · [[architecture]] · [[pages/home|pages]] · [[TBD]]
+Downstream: [[Design]] · [[architecture]] · [[specs/home|pages]] · [[TBD]]
 
 > **Reading note.** This document states **requirements** — what must be true of the finished site. It deliberately avoids prescribing *how*. Implementation choices live in [[architecture]]; visual and motion choices live in [[Design]]. Where an implementation idea appears here it is marked *(implementation idea — not a requirement)*.
 
@@ -130,7 +130,7 @@ Four routes, one modal state. No nesting, no dead ends — every page terminates
 
 ## 10. Page requirements
 
-Full specs in [[pages/home|home]] · [[pages/work|work]] · [[pages/services|services]] · [[pages/about|about]] · [[pages/contact|contact]] · [[pages/navigation|navigation]] · [[pages/footer|footer]].
+Full specs in [[specs/home|home]] · [[specs/work|work]] · [[specs/services|services]] · [[specs/about|about]] · [[specs/contact|contact]] · [[specs/navigation|navigation]] · [[specs/footer|footer]].
 
 | Page | Must do | Must not do |
 |---|---|---|

@@ -10,7 +10,7 @@ Repeatable multi-step sequences. These are **runbooks** — the operational deta
 
 ## W1 — Capture Tier-A work imagery
 
-The asset pipeline for `/work`. See [[../../pages/work#Asset tiers|work — asset tiers]].
+The asset pipeline for `/work`. See [[../../specs/work#Asset tiers|work — asset tiers]].
 
 ```
 1. Confirm liveness         curl -o /dev/null -w "%{http_code}" <url>
@@ -54,7 +54,7 @@ The asset pipeline for `/work`. See [[../../pages/work#Asset tiers|work — asse
 ## W3 — Build a page section
 
 ```
-1. Read the spec            pages/<page>.md — the section is fully specified,
+1. Read the spec            specs/<page>.md — the section is fully specified,
                             including its motion block
 2. Load impeccable          before writing any code
 3. Build                    frontend-dev · compose the 8 UI primitives

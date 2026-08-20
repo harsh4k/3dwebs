@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 174.3 184" role="img" aria-label="Coffee Digital">
+  <title>Coffee Digital bean pair</title>
+  <desc>
+    The 'ee' ligature that forms the Coffee Digital mark.
+    Two beans, the second MIRRORED horizontally so its terminal gap falls bottom-left
+    while the first falls bottom-right. Offset measured from creds/logo.jpeg:
+    dx 83.3, dy 84.0 in mark units. See bean-mark.svg for the glyph derivation.
+  </desc>
+  <defs>
+    <g id="cd-bean">
+      <path d="M0,46.5 A45.5,46.5 0 0 1 91,46.5 Z"/>
+      <path d="M4.85,46.5 A40.65,49.9 0 0 0 84.58,60.26"
+            fill="none" stroke="currentColor" stroke-width="7.2"/>
+    </g>
+  </defs>
+  <g fill="currentColor">
+    <use href="#cd-bean" x="0" y="0"/>
+    <g transform="translate(174.3,84) scale(-1,1)">
+      <use href="#cd-bean" x="0" y="0"/>
+    </g>
+  </g>
+</svg>

@@ -53,7 +53,7 @@ A new marketing website for **Coffee Digital**, a digital agency in India with a
 2. PRD.md                  what must be true of the site
 3. Design.md               tokens, type, motion system, responsive matrix
 4. architecture.md         how the code is organised
-5. pages/<page>.md         every section, fully specified, with motion
+5. specs/<page>.md         every section, fully specified, with motion
 6. CLAUDE.md               the rules — read before your first change
 7. brain.md                why things are the way they are
 8. TBD.md                  what we still don't know
@@ -66,7 +66,7 @@ A new marketing website for **Coffee Digital**, a digital agency in India with a
 | `creds/` | ⚠️ Source deck + logo. **Gitignored** — client logos, unreleased claims |
 | `brand/` | Reconstructed logo/stripe SVGs, measured palette, source audit |
 | `reference/trionn/` | Audit, 37 screenshots, archived HTML (gitignored) |
-| `pages/` | 7 page specs — the implementation contract |
+| `specs/` | 7 page specs — the implementation contract |
 | `skills/` | Agents, routing, MCP evaluation, hooks, runbooks |
 | `skills/Setup/` | ⚠️ **Pre-existing global setup. Not ours. Don't touch** |
 | `.claude/` | Agent definitions, hooks, settings — the functional tooling |

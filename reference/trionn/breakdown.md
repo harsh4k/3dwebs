@@ -27,7 +27,7 @@ Related: [[notes]] · [[interactions]] · [[tech-stack]]
 
 **Read:** the home page is a **gateway with a conversion floor**. Every content section is a teaser that defers to its page — except the contact form, which is fully present. You never have to navigate to enquire.
 
-**For us:** the same gateway logic, but our home carries a *compressed* contact block (headline + email + one CTA) rather than the full form. Coffee Digital's proof is awards, not stats — so our equivalent of §5 is the strongest section on the page. See [[../../pages/home|pages/home]].
+**For us:** the same gateway logic, but our home carries a *compressed* contact block (headline + email + one CTA) rather than the full form. Coffee Digital's proof is awards, not stats — so our equivalent of §5 is the strongest section on the page. See [[../../specs/home|specs/home]].
 
 ---
 
@@ -43,7 +43,7 @@ Each tile: image (with small uppercase mono caption overlaid), project name, one
 
 **Read:** one idea, executed at length. Desktop is **2.4× taller than mobile** — the mobile version is a genuinely different composition, not a reflow.
 
-**For us:** 28 projects vs their ~12 means a single long scroll would be punishing. Ours is a **filterable index with a case modal**, so depth is opt-in. See [[../../pages/work|pages/work]].
+**For us:** 28 projects vs their ~12 means a single long scroll would be punishing. Ours is a **filterable index with a case modal**, so depth is opt-in. See [[../../specs/work|specs/work]].
 
 ---
 
@@ -53,7 +53,7 @@ Six services, each with a title and a single sentence: AI & Intelligent Automati
 
 **Read:** shortest possible service copy. One sentence each. No pricing, no process diagram, no packages.
 
-**For us:** Coffee Digital has **three named pillars with twelve items** from the deck. The discipline-label grouping maps almost directly. See [[../../pages/services|pages/services]].
+**For us:** Coffee Digital has **three named pillars with twelve items** from the deck. The discipline-label grouping maps almost directly. See [[../../specs/services|specs/services]].
 
 ---
 
@@ -63,7 +63,7 @@ The longest page after `/work`. Carries the origin story, mission, team, and the
 
 **Read:** they had to *build* a story — an invented mascot and a name etymology — because a 14-year-old studio's real differentiators are thin.
 
-**For us: the exact opposite problem.** Coffee Digital's story is already extraordinary and entirely factual — Cannes, Webby, D&AD, One Show, Goafest, and clients from Google to Emirates. **We have no need to invent, and no licence to.** Our `/about` is shorter and hits harder. See [[../../pages/about|pages/about]].
+**For us: the exact opposite problem.** Coffee Digital's story is already extraordinary and entirely factual — Cannes, Webby, D&AD, One Show, Goafest, and clients from Google to Emirates. **We have no need to invent, and no licence to.** Our `/about` is shorter and hits harder. See [[../../specs/about|specs/about]].
 
 ---
 
@@ -81,7 +81,7 @@ Budget bands: Under $5K · $5–15K · $15–30K · $30–60K · $60K+ · Not su
 
 **Read:** the shortest page on the site, by design. Three ways to make contact, ranked by commitment. The response-time promise reduces friction at almost no cost.
 
-**For us:** structure adopted wholesale — it is simply correct. Service options come from Coffee Digital's three pillars; budget bands need converting to ₹ and client confirmation. See [[../../pages/contact|pages/contact]].
+**For us:** structure adopted wholesale — it is simply correct. Service options come from Coffee Digital's three pillars; budget bands need converting to ₹ and client confirmation. See [[../../specs/contact|specs/contact]].
 
 ---
 

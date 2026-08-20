@@ -15,6 +15,25 @@ creds/
 # analysis (reference/trionn/*.md) IS committed.
 reference/trionn/html/
 
+# GetLayers 4K master (~58MB) and its extract. Web derivatives live in
+# public/hero/ and ARE committed.
+reference/flower-field.zip
+reference/flower-field/
+reference/stone-arch.zip
+reference/stone-arch/
+
+# GetLayers Auralis template. Used locally as the rebuild source; do not
+# republish another project's tree from a public repo.
+reference/auralis.zip
+reference/auralis/
+
+# GetLayers AI Studio template. Same rule as Auralis.
+reference/ai-studio.zip
+reference/ai-studio/
+
+# Cursor local debug logs and MCP config — not project source.
+.cursor/
+
 # Harsh's GLOBAL Claude setup — 544 files, 13MB. It predates this project and
 # is not project code. It also vendors ~500 third-party agent skills whose
 # licences are not ours to redistribute from a public repo.

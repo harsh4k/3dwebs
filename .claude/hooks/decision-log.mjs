@@ -9,7 +9,7 @@
  * This does NOT block. It emits one line, only when the heuristic actually
  * fires. A nagging hook gets disabled, and a disabled hook enforces nothing.
  *
- * The heuristic: PRD / Design / architecture / TBD / pages/ carry decisions.
+ * The heuristic: PRD / Design / architecture / TBD / specs/ carry decisions.
  * If one of those is dirty and brain.md is not, a decision probably went
  * unrecorded. TBD.md changing is the strongest signal — it usually means
  * something was resolved.
@@ -46,7 +46,7 @@ const DECISION_BEARING = [
   { re: /^Design\.md$/, label: "Design.md" },
   { re: /^architecture\.md$/, label: "architecture.md" },
   { re: /^TBD\.md$/, label: "TBD.md" },
-  { re: /^pages\/.+\.md$/, label: "a page spec" },
+  { re: /^specs\/.+\.md$/, label: "a page spec" },
   { re: /^brand\/(palette|brand-audit)\.md$/, label: "a brand document" },
 ];
 

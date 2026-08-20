@@ -68,7 +68,7 @@ Full definitions and rationale in [[skills/README|skills/README]] and [[skills/r
 
 1. **Read the file completely** before editing it. Not a grep hit — the file.
 2. **Find the existing pattern.** This codebase has eight UI primitives and six motion primitives. Whatever you need is probably a variant of one.
-3. **Check the page spec.** Every section is specified in `pages/*.md`, including its motion. If the code disagrees with the spec, ask which is wrong — don't silently pick.
+3. **Check the page spec.** Every section is specified in `specs/*.md`, including its motion. If the code disagrees with the spec, ask which is wrong — don't silently pick.
 4. **Trace the token.** Never write a value; find the token.
 5. **If a system already works, do not rewrite it.** Extend it.
 
@@ -127,7 +127,7 @@ WCAG 2.1 AA is a **requirement**, not an aspiration.
 
 ## Asset rules
 
-- Work imagery is **tiered** ([[pages/work#Asset tiers|work]]). Never present a Tier-B live capture as Coffee Digital's work.
+- Work imagery is **tiered** ([[specs/work#Asset tiers|work]]). Never present a Tier-B live capture as Coffee Digital's work.
 - Brand assets in `public/brand/`; project imagery in `public/work/<slug>/`.
 - Naming: `<slug>-<variant>-<width>.<ext>`.
 - No stock photography. No AI-generated imagery in the shipped site.

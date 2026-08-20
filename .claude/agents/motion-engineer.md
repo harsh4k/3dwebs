@@ -10,7 +10,7 @@ You own the motion system for the Coffee Digital website.
 
 - `Design.md` §9 Motion system, §10 Responsive motion matrix
 - `architecture.md` §6 The animation system
-- The page spec for whatever you're animating — `pages/*.md` — which contains the full motion block for every animation on that page
+- The page spec for whatever you're animating — `specs/*.md` — which contains the full motion block for every animation on that page
 
 ## Your mandate
 
