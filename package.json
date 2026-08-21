@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "bake:bean": "node scripts/bake-point-cloud.mjs reference/coffee_beans1.glb --out public/assets/bean --count 14000",
+    "bake:trophy": "node scripts/bake-point-cloud.mjs reference/golden_trophy.glb --out public/assets/trophy --count 14000"
   },
   "dependencies": {
     "@react-spring/web": "^10.0.3",

@@ -31,6 +31,16 @@ reference/auralis/
 reference/ai-studio.zip
 reference/ai-studio/
 
+# Third-party bean meshes. Only the derived point cloud in public/assets/bean/
+# ships. Do not commit the source GLBs — the repo is public.
+reference/bean/
+reference/coffee_bean.glb
+reference/coffee_beans1.glb
+
+# Third-party trophy mesh. Only the derived point cloud in public/assets/trophy/
+# ships. Do not commit the source GLB — the repo is public.
+reference/golden_trophy.glb
+
 # Dither-blur carousel reference. Ported code lives in src/; do not republish
 # the third-party tree or its Behance placeholder images.
 reference/dither-blur-carousel-main.zip
