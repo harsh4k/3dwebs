@@ -34,26 +34,16 @@ export interface SceneColors {
   dust: string;
 }
 
-/** The volumetric "X" built from instanced cubes. */
+/** The hero glyph — a loaded bean point cloud (procedural X if the asset is missing). */
 export interface GlyphConfig {
-  /** Number of particles (instances). */
+  /** Target instance count. The baked cloud is **subsampled** down to this; never jitter-copied. */
   count: number;
-  /** Length of each of the two crossing bars. */
-  barLength: number;
-  /** Width (short axis) of each bar. */
-  barWidth: number;
-  /** Depth of the glyph — this is what gives it real volume. */
-  barDepth: number;
+  /** Uniform scale from normalised model units (height 2) to world units. */
+  scale: number;
   /** Base edge length of a single cube. */
   particleSize: number;
   /** Random size variation, 0–1. */
   sizeJitter: number;
-  /** Positional jitter — ragged, eroded silhouette. */
-  edgeNoise: number;
-  /** How far outside the solid a stray particle may sit. */
-  spill: number;
-  /** Chance of keeping a stray particle in the spill zone. */
-  spillChance: number;
   /** Rotation of the glyph about the vertical Y axis, in radians (turns it in 3D). */
   rotation: number;
   /** World position of the glyph's centre. */
@@ -546,18 +536,12 @@ export const sceneConfig: SceneConfig = {
     particle: { roughness: 0.98, metalness: 0, envMapIntensity: 0.08 },
   },
   glyph: {
-    // Denser cloud — more beads fill the volume.
-    count: 32000,
-    // ×1.2 across the board (was 14 / 2.6 / 2.8, beads 0.1) — the hero X fills more of the
-    // frame; bead size scales with it so the volume keeps its density read.
-    barLength: 16.8,
-    barWidth: 3.1,
-    barDepth: 3.4,
+    // Surface-sampled bean (~14k baked). Subsample on tablet/mobile; do not upsample.
+    count: 14000,
+    // Flatter bean (coffee_beans1) — height-2 × 8 ≈ 16 tall, ~11 wide, thin in Z.
+    scale: 8,
     particleSize: 0.12,
     sizeJitter: 0.55,
-    edgeNoise: 0.5,
-    spill: 1.1,
-    spillChance: 0.045,
     // Turned about Y so the glyph reads in 3D rather than face-on.
     rotation: Math.PI / 7,
     center: [0, 11, 0],
@@ -570,7 +554,8 @@ export const sceneConfig: SceneConfig = {
     seed: 20260720,
   },
   hand: {
-    // Model is normalised to height 2; scale ~7 → a ~14-unit hand.
+    // Trophy model (was a hand — see hand-particles.ts). Normalised to height 2; scale ~7 → a
+    // ~14-unit trophy. Starting point; re-tune once seen in frame.
     scale: 7,
     // Same bead size as the glyph.
     particleSize: 0.1,
@@ -580,15 +565,14 @@ export const sceneConfig: SceneConfig = {
     lightDirection: [-18, 42, 16],
     bigFraction: 0.04,
     bigScale: 2,
-    // Turned 30° clockwise about Y (negative = clockwise viewed from above) — a further 15° on the
-    // original quarter-turn, so the palm reads at more of a three-quarter angle than face-on.
-    rotation: -Math.PI / 6,
-    // 12× denser (upsampled 4173 → ~50k) — finer hand, and a finer wave grid below. The wave's
-    // `columns × rows` must cover this count.
-    density: 12,
-    // Over half the beads sit out the hand and arrive with the wave — the hand reads as an airy,
-    // sculptural sketch rather than a solid, while the curtain still gets every instance. Past ~0.6
-    // the silhouette starts breaking up; the wave is unaffected either way.
+    // The trophy stands upright — no palm angle to turn toward. A small yaw can be dialled back
+    // in if the silhouette reads better off-axis.
+    rotation: 0,
+    // No upsample — the trophy is baked at ~14k, dense enough on its own (unlike the old 4173-point
+    // hand). Jitter-copying would fill the cup interior and the handle gaps, killing the silhouette.
+    density: 1,
+    // Kept from the hand: over half the beads sit out the resting figure and arrive with the wave,
+    // so it reads as an airy sketch rather than a solid, while the curtain still gets every instance.
     sparse: 0.55,
     // Emissive strength of the bottom-up scan-in band. Tinted with `--heat`
     // (`bloomParticles.color`); must still clear `bloom.threshold`.
@@ -699,12 +683,14 @@ export const sceneConfig: SceneConfig = {
     glow: BLOOM_PARTICLES.glow,
   },
   wave: {
-    // Destination grid for the hand's ~33k particles (4173 × density 8). A wide grid tilted
-    // back and set to the lower-left, so it sits in that corner at an oblique angle, bleeds off
-    // the near edges, and its far edge dissolves into fog. `columns × rows` must cover the
-    // upsampled count; `spacing` set so the much denser grid keeps a sensible extent.
-    columns: 336,
-    rows: 150,
+    // Destination grid for the trophy's ~14k particles (no upsample — see hand.density). A wide
+    // grid tilted back and set to the lower-left, so it sits in that corner at an oblique angle,
+    // bleeds off the near edges, and its far edge dissolves into fog. `columns × rows` must cover
+    // the particle count (140×100 = 14000). `spacing` kept at the old value as a starting point —
+    // with a third of the old cell count this reads narrower than the hand's curtain did; re-check
+    // in browser and widen `spacing` if it needs to fill the frame the same way.
+    columns: 140,
+    rows: 100,
     spacing: 0.41,
     // Slightly left and closer; the plane's own tilt + yaw (not a camera yaw) create the
     // diagonal bottom-left composition, and the tilt sends the top into the fog.

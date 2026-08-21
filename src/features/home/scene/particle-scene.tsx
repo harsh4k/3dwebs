@@ -83,7 +83,7 @@ const range = (p: number, a: number, b: number): number => clamp01((p - a) / (b 
 /**
  * Particle scene — the client leaf that owns the WebGL canvas.
  *
- * A volumetric "X" of instanced spheres floats inside a containment lattice in a
+ * A volumetric coffee-bean of instanced spheres floats inside a containment lattice in a
  * foggy studio. **Scroll drives a single continuous shot**: the camera flies
  * forward with a gentle mid-flight bank while the glyph bursts into glowing
  * strands and the net collapses, and a particle hand inside its own lattice
@@ -142,13 +142,13 @@ export const ParticleScene = () => {
     // copies first and keeps the original baked points, so the form survives and only the filler
     // thins out. That is the sparse end of this distribution; cutting the baked points instead would
     // punch holes in the silhouette.
-    //   desktop  glyph 32k · hand ~50k · tree ~150k · dust 700×3
-    //   tablet   glyph 19k · hand ~29k · tree ~100k · dust 420×3
-    //   mobile   glyph 11k · hand ~17k · tree  ~50k · dust 260×3
+    //   desktop  glyph 14k · hand 14k (no upsample) · tree ~150k · dust 700×3
+    //   tablet   glyph  8k · hand 14k (no upsample) · tree ~100k · dust 420×3
+    //   mobile   glyph  8k · hand 14k (no upsample) · tree  ~50k · dust 260×3
     const countScale = byTier(tier, { desktop: 1, tablet: 0.6, mobile: 0.34 });
     const scaled = (n: number, min: number): number => Math.max(min, Math.round(n * countScale));
     const glyphT = { ...glyph, count: scaled(glyph.count, 8000) };
-    const handT = { ...hand, density: scaled(hand.density, 4) };
+    const handT = { ...hand, density: scaled(hand.density, 1) };
     const treeT = { ...tree, density: scaled(tree.density, 1) };
     const dustT = { ...dust, count: scaled(dust.count, 200) };
 
@@ -205,20 +205,36 @@ export const ParticleScene = () => {
     const dustFog = { color: colors.fog, near: sceneConfig.fog.near, far: sceneConfig.fog.far };
     const dustField = createDust(dustT, colors.dust, dustFog);
     scene.add(dustField.points);
-    // The X's dust hangs at the origin; the hand and tree are far down-range, so give each act its
+    // The glyph's dust hangs at the origin; the hand and tree are far down-range, so give each act its
     // own drifting motes (positioned at its anchor) — the same air the hero sits in.
     const handDust = createDust(dustT, colors.dust, dustFog);
     handDust.points.position.set(hand.center[0], 0, hand.center[2]);
     scene.add(handDust.points);
 
-    const glyphCloud = createGlyphParticles(glyphT, colors.particle, materials.particle);
-    scene.add(glyphCloud.mesh);
     // Dial in the GPU idle life per cloud (flow tint band + whole-form sway) — see [[particle-cloud]].
     const applyLife = (cloud: ParticleCloud, look: { flow: number; sway: number }): void => {
       cloud.life.uFlowTint.value.set(life.color).multiplyScalar(look.flow);
       cloud.life.uFlowAmp.value = look.sway;
     };
-    applyLife(glyphCloud, life.glyph);
+
+    let disposed = false;
+    let glyphCloud: ParticleCloud | null = null;
+    createGlyphParticles(glyphT, colors.particle, materials.particle)
+      .then((cloud) => {
+        if (disposed) {
+          cloud.mesh.geometry.dispose();
+          cloud.mesh.material.dispose();
+          return;
+        }
+        glyphCloud = cloud;
+        applyLife(cloud, life.glyph);
+        scene.add(cloud.mesh);
+        renderer.compile(scene, camera);
+      })
+      .catch(() => {
+        /* asset missing — procedural X is already the loader fallback */
+      })
+      .finally(markSceneStep);
 
     // Same containment net as the glyph, wrapping the hand at its anchor. Unbuilt until the
     // camera approaches — it weaves in just ahead of the hand's scan reveal.
@@ -244,7 +260,6 @@ export const ParticleScene = () => {
     // cursor repulsion and, in the final phase, crumbles through a vortex into the
     // wave curtain (its own particles — see the render loop + `updateCloud`).
     let handCloud: ParticleCloud | null = null;
-    let disposed = false;
     createHandParticles(handT, waveCfg, colors.particle, materials.particle)
       .then((cloud) => {
         if (disposed) {
@@ -754,17 +769,19 @@ export const ParticleScene = () => {
       cursorTilt.y += ((pointerInside ? pointerNdc.y : 0) - cursorTilt.y) * tiltK;
       const cursorYaw = cursorTilt.x * life.cursorTilt.yaw;
       const cursorPitch = -cursorTilt.y * life.cursorTilt.pitch;
-      // The X rocks through the hero hold and settles level as the burst begins.
+      // The glyph rocks through the hero hold and settles level as the burst begins.
       const heroHold = 1 - smoother(range(seqP, 0, 0.08));
-      rockMesh(
-        glyphCloud.mesh,
-        glyph.center[0],
-        glyph.center[1],
-        glyph.center[2],
-        (Math.sin(time * 0.45) * life.glyph.rock + cursorYaw) * heroHold,
-        cursorPitch * heroHold,
-        Math.sin(time * 0.3) * life.glyph.bob * heroHold,
-      );
+      if (glyphCloud) {
+        rockMesh(
+          glyphCloud.mesh,
+          glyph.center[0],
+          glyph.center[1],
+          glyph.center[2],
+          (Math.sin(time * 0.45) * life.glyph.rock + cursorYaw) * heroHold,
+          cursorPitch * heroHold,
+          Math.sin(time * 0.3) * life.glyph.bob * heroHold,
+        );
+      }
       // The hand **spins a full eased 360°** as it scans in (2π by the scan's end ≡ 0, so the
       // spin hands over seamlessly), then floats while it is the framed resting figure — out
       // before the wave morph (whose curtain shares this mesh and must stay unrotated).
@@ -822,7 +839,7 @@ export const ParticleScene = () => {
       handDust.update(time);
       treeDust.update(time);
       // GPU life clocks — one uniform write per system; the sway/flow/rise all run in-shader.
-      glyphCloud.life.uTime.value = time;
+      if (glyphCloud) glyphCloud.life.uTime.value = time;
       if (handCloud) handCloud.life.uTime.value = time;
       if (treeCloud) treeCloud.life.uTime.value = time;
       waveMotesFx.update(time);
@@ -843,7 +860,7 @@ export const ParticleScene = () => {
       // Perf: once the glyph has fully dispersed (exit done) it's invisible — stop updating and
       // rendering its 32k particles so the second morph isn't running two big clouds at once.
       const glyphActive = seqP < 0.54;
-      glyphCloud.mesh.visible = glyphActive;
+      if (glyphCloud) glyphCloud.mesh.visible = glyphActive;
       // The glyph is the only thing inside the shadow camera's tight frustum (the hand and tree
       // sit far beyond its 110-unit far plane), so once it disperses the per-frame depth raster
       // draws an empty map — stop re-rendering it for the whole wave/tree half of the scroll.
@@ -853,7 +870,7 @@ export const ParticleScene = () => {
         renderer.shadowMap.autoUpdate = shadowsLive;
         renderer.shadowMap.needsUpdate = shadowsLive;
       }
-      if (glyphActive) {
+      if (glyphCloud && glyphActive) {
         updateCloud(glyphCloud, {
           pointer: glyphGate > 0.001 ? pointerOnPlane(glyphCenter) : null,
           pointerConfig: sceneConfig.pointer,

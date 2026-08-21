@@ -6,12 +6,12 @@ import { useCallback, useSyncExternalStore } from "react";
 /**
  * Whether the 3D scene is **ready to be looked at** — the signal the preloader waits on.
  *
- * "Ready" means the two async point clouds (hand, tree) have settled *and* the scene has done its
+ * "Ready" means the three async point clouds (glyph, hand, tree) have settled *and* the scene has done its
  * one-off warm-up: shaders compiled, textures uploaded, the tree pre-baked. Handing off any earlier
  * would drop the loader onto a frame that is still missing the hand, or onto the compile stall itself
  * — which is the whole thing the warm-up exists to hide.
  *
- * The scene reports progress as its two assets land, so the loader can show real movement rather than
+ * The scene reports progress as its three assets land, so the loader can show real movement rather than
  * a decorative timer. A **failed** asset still counts as settled: the scene is designed to run without
  * it (the `.catch` in the loaders), so a missing file must never wedge the page behind a loader.
  */
@@ -25,8 +25,8 @@ import { useCallback, useSyncExternalStore } from "react";
  * because it is the same hand-off in both directions.
  */
 
-/** Steps that gate the hand-off: the two clouds, plus the scene's own warm-up pass. */
-const TOTAL_STEPS = 3;
+/** Steps that gate the hand-off: glyph, hand, tree, plus the scene's own warm-up pass. */
+const TOTAL_STEPS = 4;
 
 let revealed = false;
 
