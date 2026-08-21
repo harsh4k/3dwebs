@@ -63,7 +63,7 @@ export const WaveOverlay = () => {
             tag="p"
             variant="copy"
             act="wave"
-            className="text-[0.6875rem] font-normal uppercase leading-[1.35] tracking-[0.08em] md:text-[0.75rem]"
+            className="text-[0.8125rem] font-normal uppercase leading-[1.35] tracking-[0.08em] md:text-[0.875rem]"
           >
             {site.tagline}
           </RevealText>
@@ -75,7 +75,7 @@ export const WaveOverlay = () => {
             variant="copy"
             act="wave"
             delayIn={80}
-            className="justify-end text-[0.75rem] font-light leading-[1.45] md:text-[0.8125rem]"
+            className="justify-end text-[0.875rem] font-light leading-[1.45] md:text-[0.9375rem]"
           >
             {positioning}
           </RevealText>
@@ -87,7 +87,7 @@ export const WaveOverlay = () => {
             variant="copy"
             act="wave"
             delayIn={140}
-            className="text-[0.6875rem] font-normal uppercase leading-[1.4] tracking-[0.08em] md:text-[0.75rem]"
+            className="text-[0.8125rem] font-normal uppercase leading-[1.4] tracking-[0.08em] md:text-[0.875rem]"
           >
             {awardsFraming}
           </RevealText>

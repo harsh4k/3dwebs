@@ -8,7 +8,7 @@ import { positioning, site, taglineLastWords } from '@/content/site';
 const TAGS = servicePillars;
 
 const CTA_CLASS =
-  'whitespace-nowrap text-[0.6875rem] font-normal uppercase leading-[1.1] tracking-[0.08em] underline decoration-from-font underline-offset-4 transition-opacity hover:opacity-70 md:text-[0.75rem]';
+  'whitespace-nowrap text-[0.8125rem] font-normal uppercase leading-[1.1] tracking-[0.08em] underline decoration-from-font underline-offset-4 transition-opacity hover:opacity-70 md:text-[0.875rem]';
 
 /**
  * Hero copy sits in the corners so the glyph keeps the centre. Tagline + CTAs
@@ -60,7 +60,7 @@ export const HeroOverlay = () => {
               index={i}
               count={TAGS.length}
               delay={720}
-              className="text-[0.6875rem] font-light uppercase leading-[1.2] tracking-[0.06em] md:text-[0.75rem]"
+              className="text-[0.8125rem] font-light uppercase leading-[1.2] tracking-[0.06em] md:text-[0.875rem]"
             >
               <Link href={`/services#${pillar.slug}`} className="pointer-events-auto underline-offset-4 hover:underline">
                 {pillar.name}
@@ -75,7 +75,7 @@ export const HeroOverlay = () => {
             tag="p"
             variant="copy"
             delayIn={980}
-            className="text-[0.75rem] font-normal leading-[1.45] md:text-[0.8125rem]"
+            className="text-[0.875rem] font-normal leading-[1.45] md:text-[0.9375rem]"
           >
             {positioning}
           </RevealText>
