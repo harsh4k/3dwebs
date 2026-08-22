@@ -50,6 +50,10 @@ reference/dither-blur-carousel/
 # Cursor local debug logs and MCP config — not project source.
 .cursor/
 
+# Originkit agent scratch space + credentials. Its own INSTRUCTIONS.md says not
+# to commit it; installed component source lives in src/ or is removed.
+.originkit/
+
 # Harsh's GLOBAL Claude setup — 544 files, 13MB. It predates this project and
 # is not project code. It also vendors ~500 third-party agent skills whose
 # licences are not ours to redistribute from a public repo.
