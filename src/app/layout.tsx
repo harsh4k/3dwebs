@@ -11,6 +11,7 @@ import {
 import { getSiteStructuredData } from '@/utils/seo/structured-data';
 
 import '@/styles/tokens.css';
+import '@/styles/motion.css';
 import '@/app/globals.css';
 
 const onest = Onest({

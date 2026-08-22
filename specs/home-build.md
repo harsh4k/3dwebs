@@ -351,47 +351,105 @@ Reduced:      Disabled
 
 ---
 
-## Phase 4 — Services
+## Phase 4 — Services  ✅ BUILT
 
 **Name the three pillars, route to `/services`. Three lines, no more.**
+
+Implemented in `src/features/home/services/`.
+
+> ⚠️ **Runs before Phase 3, not after.** The section sits between the tree hold
+> and the work helix in `home.tsx`, so on the page it reads hero → proof →
+> **services** → selected work → CTA.
 
 ### On screen
 
 | | |
 |---|---|
-| Ground | Ramp has walked to `--peach` |
-| Layout | Three stacked rows, full-width, hairline-separated |
-| Pinned | Yes desktop. Each pillar advances across the pin. Unpinned mobile. |
+| Ground | `--peach`, opened through an aperture cut out of an `--ink` field |
+| Layout | Three stacked full-width rows. Each row is a `--paper` panel carrying its pillar name, its one Proposed line, and that pillar's four deck items. Right edges flush, left edges step in one unit per row |
+| Pinned | **No.** Normal flow at every tier — the iris is what gives the chapter its moment, and a pin on top of it would be two scroll behaviours competing for the same gesture |
 
-**Copy — pillar names verbatim from the deck:** Digital Marketing & Strategy · Creative & Branding · Technology & Development. The one supporting line per pillar is **Proposed** and marked as such in [[services]].
+Panels carry **no border, no shadow, no radius** ([[../Design#Card|Design §7]]) — the ground and the indent do the separating. The dealt indent is the one thing kept from the Originkit hero this section was adapted from: its four credit cards were fanned, and three rows stepping in from the left are that gesture with the overlap removed, because text has to stay readable in a way a card face does not.
+
+**Copy — pillar names verbatim from the deck:** Digital Marketing & Strategy · Creative & Branding · Technology & Development. The one supporting line per pillar is **Proposed** and marked as such in [[services]]. Heading is `what we do`. **No lead paragraph** — the positioning line already appears in Phase 1 and in the wave overlay, and a third use would be repetition.
 
 ⚠️ **No numbered markers (01/02/03) and no uppercase eyebrows.** Three items is not a sequence; numbering them is AI scaffolding. The rule draws the eye instead.
 
-### MAJOR — the rule is the stripe
+### MAJOR — the iris
 
 ```
-Trigger:      Each row enters / pin timeline
-Mechanism:    The hairline separating each pillar is not a border — it is
-              the stripe compressed to 1px height. It draws scaleX 0 → 1
-              from the left as the row arrives, so the barcode's tones are
-              faintly visible in the rule at full opacity.
-Duration:     --dur-slow, 100ms row stagger
-Easing:       --ease-out-quint
-Purpose:      Enforces reading order on three otherwise-equal items — the
-              eye follows the drawing line. And the fifth job of the stripe
-              earns its keep: the divider is brand, not chrome.
-Reduced:      Rules and labels present at full width
-No-JS:        Present
+Trigger:      Section top travels from viewport bottom → 25% viewport height
+Mechanism:    clip-path: circle(0 → 90% at 50% 45%) on the peach panel, over
+              a full-bleed --ink field. Scrubbed on the shared ticker; one
+              paint-only property on one element. will-change is set while the
+              radius moves and dropped the moment it is open.
+Duration:     None — scrubbed
+Easing:       --ease-linear (the curve is the scroll)
+Purpose:      Marks the chapter boundary between the pinned scene act and the
+              services chapter. Every other boundary on this site is a wipe
+              (the tree wipe, the stripe); this one is an aperture, because
+              what it opens onto is the range of the work. It is also the only
+              place --ink appears as a ground.
+Primitive:    Mask reveal
+Reduced:      No clip written at all — the peach panel covers the ink field
+No-JS:        Same as reduced. The clip is only ever *added*, and only from
+              JavaScript, so no-JS leaves the panel unclipped by construction
 ```
+
+### MAJOR — the rule draws
+
+```
+Trigger:      Each row enters viewport, once
+Mechanism:    The hairline above each pillar draws scaleX 0 → 1 from the left.
+Duration:     --dur-slow, 100ms row stagger
+Easing:       --ease-out-quint (soft spring, via <Inview>)
+Purpose:      Enforces reading order on three otherwise-equal items — the eye
+              follows the drawing line.
+Reduced:      Rules and labels snap to full width (react-spring skipAnimation)
+No-JS:        Present at full width — see "the reveal guard" below
+```
+
+> **Deferred: the rule is not yet the stripe.** The spec called for the hairline
+> to be `stripe.svg` compressed to 1px so the barcode's tones show in the rule.
+> That asset does not exist in `public/` yet, so the rule ships as a plain
+> `--rule` hairline. Swap when the asset lands — see [[../TBD#S8|TBD S8]].
 
 ### MINOR — label mask reveal
-Each pillar label rises from a clipped bound as its rule completes. `--dur-slow`, `--ease-out-quint`, offset 100ms behind the rule.
+
+Each pillar label rises from a clipped bound as its rule completes. `--dur-slow`, `--ease-out-quint`, offset 100ms behind the rule. Purpose: binds the name to the line beneath it so the pair arrives as one object rather than two things animating near each other.
 
 ### MINOR — row hover
-Desktop: the row's rule thickens 1px → 2px and the label translates 4px right. `--dur-fast`. Signals the whole row is the target, not just the text.
+
+Desktop, fine pointer: the row's rule darkens `--rule` → `--ink`, the label translates 4px right, and the panel lifts 2px. `--dur-fast`. Signals the whole row is the target, not just the text.
+
+> **Deviation:** the spec asked for the rule to thicken 1px → 2px. Height is a
+> layout property, and growing a hairline inside a panel reflows everything under
+> it on every frame of the transition ([[../Design#9 Motion system|Design §9]]
+> rule 1). Colour carries the same signal for free.
+
+### MINOR — CTA
+
+`explore services →`. A persistent `--heat` hairline with an `--ink` rule wiping L→R over it on hover and on keyboard focus; the arrow translates 4px. `--dur-fast`. The heat line is the section's single `--heat` element, and it is a rule rather than type because heat measures 3.28:1 on peach — enough for a graphical object, nowhere near enough for a label string.
+
+### The reveal guard
+
+`<Inview>` is react-spring, and react-spring writes each reveal's `from` values as
+an **inline style on the first paint** — so every panel leaves the server at
+`opacity: 0`. With scripts disabled nothing would ever clear it and the chapter
+would ship blank, which is exactly what "nothing may be hidden by default and
+revealed only by animation" forbids. Every reveal in this section therefore
+carries a `reveal-guard` class, and the section renders a `<noscript>` block whose
+`!important` rule restores the rest state (a stylesheet `!important` outranks a
+normal inline declaration). The reveal stays **additive**: with JS the springs
+play, without it the panel is simply already there.
+
+⚠️ The same exposure exists anywhere else `<Inview>` renders content that must
+survive without JS. It does not bite the scene overlays, which sit on a WebGL
+canvas that needs JS regardless.
 
 ### Concurrent movement count
-**5** — 3 rules drawing + labels + ground ramp + progress stripe.
+
+**5** — the iris + 3 rules drawing + labels.
 
 ---
 

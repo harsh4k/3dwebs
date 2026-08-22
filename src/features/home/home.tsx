@@ -13,6 +13,7 @@ import {
 } from "@/features/home/overlays";
 import { ParticleScene, sceneConfig } from "@/features/home/scene";
 import { SceneShell } from "@/features/home/scene-shell";
+import { ServicesSection } from "@/features/home/services";
 import { WorkCarousel } from "@/features/home/work-carousel";
 import { SiteHeader } from "@/features/navigation/site-header";
 
@@ -69,6 +70,8 @@ export const HomeView = () => {
           before the work helix. Hold is not part of scene progress (that is already 1). */}
       <div aria-hidden className="w-full" style={{ height: `${sceneConfig.sequence.scrollVh}vh` }} />
       <div aria-hidden className="w-full" style={{ height: `${sceneConfig.sequence.treeHoldVh}vh` }} />
+      {/* Services chapter — opens through the iris, above the work helix. */}
+      <ServicesSection />
       <WorkCarousel />
       <SiteFooter />
       {/* Black hold until the scene's assets and shaders are ready — see `Preloader`. */}
