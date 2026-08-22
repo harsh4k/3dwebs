@@ -1,6 +1,8 @@
 // 📖 Docs: obsidian/frontend/components/common.md
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { Inview } from "@/components/animation/springs/in-view";
 
 import { useActActive } from "./act-window";
@@ -67,6 +69,30 @@ export const RevealItem = ({
   ...rest
 }: RevealItemProps) => {
   const active = useActActive(act);
+
+  /* No-JS / pre-hydration safety — the same guard `FlowReveal` and `FooterReveal` already use.
+     `Inview`'s spring starts at `from` (`opacity: 0`), so mounting it from the first paint ships
+     this content invisible-by-default: with JavaScript disabled it never comes back. That breaks
+     "nothing may be hidden by default and revealed only by animation" and "works with JS disabled".
+     Children render plainly and fully visible until a client-only flag flips — byte-identical to
+     the server output, so there is no hydration mismatch — and only then does `Inview` take over.
+
+     It was argued that the hero overlays are exempt because they sit over a `<canvas>` that needs
+     JS anyway. But `/` is the entry page: with JS off that exemption left a blank cream screen
+     whose only heading is `sr-only`. Cheap to make whole, so it is made whole. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const Tag = tag as "div";
+
+  if (!mounted) {
+    return (
+      <Tag className={className} {...rest}>
+        {children}
+      </Tag>
+    );
+  }
+
   return (
     <Inview
       tag={tag}

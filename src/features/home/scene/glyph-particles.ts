@@ -20,9 +20,10 @@ const subsampleCount = (source: number, want: number): number =>
   Math.max(1, Math.min(source, Math.floor(want)));
 
 /**
- * Hero glyph: a coffee-bean point cloud (`public/assets/bean/`) in the same
- * instanced-sphere language as the hand. Falls back to the procedural X if
- * the asset is missing so the lattice is never empty.
+ * Hero glyph: a baked point cloud (`public/assets/bean/`, sourced from
+ * `reference/e.glb` via `npm run bake:bean`) in the same instanced-sphere language
+ * as the hand. Falls back to the procedural X if the asset is missing so the
+ * lattice is never empty.
  *
  * Async because it fetches the baked binary. No `scatterDest` — the glyph
  * still flies into the corridor streamers via `updateCloud`.
@@ -50,17 +51,17 @@ const createBeanGlyph = async (
   const base = "/assets/bean";
   const [manifest, binary] = await Promise.all([
     fetch(`${base}/points.manifest.json`).then((r) => {
-      if (!r.ok) throw new Error("bean manifest missing");
+      if (!r.ok) throw new Error("glyph manifest missing");
       return r.json() as Promise<PointsManifest>;
     }),
     fetch(`${base}/points.bin`).then((r) => {
-      if (!r.ok) throw new Error("bean points missing");
+      if (!r.ok) throw new Error("glyph points missing");
       return r.arrayBuffer();
     }),
   ]);
 
   const object = manifest.objects[0];
-  if (!object || object.format !== "bin_u16") throw new Error("bean cloud format");
+  if (!object || object.format !== "bin_u16") throw new Error("glyph cloud format");
   const [ox, oy, oz] = object.decode_offset;
   const [sx, sy, sz] = object.decode_scale;
   const raw = new Uint16Array(binary);

@@ -2,6 +2,15 @@
 tags: [page-spec, services]
 ---
 
+> ⚠️ **The stripe device is retired** (2026-08-22, see `brain.md` → D16).
+> `public/brand/stripe.svg` and `src/components/common/stripe/` are deleted, and all
+> five of its jobs are cancelled — every band in that artwork was a brown outside the
+> locked palette. **Any mention of the stripe below is historical. Do not build it, and
+> do not invent a replacement device** — whether one is needed is open in `TBD.md`.
+> Separation is now carried by ground colour, whitespace and the type ladder; on the
+> home page the CSS ground and the WebGL fog are the same value (`#fff2db`), so the
+> page is one continuous surface.
+
 # Services
 
 Route: `/services` · Upstream: [[../PRD|PRD]] · [[../Design|Design]] · [[../brand/brand-audit#Services — S1 slide 2, three pillars, verbatim|brand-audit]]
@@ -43,7 +52,7 @@ This voice is the reason [[../PRD#7 Brand positioning|the PRD recommends the leg
 | | |
 |---|---|
 | Content | `services` (h1). The confirmed positioning line from deck slide 2 |
-| Layout | Left-aligned, generous space, stripe beneath |
+| Layout | Left-aligned, generous space |
 | Visual | `--paper`, `--fs-display-l` |
 
 > Whether you need a stunning campaign, a smart app, or a complete brand revamp, we're your full-stack digital partner — combining creativity, code, and strategy to bring your vision to life.
@@ -64,7 +73,7 @@ The core of the page. Three sections, each pinned on desktop while its items adv
 |---|---|
 | Layout | Desktop: pillar title pins left while its four items scroll past right. Mobile: linear stack |
 | Visual | Ground walks one stop per pillar — `--paper` → `--cream` → `--peach`. **The Roast Ramp is doing structural work here**, giving each pillar its own chapter |
-| Components | `Stripe`, `Reveal`, `Link` |
+| Components | `Reveal`, `Link` |
 
 ### Motion — pillar pin
 

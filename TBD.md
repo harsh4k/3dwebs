@@ -48,6 +48,100 @@ Upstream: [[brand/brand-audit#❌ Missing|brand-audit]] · [[PRD#21 Open questio
 
 ## ⚠️ Section blockers
 
+### S8 — The structural device, after the stripe
+
+**Status:** open, non-blocking for launch but load-bearing for how the site reads.
+
+The stripe was retired on 2026-08-22 (`brain.md` → D16) because every one of its
+186 bands was a brown outside the locked palette — `#3E210F`–`#472D1D` — so the
+one device the system called its connective tissue was the last thing on the site
+still painting the dead trio. It is deleted, and **nothing replaced it**.
+
+That closes a colour problem and opens a design one. Design.md principle 2 —
+*"does the connective tissue come from Coffee Digital's own asset, or from a
+trend?"* — now has no device behind it, and five specs (`work`, `navigation`,
+`services`, `about`, `home-build`) describe boundaries, page transitions,
+scroll-progress and tile-hover masks that were all going to be the stripe.
+
+**What ships in the meantime:** separation by ground colour, whitespace and the
+type ladder. On the home page the CSS ground and the WebGL fog are the same value
+(`#fff2db`), so the page is one continuous surface — which is coherent, and is
+deliberately not a placeholder waiting to be filled.
+
+**Need:** a decision on whether the site wants a replacement structural device at
+all, and if so what it is — drawn from a confirmed Coffee Digital asset, not
+invented. The remaining owned marks are the bean (cursor, preloader) and the
+wordmark.
+
+⚠️ **Do not invent one to close this gap.** A generic divider, gradient band or
+geometric motif would fail principle 2 more badly than having no device at all.
+
+**Owner:** Harsh
+**Blocks:** nothing at launch. Revisit before any work on page transitions or the
+navigation progress indicator, both of which were specced as stripe wipes.
+
+
+### S9 — Two animation runtimes, and the rule says one
+
+**Status:** open, non-blocking, but it decides how every future animation is written.
+
+[[architecture#1 Stack|architecture]] and [[CLAUDE#Animation rules|CLAUDE.md]]
+both say "one animation system, not two", and both assume that system is **GSAP**.
+The code says otherwise: **@react-spring/web drives 12 files** — every reveal,
+the rotating word, the scroll cue, reduced motion — while **GSAP is down to a
+single import**, in `use-staggered-menu.ts`.
+
+So the rule is broken, in the opposite direction to the one the docs describe.
+The animation rules still tell you to route everything through
+`useGsapContext` and compose "the six motion primitives"; neither matches what
+is in `src/`.
+
+**Need:** pick one.
+- **Finish the move to springs** — port the staggered menu, drop the GSAP
+  dependency, rewrite the animation rules around react-spring. Cheapest, and
+  matches where the code already is.
+- **Go back to GSAP** — a much larger rewrite of 12 files for no user-visible gain.
+
+**Recommendation: finish the move to springs.** One import is not a system.
+**Owner:** Harsh
+**Blocks:** nothing shipping, but every new animation written before this is
+settled is written against a rule that is not true.
+
+**Update 2026-08-22 — this now has a price tag.** After the bundle work
+([[brain#D20 — The footer reveal leaves the spring runtime (2026-08-22)|D20]]),
+GSAP is the **largest addressable item on every text page: 29.8 KB gzipped**,
+for one component. `/services` is 183.7 KB, of which ~138 KB is irreducible
+framework — so GSAP is roughly two thirds of everything that is actually left.
+
+That reframes the decision. It is no longer only about consistency:
+- **Port the menu to springs** → GSAP leaves the bundle entirely. `/services`
+  → ~154 KB. But it is a 267-line GSAP-idiomatic timeline (paused timelines,
+  staggered pre-layers, a `--sm-num-opacity` property tween, an icon spin, a text
+  cycle with callbacks) driving the **primary navigation on every page**. Real
+  regression risk on the one control the whole site depends on.
+- **Keep GSAP** → accept ~30 KB on every route for one menu, and rewrite the
+  animation rules to say GSAP owns the menu and react-spring owns everything else.
+
+⚠️ **Do not attempt the port as a performance task.** If it happens it is a
+motion-system decision with a proper before/after review of the menu, not a
+bundle trim.
+
+
+### ✅ S10 — The three held design decisions — RESOLVED 2026-08-22
+
+All three were decided and shipped the same day they were raised. Harsh's call:
+*"unless the design is the same and it doesn't get broken or changed, fix
+everything"* — then, on seeing mobile, *"fix the mobile layout"*.
+
+| # | Was | Decided |
+|---|---|---|
+| B2 | `/work` tiles cropped ~12% off each side, cutting client logos out of frame | **16/9 + `object-contain` on a `--cream` ground.** Nothing is ever cropped; the deck captures cluster 1.75:1–2.03:1, so the band is ≤6% |
+| B3 | Mobile header wrapped to two lines; needed 399px against 375px | **"let's talk" is hidden below `md`.** It is the only one of the three items duplicated elsewhere (menu Contact, hero CTA); frees 118px |
+| B4 | 186 nodes shipped at `opacity:0`; JS-off entry page was blank | **`mounted` guard extended to `RevealText`/`RevealItem`, and `ScrollFade` seeded from progress 0.** 186 → 6, and the 6 are decorative flares plus the three not-yet-on acts |
+
+See [[audit-2026-08-22]] for the reasoning and the measurements behind each.
+
+
 ### S1 — Voice
 
 **Need:** a decision between two confirmed registers.
@@ -128,6 +222,10 @@ Record decisions here as they land, with the date. This is the audit trail for w
 
 | Date | ID | Resolution | Decided by |
 |---|---|---|---|
+| 2026-08-22 | **D19** | **Dead-code cull.** 32 unreachable files (5,473 lines, 28% of `src/`) and 23.6 MB of orphaned `public/` assets deleted; `public/` 26 MB → 2.6 MB | Harsh |
+| 2026-08-22 | **D18** | **WebGL adopted; D3 reversed.** The home page is three.js and the work carousel is a second GL scene. The flat 140KB JS budget is retired for per-route ceilings set at measurement | Harsh |
+| 2026-08-22 | — | **First implementation audit** — [[audit-2026-08-22]]. Lint restored to green, third-party font requests 17 → 0, hero light assets −88%. Three defects held as design decisions (S10) | Harsh |
+| 2026-08-22 | **D16** | **Stripe device retired.** `stripe.svg` + `src/components/common/stripe/` deleted; all five jobs cancelled; nothing replaces it. Replacement device is now open as S8 | Harsh |
 | 2026-08-17 | **B1** | **Client logo rights confirmed.** The 27 marks ship as designed | Harsh |
 | 2026-08-17 | **B2** | **Superlative cut.** Replaced with a factual framing naming six award bodies | Harsh |
 | 2026-08-17 | **B3** | **Conservative Tier-B handling adopted** — deck imagery, no outbound link. A decision, not a finding; projects can be promoted to Tier A if provenance is later confirmed | Harsh |
@@ -135,4 +233,4 @@ Record decisions here as they land, with the date. This is the audit trail for w
 | 2026-08-17 | — | `/work` uses a modal with shallow routing, not detail routes | Harsh |
 | 2026-08-17 | — | Work imagery re-captured from live sites, tiered | Harsh |
 | 2026-08-17 | — | Contact renders placeholders only when data exists | Harsh |
-| 2026-08-17 | — | No WebGL in v1; no CMS; no UI component library | Harsh (plan approval) |
+| 2026-08-17 | — | ~~No WebGL in v1~~ (**reversed 2026-08-22, D18**); no CMS; no UI component library | Harsh (plan approval) |

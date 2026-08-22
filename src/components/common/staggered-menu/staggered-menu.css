@@ -1,3 +1,15 @@
+/*
+ * Font families here name the `next/font` variables (`--font-google-sans`, `--font-onest`)
+ * rather than the semantic theme tokens (`--font-display`, `--font-sans`).
+ *
+ * That is deliberate. The semantic names live in globals.css inside `@theme inline`, and
+ * `inline` means Tailwind substitutes them into the utilities it generates instead of emitting
+ * `--font-display` as a real custom property. Hand-written CSS therefore cannot reach them:
+ * `var(--font-display)` resolved to nothing, the whole declaration was invalid at computed-value
+ * time, and this header quietly inherited the preflight system stack instead of the display face
+ * it asks for. The `next/font` variables are set on <body> and are real properties, so these
+ * resolve. Use a `font-display`/`font-sans` utility class in JSX where that is an option.
+ */
 .staggered-menu-wrapper {
   position: relative;
   width: 100%;
@@ -39,11 +51,62 @@
   pointer-events: auto;
 }
 
+/*
+ * The header floats over everything with no ground of its own. At rest on the home hero that is
+ * the point — it sits on the WebGL scene. But the moment the page scrolls, DOM text passes
+ * underneath it: the needs headline collided with the logo on desktop, and in the footer the
+ * wordmark and tagline ran straight through "Coffee Digital" and "Menu".
+ *
+ * `--overlay-scrim` and `--blur-overlay-header` were defined in the token layer for exactly this
+ * and never applied to anything. This is that scrim, faded in past 40px of scroll, so the header
+ * is transparent where it was designed to be and legible everywhere else.
+ *
+ * Ordered first and `pointer-events: none` so it paints under the logo and actions and never
+ * eats a click — `.staggered-menu-header > *` would otherwise hand it `pointer-events: auto`.
+ */
+.sm-header-scrim {
+  position: absolute;
+  inset: 0;
+  /* Negative z so it stays *behind* the logo and the actions. A positioned element paints above
+     its static siblings, so at `auto` this covered the wordmark completely — the header read as
+     just "Menu +". The header itself is `position: absolute; z-index: 20`, so it owns a stacking
+     context and `-1` cannot escape behind the page; it lands between the (transparent) header
+     background and the header's content, which is exactly the layer a scrim wants. */
+  z-index: -1;
+  pointer-events: none;
+  background: var(--overlay-scrim);
+  /* Prefixed first, unprefixed last. Written the other way round, the CSS minifier collapsed the
+     pair down to the `-webkit-` line alone and the blur silently stopped applying — the scrim
+     rendered as a flat translucent bar with no blur behind it. */
+  -webkit-backdrop-filter: blur(var(--blur-header));
+  backdrop-filter: blur(var(--blur-header));
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out-quint);
+}
+
+.staggered-menu-wrapper[data-scrolled] .sm-header-scrim {
+  opacity: 1;
+}
+
+/* The panel supplies its own ground, so a scrim behind it would only muddy the edge. */
+.staggered-menu-wrapper[data-open] .sm-header-scrim {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sm-header-scrim {
+    transition: none;
+  }
+}
+
 .sm-logo {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-family: var(--font-display), sans-serif;
+  /* The wordmark is two words and was wrapping to two lines under 430px, which dragged the
+     whole header to 56px and stacked it against the toggle. It is a logo; it does not wrap. */
+  white-space: nowrap;
+  font-family: var(--font-google-sans), sans-serif;
   font-size: 1rem;
   line-height: 1.1;
   color: var(--ink);
@@ -76,7 +139,7 @@
   border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent);
   border-radius: 999px;
   color: var(--ink);
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-onest), sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -88,6 +151,23 @@
 .sm-talk:focus-visible {
   background: var(--ink);
   color: var(--paper);
+}
+
+/*
+ * Below the `md` breakpoint the header cannot hold all three items. Measured at 375px:
+ * logo + pill + toggle need 399px against 375px available, so *something* has to go — and
+ * with everything set to wrap, what went was the layout (both the wordmark and the pill
+ * broke to two lines, and the header grew to 56px).
+ *
+ * The pill yields, because it is the only one of the three that is duplicated elsewhere:
+ * "Contact" is in the menu this toggle opens, and the hero carries "start a project →".
+ * The logo and the menu toggle have no substitute. Dropping it frees 118px, which leaves
+ * the row at ~281px — comfortable rather than merely fitting.
+ */
+@media (max-width: 767px) {
+  .sm-talk {
+    display: none;
+  }
 }
 
 .staggered-menu-wrapper[data-open] .sm-talk {
@@ -106,11 +186,16 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  /* The label is 18px on one line, so the button's box was 85x20 — the site's primary navigation
+     control, at less than half the 44px touch minimum, on the device where it is the *only* way
+     to navigate. The header is 52px on mobile and the row centres its children, so claiming 44
+     costs no layout and moves nothing on screen; it just makes the button hittable. */
+  min-height: 2.75rem;
   overflow: visible;
   border: none;
   background: transparent;
   color: var(--ink);
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-google-sans), sans-serif;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1;
@@ -252,9 +337,12 @@
 .sm-panel-item {
   position: relative;
   display: inline-block;
+  /* 32px of cap height on mobile left a 35px target. The block padding takes it past 44 without
+     touching the type, and reads as breathing room in a full-screen menu rather than as padding. */
+  padding-block: 0.375rem;
   padding-right: 1.4em;
   color: var(--ink);
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-google-sans), sans-serif;
   font-size: clamp(2rem, 5vw, 3.25rem);
   font-weight: 600;
   letter-spacing: -0.03em;

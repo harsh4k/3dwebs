@@ -23,7 +23,7 @@ Four colours, supplied directly by Harsh. These supersede the earlier brown trio
 
 The four core colours are **three grounds and one accent**. None of them can carry body text. An ink token is therefore not a stylistic preference, it is a requirement.
 
-Rather than invent one, `--ink` is taken from the brand's own stripe device: `#3F2210` is the darkest and most-used band of the credentials-deck stripe graphic (25.14% of the artwork). It is Coffee Digital's colour already.
+Rather than invent one, `--ink` was taken from the brand's own stripe device: `#3F2210` is the darkest and most-used band of the credentials-deck stripe graphic (25.14% of the artwork). It is Coffee Digital's colour already. — Note: the stripe device itself is retired (brain.md D16), but this derivation is **history, not a dependency**. `--ink` and `--rule` are unchanged and stay in the locked palette.
 
 | Token | Hex | Source |
 |---|---|---|
@@ -53,7 +53,7 @@ WCAG 2.1 ratios, computed — not estimated.
 4. **`--hairline` is decorative.** At 1.30:1 it cannot bound an interactive control. Use `--rule` (3.32:1) for anything focusable.
 5. **Focus rings use `--ink`**, not `--heat` — the only choice that stays visible across all three grounds.
 
-## 4. The stripe ramp — brand device, not UI colour
+## 4. The stripe ramp — ⚠️ RETIRED (historical record only)
 
 Measured from `ppt/media/image1.png` in the credentials deck: 186 vertical bands on a locked 11-tone ramp. Ordered by share of the artwork:
 
@@ -66,7 +66,7 @@ Measured from `ppt/media/image1.png` in the credentials deck: 186 vertical bands
 | `#5D4940` | 5.79% | `#492D1A` | <1% |
 | `#7F4C21` | 5.61% | | |
 
-**These are not brand colours and must never be applied as UI colour.** They exist only inside the stripe device — see [[brand-audit#The stripe]]. Vector at `stripe/stripe.svg`.
+**These are not brand colours and must never be applied as UI colour — and as of 2026-08-22 they are not applied anywhere at all.** The stripe device is retired and `stripe.svg` is deleted (brain.md D16): every one of these values is a brown outside the locked palette, which is exactly why the device had to go. The eleven tones are recorded here as provenance for `--ink` and `--rule` and for nothing else. **Do not reintroduce them.**
 
 ## 5. Implementation
 

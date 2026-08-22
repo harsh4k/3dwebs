@@ -2,6 +2,15 @@
 tags: [page-spec, about]
 ---
 
+> ⚠️ **The stripe device is retired** (2026-08-22, see `brain.md` → D16).
+> `public/brand/stripe.svg` and `src/components/common/stripe/` are deleted, and all
+> five of its jobs are cancelled — every band in that artwork was a brown outside the
+> locked palette. **Any mention of the stripe below is historical. Do not build it, and
+> do not invent a replacement device** — whether one is needed is open in `TBD.md`.
+> Separation is now carried by ground colour, whitespace and the type ladder; on the
+> home page the CSS ground and the WebGL fog are the same value (`#fff2db`), so the
+> page is one continuous surface.
+
 # About
 
 Route: `/about` · Upstream: [[../PRD|PRD]] · [[../Design|Design]] · [[../brand/brand-audit#Awards — S1 slide 3, verbatim|brand-audit]]
@@ -68,7 +77,7 @@ Fallback:           Fully visible
 | Content | All ~17 confirmed awards, grouped exactly as the deck groups them: International · Asia-Pacific · India |
 | Layout | Three groups, each a list of rules. Award body left, result right, hairline between. Counters above each group |
 | Visual | Ground `--cream`. Award bodies at `--fs-heading-l`, results in mono `--fs-label` |
-| Components | `Counter`, `Stripe`, `Reveal` |
+| Components | `Counter`, `Reveal` |
 
 ### Presentation principle
 

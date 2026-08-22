@@ -94,6 +94,10 @@ export const WaveOverlay = () => {
         </div>
 
         <div className="absolute inset-x-0 bottom-[0.75rem] overflow-hidden md:bottom-[1.15rem]">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-paper/75 via-paper/40 to-transparent"
+          />
           <h2
             className={`${poster.className} px-[1.25rem] text-[clamp(2.75rem,11vw,8.5rem)] font-bold uppercase leading-[0.85] tracking-[-0.03em] md:px-[1.875rem]`}
           >

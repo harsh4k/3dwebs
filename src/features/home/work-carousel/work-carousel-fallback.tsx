@@ -18,7 +18,11 @@ export const WorkCarouselFallback = ({ projects }: { projects: readonly Project[
                   alt={image.alt}
                   width={image.width}
                   height={image.height}
-                  className="aspect-[4/3] w-full object-cover object-top bg-cream"
+                  loading="lazy"
+                  decoding="async"
+                  /* Matches `WorkGrid`: 16/9 + `contain` so the deck captures (1.75:1–2.03:1)
+                     keep their logos instead of losing ~12% off each side to a 4/3 `cover`. */
+                  className="aspect-[16/9] w-full bg-cream object-contain"
                 />
               ) : null}
               <p className="mt-[0.75rem] text-[0.75rem] uppercase tracking-[0.08em] text-ink">
