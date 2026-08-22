@@ -1,10 +1,17 @@
-/* Brand lock — the only file in src/ that may contain palette hex. */
+/* Brand lock — the only file in src/ that may contain palette hex.
+   It is also the only file that may contain a raw `cubic-bezier()`, for the same
+   reason: `.claude/hooks/guard-tokens.mjs` exempts exactly this path, so a token
+   has one definition and every consumer reaches for `var(--…)`. */
 
 :root {
   --paper: #fffaf3;
   --cream: #fff2db;
   --peach: #ffe5bf;
   --heat: #f62440;
+
+  /* The scene orange — already the bloom/scatter colour in scene.config.ts.
+     Promoted to a token so DOM chrome can use the same accent as the WebGL. */
+  --orange: #ff6a00;
 
   --ink: #3f2210;
   --ink-muted: #6b4a33;
@@ -31,4 +38,41 @@
   --overlay-strong: var(--ink);
   --overlay-solid: var(--ink);
   --overlay-accent: var(--heat);
+
+  /* Header scrim blur. Defined here rather than only in globals' `@theme inline`, because
+     `inline` tokens are substituted into Tailwind utilities and are NOT emitted as custom
+     properties — hand-written CSS cannot read them. `--blur-overlay-header` now aliases this,
+     so the utility and `staggered-menu.css` share one definition. */
+  --blur-header: 28px;
+
+  /*
+    Motion — Design.md §9, implemented.
+
+    These were specified and never built; brain.md calls the omission out
+    directly ("no component in this repo consumes --fs-*, --space-*, --dur-* or
+    --ease-* — they don't exist"), which is why every component so far
+    re-derived its own timings as arbitrary bracket values. This closes the
+    easing/duration half of that gap. The type and space scales are still
+    outstanding and remain the larger cleanup.
+
+    Values are verbatim from Design.md §9 — do not tune them here.
+    `src/motion/tokens.ts` reads these at runtime for JavaScript callers (the
+    Web Animations API cannot resolve a CSS custom property), so there is
+    exactly one definition of each curve.
+  */
+
+  /* Primary. Entrances, reveals, hovers. */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Large-travel reveals, page transitions. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* State changes that reverse — the only curve that should yo-yo. */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Scroll-scrubbed motion ONLY. Never for a timed animation. */
+  --ease-linear: linear;
+
+  --dur-instant: 120ms;
+  --dur-fast: 240ms;
+  --dur-base: 400ms;
+  --dur-slow: 640ms;
+  --dur-reveal: 900ms;
 }

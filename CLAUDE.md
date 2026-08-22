@@ -10,7 +10,13 @@ A marketing website for **Coffee Digital**, a digital agency that builds website
 
 **Read before your first change:** [[PRD]] · [[Design]] · [[architecture]] · [[brand/brand-audit|brand/brand-audit]] · [[TBD]]
 
-Status: **blueprint complete, implementation not started.** No `src/`, no `package.json` yet.
+Status (2026-08-22): **home and `/work` are built; `/services`, `/about` and `/contact` are stubs.**
+Next.js 16.2 · Tailwind v4 · **three.js** · react-spring · Lenis · Zod. 136 source files.
+`npm run lint`, `npm run typecheck` and `npm run build` are all clean.
+
+⚠️ **The home page is WebGL.** If you have read an older copy of this repo saying
+"No WebGL in v1", that decision was reversed — [[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)|brain D18]].
+Known defects and their severity live in [[audit-2026-08-22]].
 
 ---
 
@@ -79,8 +85,8 @@ Full definitions and rationale in [[skills/README|skills/README]] and [[skills/r
 - Palette is **locked**: `#FFFAF3` `#FFF2DB` `#FFE5BF` `#F62440`, plus `--ink` `#3F2210`. The old brown trio (`#46362F` / `#E6DBBC` / `#FFF7EC`) is **dead** — it must not appear anywhere.
 - **`--heat` `#F62440` is never body text.** It measures 3.86:1 on `--paper` — AA-large only. Display type ≥30px, fills, rules, indicators.
 - **One `--heat` element per viewport.** Its scarcity is the point.
-- The stripe device does **five jobs** ([[Design#Stripe|Design]]). A sixth needs justification in [[brain]].
-- The stripe's 11 tone values are **not UI colours.** They exist only inside the stripe.
+- ⚠️ **The stripe device is retired** ([[brain#D16 — The stripe device is retired (2026-08-22)|brain D16]]). `stripe.svg` and `src/components/common/stripe/` are deleted. Its 186 bands were all dead-brown (`#3E210F`–`#472D1D`), so the device re-introduced the one palette the lock exists to exclude. **Do not re-add it, and do not invent a replacement** — sections separate by ground colour and whitespace. Whether a new structural device is needed is open in [[TBD]].
+- `--ink` `#3F2210` was originally *derived* from that artwork's darkest band. The derivation is history; the token is unchanged and stays.
 
 ---
 
@@ -108,10 +114,34 @@ Full definitions and rationale in [[skills/README|skills/README]] and [[skills/r
 
 Budgets in [[PRD#16 Performance requirements|PRD]] and enforced in CI. **A regression fails the build.**
 
-- Initial JS **<140KB gzipped**. GSAP plugins are dynamically imported by the features that use them — SplitText and Flip never enter the global bundle.
-- Largest image <200KB. AVIF with WebP fallback, responsive `sizes`, explicit dimensions.
-- Fonts <120KB total, self-hosted, preloaded, subset.
-- **Zero third-party scripts** other than analytics.
+- **Per-route JS ceilings, gzipped — these are held-the-line numbers, not aspirations.**
+  A route may not grow past its ceiling; shrinking it is always welcome.
+
+  | Route | Ceiling | Measured 2026-08-22 |
+  |---|---|---|
+  | `/` | 445 KB | 435.4 KB |
+  | `/work` | 265 KB | 254.4 KB |
+  | `/services`, `/about`, `/contact` | 195 KB | 183.7 KB |
+
+  **Exclude `noModule` scripts when measuring** — Next emits a ~38KB `core-js`
+  chunk that modern browsers skip, and counting it overstates every route.
+
+  The old flat **140KB** budget is retired — it was written for a site with no
+  WebGL and this one cannot meet it ([[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)|D18]]).
+  Of the stub pages' 183.7 KB, ~138 KB is React + App Router and irreducible; the
+  rest is GSAP (29.8), Lenis (7) and Zustand (9). **Do not add a dependency to a
+  shared component without checking which routes inherit it** — that is exactly
+  how one footer fade put 50 KB of spring runtime on four text pages
+  ([[brain#D20 — The footer reveal leaves the spring runtime (2026-08-22)|D20]]).
+- Largest image <200KB. WebP, responsive `sizes`, explicit dimensions.
+  ⚠️ Check the *decoded* size, not the file size — `light_1.png` was a 1.4 MB
+  PNG passing casual inspection at "one image".
+- Fonts self-hosted via `next/font`, preloaded, subset. **Never `@import` a font
+  from a CDN**: doing so is a render-blocking third-party request, and it is how
+  this repo ended up fetching seventeen families to use four.
+- **Zero third-party requests** at runtime other than analytics. Verify with
+  `performance.getEntriesByType('resource')` filtered to cross-origin — the
+  count must be `0`.
 - The cursor is desktop-only and never shipped to mobile.
 
 ## Accessibility rules
@@ -136,9 +166,23 @@ WCAG 2.1 AA is a **requirement**, not an aspiration.
 
 **Every dependency needs a reason. Ask before installing anything.**
 
-The stack is settled in [[architecture#1 Stack|architecture]]: Next.js, React, TypeScript, Tailwind v4, GSAP, Lenis, Zod, Resend. That's it.
+The stack is settled in [[architecture#1 Stack|architecture]] and that table is
+kept true against `package.json`: Next.js, React, TypeScript, Tailwind v4,
+**three.js**, **@react-spring/web**, **spring-text-engine**, GSAP, Lenis,
+**Zustand**, Zod. Resend is specified but not yet installed.
 
-**Explicitly rejected — do not add:** three.js, React Three Fiber, Drei, Framer Motion, shadcn/ui, Radix, any CMS, Redux/Zustand/Jotai, reCAPTCHA, lodash, moment, axios.
+**Explicitly rejected — do not add:** React Three Fiber, Drei, Framer Motion,
+shadcn/ui, Radix, any CMS, Redux/Jotai, reCAPTCHA, lodash, moment, axios, and
+**any vendored UI kit or paste-in section pack**.
+
+> three.js and Zustand were on this list until 2026-08-22 and are now in the
+> stack, because the code had used them for weeks — see
+> [[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)|D18]].
+> **Read that as the opposite of permission.** The list was ignored rather than
+> argued with, and the reversal cost a 3.4× blown JS budget that is now
+> permanent. If a dependency here is genuinely wrong for the project, change
+> this file first and get a decision recorded in [[brain]] — do not install it
+> and let the docs catch up later.
 
 ## Git rules
 

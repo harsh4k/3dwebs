@@ -105,7 +105,7 @@ Note: awards and jury seats matter to audiences 2 and 3 far more than to audienc
 | CMS | 28 fixed projects. Typed static content instead |
 | Multi-language | No requirement stated |
 | Dark mode | The Roast Ramp is a light-mode concept |
-| WebGL / three.js | See [[reference/trionn/notes#The single most valuable finding]] |
+| ~~WebGL / three.js~~ | ⛔ **No longer a non-goal — reversed 2026-08-22.** The home page and the work carousel are both three.js. See [[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)\|brain D18]] |
 | User accounts, e-commerce, client portal | Not a requirement |
 
 ## 9. Sitemap
@@ -225,10 +225,41 @@ Motion-heavy is not licence to be heavy.
 | LCP (mid-range Android, 4G) | <2.0s | <2.5s |
 | INP | <150ms | <200ms |
 | CLS | <0.05 | <0.1 |
-| **Initial JS, gzipped** | **<140KB** | **<180KB** |
 | Largest single image | <200KB | <300KB |
 | Web font payload | <120KB | <160KB |
 | Scroll frame rate, mid-range mobile | 60fps | ≥50fps |
+
+### Initial JS — per route, gzipped
+
+> The single **<140KB** figure this table used to carry was written for a site
+> with no WebGL, and was already being missed by 3.4× when it was first measured
+> on 2026-08-22. A budget nobody can meet is not enforcement, it is decoration.
+> Replaced with per-route ceilings pinned to that measurement, so the numbers are
+> honest and a **regression** still fails the build.
+> Reasoning: [[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)|brain D18]].
+
+**Measure modern browsers.** Next emits a ~38KB `core-js` polyfill chunk marked
+`noModule`, which every browser this site targets skips. Counting it overstates
+every route by the same 38KB. The numbers below exclude it; to reproduce, sum the
+gzipped chunks from `.next/server/app/<route>.html` **excluding `noModule`
+scripts**.
+
+| Route | Ceiling | Measured 2026-08-22 | What dominates |
+|---|---|---|---|
+| `/` | 445KB | 435.4KB | three.js (124.9KB) + the particle scene + react-spring |
+| `/work` | 265KB | 254.4KB | the work grid, the modal, GSAP |
+| `/services`, `/about`, `/contact` | 195KB | 183.7KB | framework floor + GSAP |
+
+The stub-page figure was **203.8KB** earlier the same day. The footer's entrance
+reveal was pulling the whole `@react-spring/web` runtime onto every route for one
+fade; it now runs on a CSS transition
+([[brain#D20 — The footer reveal leaves the spring runtime (2026-08-22)|D20]]).
+
+⚠️ **What 183.7KB is made of, so nobody re-litigates it:** ~138KB is React +
+react-dom + the App Router runtime and is irreducible without leaving the
+framework. The remaining ~46KB is **GSAP (29.8KB)**, Lenis (7KB) and Zustand
+(9KB). GSAP has exactly one consumer — the staggered menu — so the next real cut
+is the [[TBD#S9|S9]] runtime decision, not more trimming.
 
 | ID | Requirement |
 |---|---|

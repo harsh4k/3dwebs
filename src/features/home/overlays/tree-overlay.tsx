@@ -47,7 +47,7 @@ export const TreeOverlay = () => {
       >
         <Link
           href="/work"
-          className="text-[0.875rem] font-light leading-[1.1] text-overlay-ink underline decoration-from-font underline-offset-4 md:text-[1rem]"
+          className="text-[0.875rem] font-light leading-[1.1] text-overlay-ink underline decoration-from-font underline-offset-4 transition-opacity hover:opacity-70 md:text-[1rem]"
         >
           see the work
         </Link>

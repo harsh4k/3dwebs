@@ -1,6 +1,8 @@
 // 📖 Docs: obsidian/frontend/components/common.md
 "use client";
 
+import { useEffect, useState } from "react";
+
 import TextEngine from "spring-text-engine";
 
 import { useActActive } from "./act-window";
@@ -62,6 +64,22 @@ export const RevealText = ({
   children,
 }: RevealTextProps) => {
   const active = useActActive(act);
+
+  /* No-JS / pre-hydration safety — same guard as `RevealItem`, `FlowReveal` and `FooterReveal`.
+     `TextEngine` splits the copy into per-letter/per-word spans and paints each at its `*Out`
+     state (`opacity: 0`, `blur(12px)`), so mounting it from the first paint served 186 hidden
+     nodes on `/` alone. The text was in the DOM and invisible — the exact failure mode
+     "nothing may be hidden by default and revealed only by animation" names.
+     Rendering the raw children until mounted also gives the un-split, un-styled string, which is
+     what a crawler or a reader-mode parser wants anyway. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const Tag = tag;
+
+  if (!mounted) {
+    return <Tag className={className}>{children}</Tag>;
+  }
 
   const layer =
     variant === "heading"

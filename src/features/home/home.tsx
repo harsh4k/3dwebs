@@ -1,6 +1,7 @@
 import { Grain } from "@/components/common/grain";
 import { HeroLights } from "@/components/common/hero-lights";
 import { Preloader } from "@/components/common/preloader";
+import { ReducedMotion } from "@/components/common/reduced-motion";
 import { TuningPanel } from "@/components/common/tuning-panel";
 import { UserCursor } from "@/components/common/user-cursor";
 import { SiteFooter } from "@/features/footer/site-footer";
@@ -11,6 +12,7 @@ import {
   TreeOverlay,
   WaveOverlay,
 } from "@/features/home/overlays";
+import { NeedsSection } from "@/features/home/needs";
 import { ParticleScene, sceneConfig } from "@/features/home/scene";
 import { SceneShell } from "@/features/home/scene-shell";
 import { WorkCarousel } from "@/features/home/work-carousel";
@@ -38,6 +40,9 @@ export const HomeView = () => {
       {/* `isolation-isolate` scopes the overlays' `mix-blend-mode` (flares + grain) to this pinned
           container. Without it the blend group's backdrop is the whole page, so the compositor has to
           keep re-resolving a blend stack that sits over a canvas repainting at 60 fps. */}
+      {/* Flips react-spring's global `skipAnimation`. Mounted here rather than in the root
+          layout because home is the only route that runs springs — see `layout.tsx`. */}
+      <ReducedMotion />
       <SiteHeader />
       <UserCursor />
       <SceneShell>
@@ -70,6 +75,8 @@ export const HomeView = () => {
       <div aria-hidden className="w-full" style={{ height: `${sceneConfig.sequence.scrollVh}vh` }} />
       <div aria-hidden className="w-full" style={{ height: `${sceneConfig.sequence.treeHoldVh}vh` }} />
       <WorkCarousel />
+      {/* specs/home.md §5 — the contact CTA, and the last thing before the close. */}
+      <NeedsSection />
       <SiteFooter />
       {/* Black hold until the scene's assets and shaders are ready — see `Preloader`. */}
       <Preloader />

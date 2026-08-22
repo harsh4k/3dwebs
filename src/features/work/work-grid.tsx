@@ -25,12 +25,23 @@ export const WorkGrid = ({ projects }: { projects: readonly Project[] }) => {
                 open(item.slug);
               }}
             >
-              <span className="relative block aspect-[4/3] overflow-hidden bg-cream">
+              {/* 16/9 + `contain`, not 4/3 + `cover`.
+                  The deck captures run 1.75:1 to 2.03:1. Pouring those into a 1.33:1 box with
+                  `cover` scaled to fill height and clipped ~12% off **each side** — which, on a
+                  website screenshot, is exactly where the client's logo and the hero headline
+                  live. Abbott rendered as "ott"; "DEPENDABLE HEALTHCARE" as "ENDABLE HEALTHCARE".
+                  A portfolio grid that crops the client's mark out of frame fails at its one job.
+                  16/9 sits inside that cluster, so `contain` letterboxes by at most ~6% and
+                  usually far less, and nothing is ever cropped. The band is `--cream`, the
+                  section's own ground, so it reads as a frame rather than a gap. */}
+              <span className="relative block aspect-[16/9] overflow-hidden bg-cream">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.images[0]?.src}
                   alt={item.images[0]?.alt ?? ''}
-                  className="size-full object-cover object-[center_20%] transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  loading="lazy"
+                  decoding="async"
+                  className="size-full object-contain transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
               </span>
               <span className="relative mt-[0.75rem] block text-[0.75rem] uppercase tracking-[0.08em] text-ink">

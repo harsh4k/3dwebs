@@ -20,7 +20,7 @@ Five principles. Each is testable, so each can be failed at review.
 | # | Principle | The test |
 |---|---|---|
 | 1 | **Proof over promise** | Does this screen show evidence, or make a claim? Coffee Digital has Cannes, Webby, D&AD and 27 named brands. Nothing needs to be asserted |
-| 2 | **The stripe is the system** | Does the connective tissue come from Coffee Digital's own asset, or from a trend? |
+| 2 | ~~**The stripe is the system**~~ | ⚠️ **Suspended 2026-08-22** (brain.md D16). The stripe was retired and nothing replaced it, so this test currently has no device behind it. The home page's answer is a **single continuous ground** — `--cream` `#fff2db`, the same value as the WebGL fog — with separation by whitespace and the type ladder. Whether a replacement structural device is needed is open in [[TBD]]. **Do not invent one to close this gap.** |
 | 3 | **Warm, never dark** | Every ground is a warm light tone. This is the deliberate opposite of the reference |
 | 4 | **Heat is rationed** | At most one `--heat` element per viewport. Scarcity is what gives it force |
 | 5 | **Motion explains** | Every animation has a purpose statement. Decorative-only motion is cut |
@@ -29,7 +29,9 @@ Five principles. Each is testable, so each can be failed at review.
 
 **The Roast Ramp.** The page ground walks the palette as the reader scrolls — `--paper` → `--cream` → `--peach` — light to warm, the way a roast develops. One scroll-linked driver for the whole document; sections never paint their own ground.
 
-**The Stripe.** The 186-band coffee barcode from the credentials deck ([[brand/brand-audit#The stripe]]) is the structural motif. It does five jobs and no more: section divider, scroll-progress indicator, page-transition wipe, work-tile hover mask, and footer edge. One device, five jobs — the opposite of decoration.
+~~**The Stripe.**~~ ⚠️ **Retired 2026-08-22** — the stripe device is gone (brain.md D16). The 186-band coffee barcode was the structural motif, doing five jobs: section divider, scroll-progress indicator, page-transition wipe, work-tile hover mask, footer edge. Two were built; all five are cancelled. Every band in the artwork was a brown outside the locked palette (`#3E210F`–`#472D1D`), so the device re-introduced the dead trio wherever it appeared. `stripe.svg` and `src/components/common/stripe/` are deleted. **Nothing replaces it** — see brain.md D16 before proposing anything.
+
+**One ground.** On the home page the CSS ground (`--scene-backdrop`) and the WebGL fog (`sceneConfig.colors.fog`) are the same value, `#fff2db`. The page is therefore one continuous surface from hero to footer, and sections do not paint their own grounds. This is what carries continuity now that the stripe does not.
 
 **The Bean.** The logo's half-filled counter is the cursor state and the loading indicator — a bean that fills.
 
@@ -51,15 +53,38 @@ The three rules that constrain every component:
 
 ### Faces
 
-| Role | Face | Licence | Why |
-|---|---|---|---|
-| Display | **Jost** Variable | SIL OFL | Geometric sans directly derived from Futura. The brand deck sets Futura Medium and the wordmark is Futura-consistent — this is the closest legal match |
-| Text | **Instrument Sans** Variable | SIL OFL | Neutral, highly legible at small sizes. Deliberately *not* Inter, which reads as a default |
-| Mono | **Geist Mono** | SIL OFL | Labels, eyebrows, metadata, project tags. Carries the "built, not decorated" register |
+> **As built, verified 2026-08-22.** The shipped set drifted from the plan: the
+> text face is **Onest**, not Instrument Sans, and **Outfit** carries display
+> while Jost is reserved for the hero. Recorded here as-is rather than quietly
+> "corrected", because changing a text face is a visible redesign, not a fix.
 
-All three are open-licence and variable or single-weight — no commercial licence, no per-domain fee. If the client licenses **Futura PT**, it replaces Jost for display and nothing else changes ([[TBD]]).
+| Role | Token | Face | Licence | Why |
+|---|---|---|---|---|
+| Display | `--font-display` | **Outfit** Variable | SIL OFL | Section headings, nav, the work carousel caption. Geometric, Futura-adjacent |
+| Hero | `--font-hero` | **Jost** Variable | SIL OFL | Geometric sans directly derived from Futura. The brand deck sets Futura Medium and the wordmark is Futura-consistent — this is the closest legal match. Reserved for the largest display type |
+| Text | `--font-sans` | **Onest** Variable | SIL OFL | Neutral, legible at small sizes. Deliberately *not* Inter, which reads as a default. ⚠️ Substituted for the specified **Instrument Sans** during implementation with no decision recorded |
+| Mono | `--font-mono` | **Geist Mono** | SIL OFL | Labels, eyebrows, metadata, project tags. Carries the "built, not decorated" register |
 
-Self-hosted, preloaded, `font-display: swap`, subset to Latin. Budget: **<120KB total**.
+All four are open-licence and variable or two-weight. If the client licenses
+**Futura PT**, it replaces Jost for the hero and nothing else changes ([[TBD]]).
+
+All four are self-hosted through **`next/font/google`** in `layout.tsx`, subset
+to Latin, `display: swap`. Measured 2026-08-22: **6 files, 152 KB**, and
+**zero** cross-origin requests.
+
+⚠️ **Two traps here, both already paid for once:**
+
+1. **Never add a face with `@import url(...)`.** Until 2026-08-22 `globals.css`
+   opened with a Google Fonts import pulling **seventeen families** to serve the
+   four above — render-blocking, un-subset, third-party
+   ([[audit-2026-08-22#A2|audit A2]]).
+2. **Hand-written CSS cannot read these tokens.** `--font-display` and friends
+   live in `@theme inline`, which Tailwind substitutes into utilities instead of
+   emitting as custom properties, so `font-family: var(--font-display)` silently
+   resolves to nothing and the element inherits the system stack — which is
+   exactly what the site header did ([[audit-2026-08-22#A5|audit A5]]). Use a
+   `font-display` / `font-sans` utility class in JSX. If you must write CSS,
+   name the `next/font` variable (`var(--font-google-sans)`).
 
 ### Scale
 
@@ -121,7 +146,7 @@ Containers: `--container-text` 65ch · `--container-content` 1280px · `--contai
 
 ## 7. Components
 
-Eight primitives. If a ninth is proposed, it must first be proven not to be a variant of one of these.
+Seven primitives (the stripe was the eighth and is retired — brain.md D16). If an eighth is proposed, it must first be proven not to be a variant of one of these.
 
 ### Button / CTA
 
@@ -155,17 +180,17 @@ Only on `/work` tiles and service pillars. **No border, no shadow, no radius.** 
 
 Underline-only inputs — a 1px `--rule` baseline that becomes `--ink` on focus, 2px. No boxes. Labels persist above the field; placeholders are never the only label. Errors sit below in `--heat` at `--fs-small` **with an icon**, never colour alone.
 
-### Stripe
+### ~~Stripe~~ — retired
 
-The signature primitive. `stripe.svg`, 186 bands, `preserveAspectRatio="none"` so it stretches to any ratio.
+⚠️ **Retired 2026-08-22** — the stripe device is gone (brain.md D16). `stripe.svg` and `src/components/common/stripe/` are deleted, and all five uses below are cancelled, not pending. Kept here only so the removal is legible to anyone reading an older spec.
 
-| Use | Form |
-|---|---|
-| Section divider | 3px tall, full-bleed |
-| Scroll progress | 2px, fixed top, scaled on X by scroll fraction |
-| Page transition | Full-screen, bands wiping in sequence |
-| Tile hover mask | Bands sweeping across the image |
-| Footer edge | 6px, full-bleed |
+| Use | Was | Status |
+|---|---|---|
+| Section divider | 3px tall, full-bleed | Built, removed |
+| Footer edge | 6px, full-bleed | Built, removed |
+| Scroll progress | 2px, fixed top, scaled on X | Never built, cancelled |
+| Page transition | Full-screen, bands wiping in sequence | Never built, cancelled |
+| Tile hover mask | Bands sweeping across the image | Never built, cancelled |
 
 ### Cursor
 
@@ -210,7 +235,7 @@ Six named animations. All motion composes from these; a seventh requires justifi
 | Primitive | Mechanism | Purpose |
 |---|---|---|
 | **Mask reveal** | Text/image rises from a clipped bound, per line or per block | Establishes reading order |
-| **Stripe wipe** | Stripe bands sweep in sequence across a region | Marks a boundary — section, page, or state |
+| ~~**Stripe wipe**~~ | ⚠️ **Cancelled** (brain.md D16) — the device it swept is retired. Never built. Boundaries are now marked by ground and whitespace |
 | **Roast ramp** | `--ground` interpolates across palette stops, scrubbed | Signals chapter progress |
 | **Counter** | Digit columns translate on Y to a target value | Makes a number feel counted |
 | **Parallax** | Layers translate at differing scroll rates | Creates depth and spatial continuity |
@@ -235,12 +260,12 @@ Six named animations. All motion composes from these; a seventh requires justifi
 | Roast ramp | Scrubbed, continuous | Scrubbed | **Stepped per section** — cheaper, no repaint on every frame | Static `--paper` |
 | Text reveal | Per-line mask, staggered | Per-line | **Per-block** fade+rise — per-line is imperceptible at this size | Instant, visible |
 | Work grid | Offset columns, per-tile parallax | 2-col, no parallax | **Single column, no parallax** | Static |
-| Case modal | Centred overlay, stripe wipe in | Overlay | **Full-screen sheet, slides up** | Instant, opacity only |
-| Stripe divider | Scrubbed scale-X | Scrubbed | **Static** | Static |
+| Case modal | Centred overlay, fade in | Overlay | **Full-screen sheet, slides up** | Instant, opacity only |
+| ~~Stripe divider~~ | ⚠️ Retired (brain.md D16) — no divider device exists | — | — | — |
 | Counters | Odometer roll on enter | Roll | Roll (once) | **Final value, no roll** |
 | Cursor | Bean cursor + magnetic | None | None | None |
-| Page transition | Stripe wipe | Stripe wipe | **Fade**, 200ms | Fade, 120ms |
-| Nav menu | Stripe-wipe overlay | Wipe | **Slide-up sheet** | Instant |
+| Page transition | **Fade**, 200ms | Fade, 200ms | **Fade**, 200ms | Fade, 120ms |
+| Nav menu | Overlay (built: StaggeredMenu) | Overlay | **Slide-up sheet** | Instant |
 | Hover states | Full | Tap equivalent | Tap equivalent | Instant |
 
 ### Reduced motion is a first-class branch

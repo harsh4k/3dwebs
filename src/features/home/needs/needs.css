@@ -1,0 +1,86 @@
+/*
+  The two keyframe animations in this section. Everything else is a react-spring
+  instance or a Tailwind transition; these two are keyframes because both are
+  fire-and-forget yo-yos with a per-element stagger, which a spring models badly.
+
+  Both are transform-only, and both are driven by an attribute that JavaScript
+  adds and then removes — removing it is what lets the animation replay.
+
+  Timings come from the Design.md §9 tokens in `src/styles/tokens.css`.
+  `--ease-in-out` is the sanctioned curve for "state changes that reverse",
+  which is exactly what a yo-yo is.
+*/
+
+/* ---------------------------------------------------------------------------
+   1. Option pulse — the `+` button in the sentence bar
+
+   Purpose: the `+` exists for a visitor who has read "i need a …" and has no
+   idea what may follow it. Pressing it scrolls the grid into view and runs
+   this — every *unselected* option's three parts swell and settle, staggered
+   down the list. It answers "what are my choices" by pointing at all of them at
+   once, instead of opening a menu that would duplicate the grid already on the
+   page.
+
+   The reference this is modelled on also animates each row's `column-gap`,
+   which is a layout property and a review failure here (CLAUDE.md → animation
+   rules), so the gap is left alone and the scale carries it alone.
+--------------------------------------------------------------------------- */
+
+@keyframes needs-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+}
+
+[data-needs-pulse] button[aria-pressed='false'] .needs-part {
+  animation: needs-pulse var(--dur-slow) var(--ease-in-out) both;
+  transform-origin: center center;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Click ping — feedback on the row you just pressed
+
+   Purpose: the pill this click produces appears in the bar *above* the grid,
+   often outside the viewport on a laptop. Without local feedback the row you
+   pressed does nothing visible, so the click feels lost. The row dips and
+   springs back — a press, acknowledged where the finger is.
+
+   Declared after the pulse so that when both could apply, the ping wins: the
+   row you actually touched should answer you, not join the chorus.
+--------------------------------------------------------------------------- */
+
+@keyframes needs-ping {
+  0% {
+    transform: scale(1);
+  }
+  38% {
+    transform: scale(0.93);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+button[data-ping] .needs-part {
+  animation: needs-ping var(--dur-base) var(--ease-out-quint) both;
+  transform-origin: center center;
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — a first-class branch, not a disable switch.
+
+   The scroll still happens, the grid still arrives, the row still toggles and
+   the pill still appears. Only the flourishes are dropped, and every element
+   is left at its resting transform rather than mid-keyframe.
+--------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-needs-pulse] button[aria-pressed='false'] .needs-part,
+  button[data-ping] .needs-part {
+    animation: none;
+  }
+}

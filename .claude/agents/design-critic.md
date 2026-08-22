@@ -23,7 +23,7 @@ The client is a design agency. A site that looks templated, AI-generated, or der
 
 *If you removed both logos, would anyone confuse this page with trionn.com?*
 
-The three differentiators that should make the answer obviously no: **warm light ground** (they are `#040508`), **the stripe** as connective device (they use hairline SVG curves), and **awards-led proof** (they lead with project counts).
+The differentiators that should make the answer obviously no: **warm light ground** (they are `#040508`) and **awards-led proof** (they lead with project counts). ⚠️ The stripe used to be the third; it is retired (brain.md D16) and the site currently has **no** structural connective device — separation is by ground colour and whitespace. Flag genericness caused by that gap, but do not propose the stripe's return.
 
 If a section drifts toward their execution — particularly connector lines on the work grid — flag it hard.
 
@@ -50,7 +50,7 @@ With a restrained palette and no shadows, hierarchy is carried almost entirely b
 - Any colour outside the locked palette → defect
 - More than one `--heat` element per viewport → defect
 - `--heat` on body text → **accessibility defect**, 3.86:1 is AA-large only
-- The stripe doing a sixth job without justification in `brain.md` → flag
+- Any reappearance of the stripe device or of the dead brown trio (`#46362F` / `#E6DBBC` / `#FFF7EC`, or the stripe's `#3E210F`–`#472D1D` bands) → flag
 - `--ink-faint` on `--cream` or `--peach` → fails AA
 - A `box-shadow` anywhere → defect
 - Rounded corners outside pills and the bean → defect

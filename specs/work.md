@@ -2,6 +2,15 @@
 tags: [page-spec, work]
 ---
 
+> ⚠️ **The stripe device is retired** (2026-08-22, see `brain.md` → D16).
+> `public/brand/stripe.svg` and `src/components/common/stripe/` are deleted, and all
+> five of its jobs are cancelled — every band in that artwork was a brown outside the
+> locked palette. **Any mention of the stripe below is historical. Do not build it, and
+> do not invent a replacement device** — whether one is needed is open in `TBD.md`.
+> Separation is now carried by ground colour, whitespace and the type ladder; on the
+> home page the CSS ground and the WebGL fog are the same value (`#fff2db`), so the
+> page is one continuous surface.
+
 # Work
 
 Route: `/work` · Modal state: `/work?case=<slug>`
@@ -95,7 +104,7 @@ Applies to: **B2X · Toyota Prado · Toyota Prius · Lenovo · Colors TV · Spyk
 | | |
 |---|---|
 | Content | `work` (h1). One line: 28 projects, and the calibre of client. `Selected work for Google, Emirates, Toyota, Abbott, Domino's and others.` |
-| Layout | Left-aligned, generous top space. Stripe beneath |
+| Layout | Left-aligned, generous top space |
 | Visual | `--paper` |
 
 ### §2 — Filter
@@ -132,9 +141,9 @@ Fallback:           Reduced motion → instant re-render.
 | Content | 28 tiles. Each: image, client, title, deliverable tags, `view case →`. Tier-A also shows `visit live site ↗` |
 | Layout | Desktop 2-col **offset** — tiles never align on a row. Tablet 2-col aligned. Mobile 1-col |
 | Visual | Ground walks `--paper` → `--cream` down the page. Tier-B/C imagery duotoned `--ink`/`--cream` + grain |
-| Components | `WorkTile`, `Stripe`, `Media`, `Reveal` |
+| Components | `WorkTile`, `Media`, `Reveal` |
 
-**Why offset:** an aligned grid of 28 tiles reads as a catalogue. Offsetting creates a vertical rhythm that rewards scrolling. **The connective device is the stripe** — explicitly *not* the hairline curves used by the reference ([[../reference/trionn/notes#What we take, adapt, reject|why]]).
+**Why offset:** an aligned grid of 28 tiles reads as a catalogue. Offsetting creates a vertical rhythm that rewards scrolling. ⚠️ The connective device **was** the stripe; it is retired (brain.md D16) and there is currently no replacement. Rhythm is carried by the offset itself and by whitespace — and explicitly *not* by the hairline curves the reference uses ([[../reference/trionn/notes#What we take, adapt, reject|why]]).
 
 ```
 Trigger:            Tile enters viewport

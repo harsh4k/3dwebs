@@ -23,7 +23,7 @@ Motion here is **art direction, not decoration**. Coffee Digital sells digital c
 3. **All animation goes through `useGsapContext`.** Never a bare `gsap.to()` in a component. It guarantees scoped selectors and cleanup — the two things that break animation systems at scale.
 4. **One `ScrollTrigger` per section**, killed on unmount.
 5. **Only `ScrollProvider` may instantiate Lenis or call `gsap.registerPlugin`.**
-6. **Compose the six primitives** — maskReveal, stripeWipe, roastRamp, counter, parallax, magnetic. A seventh requires an entry in `brain.md` justifying it.
+6. **Compose the primitives** — maskReveal, roastRamp, counter, parallax, magnetic. (`stripeWipe` is **cancelled** — the stripe device is retired, brain.md D16.) A new primitive requires an entry in `brain.md` justifying it.
 7. **Nothing may be hidden by default and revealed only by animation.** If GSAP fails to load, the page must still be whole. This is the single most common failure in scroll-animated sites.
 8. **`prefers-reduced-motion` is a first-class branch.** The reduced site must be complete and elegant — not broken, not stripped. Scroll-linked motion resolves to its end state, visibly.
 9. **Mobile replaces, never shrinks.** Pinning and horizontal scroll are removed on mobile and something else does the job. Check the responsive motion matrix in `Design.md` §10 before writing a single tween.

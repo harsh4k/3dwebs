@@ -6,43 +6,47 @@ tags: [handoff, status]
 
 How to pick this project up cold. **This file should let you name the stack, the tokens, the motion rules, and the next three tasks without opening anything else.**
 
-**Updated:** 2026-08-17 · **Phase:** blueprint complete, implementation not started
+**Updated:** 2026-08-22 · **Phase:** home + `/work` built; three pages are stubs
 
 ---
 
 ## In one paragraph
 
-A new marketing website for **Coffee Digital**, a digital agency in India with an exceptional and largely invisible record — Cannes Cyber Lion finalist twice, Webby People's Voice, D&AD, One Show, Goafest gold, and clients including Google, Emirates, Lenovo, Motorola, Toyota, Johnson & Johnson and Domino's. Four pages (`/work`, `/services`, `/about`, `/contact`) plus a home gateway. Heavy scroll-driven motion on a warm off-white ground. **Next.js 15 + Tailwind v4 + GSAP + Lenis. No WebGL, no CMS, no component library.** The governing rule is that nothing about the client may be invented — everything traces to a 35-slide credentials deck or their live legacy site.
+A new marketing website for **Coffee Digital**, a digital agency in India with an exceptional and largely invisible record — Cannes Cyber Lion finalist twice, Webby People's Voice, D&AD, One Show, Goafest gold, and clients including Google, Emirates, Lenovo, Motorola, Toyota, Johnson & Johnson and Domino's. Four pages (`/work`, `/services`, `/about`, `/contact`) plus a home gateway. Heavy scroll-driven motion on a warm off-white ground. **Next.js 16.2 + Tailwind v4 + three.js + react-spring + Lenis + Zod. No CMS, no component library.** The governing rule is that nothing about the client may be invented — everything traces to a 35-slide credentials deck or their live legacy site.
+
+⚠️ **If you remember this project as "no WebGL", that changed.** The home page
+is a three.js particle sequence and the work carousel is a second GL scene. The
+reversal is reasoned in [[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)|brain D18]].
 
 ## Status
 
 | | |
 |---|---|
-| ✅ Done | Brand extraction · reference library · all specification documents · tooling and enforcement |
-| ✅ Unblocked | **All 3 launch blockers resolved 2026-08-17** — logo rights confirmed, superlative cut, Tier-B handling settled |
-| ⬜ Not started | **All implementation.** No `src/`, no `package.json`, no dependencies installed |
+| ✅ Built | Home (WebGL hero sequence → work carousel → needs CTA → footer) · `/work` grid + case modal · global nav + footer · content layer + Zod · SEO/OG/sitemap/robots |
+| 🟡 Stubs | `/services`, `/about`, `/contact` — a shared `InnerPage` shell with real content but none of the specced composition |
+| ✅ Green | `npm run lint`, `npm run typecheck`, `npm run build` all clean (2026-08-22) |
+| ✅ Unblocked | **All 3 launch blockers resolved 2026-08-17** |
+| ⚠️ Known defects | [[audit-2026-08-22]] — 6 open, 3 of them design decisions rather than patches |
 
 ### Completed
 
-- **Brand** — logo and stripe reconstructed to SVG from measurement and verified against the original; palette measured with full WCAG contrast matrix; complete confirmed/inferred/proposed/missing audit
-- **Reference** — Trionn audited: stack fingerprinted with evidence, 37 screenshots (desktop + mobile), HTML/CSS archived, take/adapt/reject decisions recorded
+- **Brand** — logo reconstructed to SVG from measurement; palette measured with full WCAG contrast matrix; complete confirmed/inferred/proposed/missing audit
+- **Reference** — Trionn audited: stack fingerprinted with evidence, 37 screenshots, take/adapt/reject decisions recorded
 - **Specs** — [[PRD]], [[Design]], [[architecture]], 7 page specs with full motion blocks
-- **Tooling** — 3 agents, routing table, 2 enforcement hooks (tested 8/8), MCP evaluation
-- **Register** — [[TBD]] with every known gap and its owner
+- **Implementation** — 136 source files. The scene (curl noise, bloom, wipe, baked point clouds), the dither-reveal carousel, reveal primitives, staggered menu, content layer
+- **Tooling** — 3 agents, routing table, 2 enforcement hooks, MCP evaluation
+- **Audit + cull** — first full audit 2026-08-22; 32 dead files and 23.6 MB of orphaned assets removed
 
 ### Remaining
 
-1. Scaffold Next.js 15 + Tailwind v4 + TypeScript
-2. `src/styles/tokens.css` from [[brand/palette|palette]]; fonts (Jost, Instrument Sans, Geist Mono)
-3. `src/content/` — schema + the 28 projects, services, awards, clients
-4. `motion/ScrollProvider` + the six primitives
-5. The eight UI primitives
-6. Navigation and footer
-7. Pages, in order: home → work → services → about → contact
-8. Asset capture (`scripts/capture-work.mjs`) for Tier A
-9. Form handler + Resend
-10. SEO, analytics, CI budgets
-11. Pre-launch pass — [[skills/workflows/README#W5 — Pre-launch|W5]]
+1. **Fix the stub-page bundle** — `/services` and `/about` ship 242 KB gzipped for a heading and a list ([[audit-2026-08-22#B1|B1]]). Highest-value performance work
+2. **Settle the three open design decisions** — `/work` tile crop, mobile header, no-JS hero ([[audit-2026-08-22#B2|B2]]–[[audit-2026-08-22#B4|B4]])
+3. **Build `/services`, `/about`, `/contact`** to their specs
+4. Enquiry form + Resend (specified, not installed)
+5. Resolve the GSAP-vs-react-spring split ([[TBD#S9|S9]])
+6. Type + space scales (`--fs-*`, `--space-*`) — still outstanding from [[brain#D17 — The motion token layer exists (2026-08-22)|D17]]
+7. Analytics, CI budget enforcement
+8. Pre-launch pass — [[skills/workflows/README#W5 — Pre-launch|W5]]
 
 ---
 
@@ -70,7 +74,10 @@ A new marketing website for **Coffee Digital**, a digital agency in India with a
 | `skills/` | Agents, routing, MCP evaluation, hooks, runbooks |
 | `skills/Setup/` | ⚠️ **Pre-existing global setup. Not ours. Don't touch** |
 | `.claude/` | Agent definitions, hooks, settings — the functional tooling |
-| `src/` | ⬜ Does not exist yet |
+| `src/` | The app. `features/` per page, `components/common/` primitives, `content/` typed data, `motion/` scroll provider |
+| `src/features/home/scene/` | The three.js hero sequence — curl noise, bloom, wipe, baked point clouds |
+| `src/features/home/work-carousel/gl/` | The second GL scene: dither-reveal work carousel |
+| `public/assets/` | Baked point clouds (`.bin`), hero light flares, logo |
 
 ## The things you must not change without review
 
@@ -80,15 +87,16 @@ A new marketing website for **Coffee Digital**, a digital agency in India with a
 4. **Four pages.** A fifth needs a scope conversation.
 5. **The project schema has no `year`, `metrics`, `outcome` or `testimonial` fields.** Deliberate. Don't widen it.
 6. **The two hooks.** They enforce 1, 2 and 5 mechanically.
-7. **No WebGL, no CMS, no component library.** Reasoned in [[brain]]; reopening needs new evidence.
-8. **The stripe does five jobs.** A sixth needs justification in [[brain]].
+7. **No CMS, no component library, no vendored UI kits.** Reasoned in [[brain]]; reopening needs new evidence. ~~No WebGL~~ — reversed, see [[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)|D18]].
+8. ⚠️ **The stripe device is retired** (brain.md D16) — deleted, all five jobs cancelled, **nothing replaces it**. Do not rebuild it and do not invent a substitute; whether the site needs a structural device is open in [[TBD]].
 
 ## Environment
 
 ```bash
 git clone https://github.com/harsh4k/coffeedigital
 cd coffeedigital
-# npm install          — nothing to install yet
+npm install
+npm run dev            # http://localhost:3000
 ```
 
 **Required later:** `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `NEXT_PUBLIC_SITE_URL`. Never commit `.env*`.
@@ -98,10 +106,11 @@ cd coffeedigital
 ## Commands
 
 ```bash
-npm run dev            # not yet scaffolded
-npm run lint && npm run build     # the definition of done
+npm run dev                                # http://localhost:3000
+npm run lint && npm run typecheck && npm run build   # the definition of done
+npm run bake:bean                          # re-bake the hero point cloud from reference/e.glb
+npm run bake:trophy                        # re-bake the second-act trophy
 node .claude/hooks/guard-tokens.mjs        # test a hook (see skills/hooks)
-node scripts/capture-work.mjs              # Tier-A asset capture
 ```
 
 ## Known technical debt
