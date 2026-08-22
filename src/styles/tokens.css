@@ -76,3 +76,22 @@
   --dur-slow: 640ms;
   --dur-reveal: 900ms;
 }
+
+/*
+ * Reduced motion collapses every duration to --dur-instant rather than to zero:
+ * an instant state change still reads as a change, where a 0ms one can look like
+ * a rendering glitch. Curves are left alone — at 120ms the shape is invisible.
+ *
+ * Lives here rather than beside the components because `src/motion/tokens.ts`
+ * resolves these at runtime through getComputedStyle, so collapsing them at the
+ * token layer covers the Web Animations API callers for free — one branch, not
+ * one per consumer.
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: var(--dur-instant);
+    --dur-base: var(--dur-instant);
+    --dur-slow: var(--dur-instant);
+    --dur-reveal: var(--dur-instant);
+  }
+}
