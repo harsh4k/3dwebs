@@ -2,6 +2,15 @@
 tags: [page-spec, navigation, global]
 ---
 
+> ⚠️ **The stripe device is retired** (2026-08-22, see `brain.md` → D16).
+> `public/brand/stripe.svg` and `src/components/common/stripe/` are deleted, and all
+> five of its jobs are cancelled — every band in that artwork was a brown outside the
+> locked palette. **Any mention of the stripe below is historical. Do not build it, and
+> do not invent a replacement device** — whether one is needed is open in `TBD.md`.
+> Separation is now carried by ground colour, whitespace and the type ladder; on the
+> home page the CSS ground and the WebGL fog are the same value (`#fff2db`), so the
+> page is one continuous surface.
+
 # Global Navigation
 
 Component: `features/navigation/` · Upstream: [[../Design|Design]] · [[../PRD#12 Interaction requirements|PRD]]

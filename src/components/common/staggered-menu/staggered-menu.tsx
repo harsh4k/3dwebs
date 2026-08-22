@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Link from "next/link";
 
@@ -56,6 +56,26 @@ export const StaggeredMenu = ({
     onMenuClose,
   });
 
+  /* Destructured once here rather than read as `refs.xRef` inside the JSX: `react-hooks/refs`
+     treats a member access on a refs bag during render as reading a ref value, and errors. The
+     bag's identity is stable for the component's life, so this is a rename, not a behaviour
+     change — the same RefObjects reach the same elements. */
+  const { panelRef, preLayersRef, plusHRef, plusVRef, iconRef, textInnerRef, toggleBtnRef } = refs;
+
+  /* Drives the header scrim (see `.sm-header-scrim`). A plain passive scroll listener flipping a
+     boolean past a threshold — not a per-frame read — so it adds no work to the scene's rAF, and
+     `setScrolled` is only called when the answer actually changes. */
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => {
+      const past = window.scrollY > 40;
+      setScrolled((prev) => (prev === past ? prev : past));
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const root = document.documentElement;
@@ -67,8 +87,8 @@ export const StaggeredMenu = ({
         return;
       }
       if (event.key !== "Tab") return;
-      const panel = refs.panelRef.current;
-      const toggle = refs.toggleBtnRef.current;
+      const panel = panelRef.current;
+      const toggle = toggleBtnRef.current;
       if (!panel || !toggle) return;
       const focusable = [
         toggle,
@@ -90,20 +110,20 @@ export const StaggeredMenu = ({
       root.style.overflow = previous;
       window.removeEventListener("keydown", onKey);
     };
-  }, [open, closeMenu, refs.panelRef, refs.toggleBtnRef]);
+  }, [open, closeMenu, panelRef, toggleBtnRef]);
 
   useEffect(() => {
     if (!closeOnClickAway || !open) return;
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
-      if (refs.panelRef.current?.contains(target) || refs.toggleBtnRef.current?.contains(target)) {
+      if (panelRef.current?.contains(target) || toggleBtnRef.current?.contains(target)) {
         return;
       }
       closeMenu();
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [closeOnClickAway, open, closeMenu, refs.panelRef, refs.toggleBtnRef]);
+  }, [closeOnClickAway, open, closeMenu, panelRef, toggleBtnRef]);
 
   const layers = (colors.length ? colors.slice(0, 4) : ["var(--peach)", "var(--cream)"]).filter(
     (_, i, arr) => arr.length < 3 || i !== Math.floor(arr.length / 2),
@@ -115,18 +135,23 @@ export const StaggeredMenu = ({
       style={{ "--sm-accent": accentColor } as CSSProperties}
       data-position={position}
       data-open={open || undefined}
+      data-scrolled={scrolled || undefined}
     >
-      <div ref={refs.preLayersRef} className="sm-prelayers" aria-hidden="true">
+      <div ref={preLayersRef} className="sm-prelayers" aria-hidden="true">
         {layers.map((color, i) => (
           <div key={`${color}-${i}`} className="sm-prelayer" style={{ background: color }} />
         ))}
       </div>
 
       <header className="staggered-menu-header" aria-label="Main navigation header">
+        <div className="sm-header-scrim" aria-hidden="true" />
         <Link href={logoHref} className="sm-logo">
           {logoSrc ? (
+            /* Intrinsic size declared so the mark reserves its box before decode — the header
+               is the first thing painted, and an unsized image there shifts the whole row.
+               `alt=""` is correct: the link's own text (`logoLabel`) already names it. */
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={logoSrc} alt="" className="sm-logo-mark" />
+            <img src={logoSrc} alt="" width={72} height={72} className="sm-logo-mark" />
           ) : null}
           {logoLabel}
         </Link>
@@ -143,7 +168,7 @@ export const StaggeredMenu = ({
             )
           ) : null}
           <button
-            ref={refs.toggleBtnRef}
+            ref={toggleBtnRef}
             className="sm-toggle"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -152,7 +177,7 @@ export const StaggeredMenu = ({
             type="button"
           >
             <span className="sm-toggle-textWrap" aria-hidden="true">
-              <span ref={refs.textInnerRef} className="sm-toggle-textInner">
+              <span ref={textInnerRef} className="sm-toggle-textInner">
                 {textLines.map((line, i) => (
                   <span className="sm-toggle-line" key={`${line}-${i}`}>
                     {line}
@@ -160,18 +185,24 @@ export const StaggeredMenu = ({
                 ))}
               </span>
             </span>
-            <span ref={refs.iconRef} className="sm-icon" aria-hidden="true">
-              <span ref={refs.plusHRef} className="sm-icon-line" />
-              <span ref={refs.plusVRef} className="sm-icon-line sm-icon-line-v" />
+            <span ref={iconRef} className="sm-icon" aria-hidden="true">
+              <span ref={plusHRef} className="sm-icon-line" />
+              <span ref={plusVRef} className="sm-icon-line sm-icon-line-v" />
             </span>
           </button>
         </div>
       </header>
 
+      {/* `role="dialog"` is required for `aria-modal` to mean anything: on a bare <aside> the
+          implicit role is `complementary`, which ignores `aria-modal`, so the focus trap and
+          scroll lock this panel actually implements were invisible to assistive tech. The panel
+          is labelled because a dialog with no accessible name is announced as just "dialog". */}
       <aside
         id="staggered-menu-panel"
-        ref={refs.panelRef}
+        ref={panelRef}
         className="staggered-menu-panel"
+        role="dialog"
+        aria-label="Main menu"
         aria-hidden={!open}
         aria-modal={open}
         inert={!open}

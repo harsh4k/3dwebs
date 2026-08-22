@@ -45,8 +45,30 @@ interface ScrollFadeProps {
   children: ReactNode;
 }
 
+/** The overlay's opacity at a given progress — the one place the two windows are combined. */
+const opacityAt = (
+  p: number,
+  appear: [number, number],
+  disappear?: [number, number],
+): number => Math.max(0, Math.min(ramp(p, appear), disappear ? 1 - ramp(p, disappear) : 1));
+
 export const ScrollFade = ({ appear, disappear, className, children }: ScrollFadeProps) => {
-  const [style, api] = useSpring(() => ({ opacity: 0 }));
+  /*
+   * Seeded at the opacity for **progress 0**, not a flat `0`.
+   *
+   * A flat `0` meant every overlay — including the hero, whose `appear={[0, 0]}` says "on from
+   * the beginning" — was server-rendered at `opacity:0;visibility:hidden` and only corrected on
+   * the first rAF. Two consequences: the hero overlay popped in a frame late on every load, and
+   * with JavaScript disabled all four wrappers stayed hidden forever, so `/` was a blank cream
+   * page no matter what the children rendered.
+   *
+   * `opacityAt(0, …)` is not a special case for the hero — it is the same window maths the rAF
+   * runs, asked for the position the page actually loads at. It resolves to 1 for the hero and 0
+   * for the hand, wave and tree acts, which is the correct no-JS composition: the first act
+   * visible, the later ones not stacked on top of it.
+   */
+  const initial = opacityAt(0, appear, disappear);
+  const [style, api] = useSpring(() => ({ opacity: initial }));
 
   useEffect(() => {
     let raf = 0;
@@ -58,9 +80,7 @@ export const ScrollFade = ({ appear, disappear, className, children }: ScrollFad
       const p = getScrollProgress();
       if (p === last) return;
       last = p;
-      const fadeOut = disappear ? 1 - ramp(p, disappear) : 1;
-      const opacity = Math.max(0, Math.min(ramp(p, appear), fadeOut));
-      api.start({ opacity, immediate: true });
+      api.start({ opacity: opacityAt(p, appear, disappear), immediate: true });
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);

@@ -25,5 +25,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "skills", "reference", "creds"]
+  "exclude": ["node_modules", "skills", "reference", "creds", "src/components/originkit"]
 }

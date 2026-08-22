@@ -44,15 +44,15 @@ Six sections. Estimated depth **~5 screens desktop**, well under the reference's
 
 ## §1 — Hero
 
-**Purpose:** identity in one screen; establish the stripe and the bean as the site's vocabulary.
+**Purpose:** identity in one screen; establish the bean and the warm ground as the site's vocabulary. (This said "the stripe and the bean" until 2026-08-22 — brain.md D16.)
 
 | | |
 |---|---|
 | Content | Wordmark. `the digital branding people` (confirmed tagline). Positioning line from the deck. Two CTAs: `see the work →`, `start a project →` |
-| Layout | Full viewport. Display type upper-left on a 12-col grid. Stripe as a full-bleed band along the bottom edge |
+| Layout | Full viewport. Display type upper-left on a 12-col grid. ⚠️ The full-bleed stripe band along the bottom edge is **cancelled** (brain.md D16) |
 | Visual | Ground is the GetLayers flower-field loop (`--media-ground` fallback). Type `--media-ink`. One `--heat` element only: the `→` on the primary CTA |
-| Assets | `bean-pair.svg`, `stripe.svg`, wordmark, `public/hero/flower-field-*` |
-| Components | `Stripe`, `Button`, `Reveal`, `Cursor` |
+| Assets | `bean-pair.svg`, wordmark, `public/hero/flower-field-*` (`stripe.svg` deleted — D16) |
+| Components | `Button`, `Reveal`, `Cursor` |
 
 **Copy — confirmed, do not rewrite:**
 > the digital branding people
@@ -66,14 +66,16 @@ Source: [[../brand/brand-audit#✅ Confirmed]]. The tagline is from the legacy s
 ```
 Trigger:            Page load, after fonts settle
 Animation:          Mask reveal per line; lines rise from a clipped bound.
-                    Stripe scales X from 0 → 1 beneath, offset 200ms
+                    (the stripe scale-X beneath is cancelled — D16)
 Duration:           ~dur-reveal (900ms) — tunable
 Easing:             --ease-out-expo
 Scroll relationship: None. Time-based, once
 Desktop:            Per-line, 80ms stagger
 Mobile:             Per-block — per-line is imperceptible at this size
-Purpose:            Establishes reading order and introduces the stripe as
-                    the site's connective device in the first two seconds
+Purpose:            Establishes reading order in the first two seconds.
+                    ⚠️ It used to also introduce the stripe as the connective
+                    device; that device is retired (D16) and the continuous
+                    warm ground carries continuity instead
 Fallback:           Reduced motion → fully visible immediately, no transform.
                     No-JS → visible; this is the default CSS state
 ```
@@ -106,7 +108,7 @@ Fallback:           Decorative only. Every state it shows also exists in the
 | Layout | Counters on a 3-col row (stacked on mobile), client marks in a quiet grid below |
 | Visual | Ground has walked to `--cream`. Counters at `--fs-display-m`. Marks monochrome `--ink`, going full colour on hover |
 | Assets | 27 client logos — ✅ **rights confirmed** 2026-08-17, [[../TBD#✅ B1\|TBD B1]] |
-| Components | `Counter`, `Reveal`, `Stripe` |
+| Components | `Counter`, `Reveal` |
 
 **Counter values — derived by counting [[../brand/brand-audit#Awards — S1 slide 3, verbatim|confirmed awards]], not invented.** The exact figures are locked during implementation against that list, and each counter carries a plain-text caption naming the bodies, so the number is never an unsupported claim.
 
@@ -153,9 +155,9 @@ Fallback:           Static, full colour, fully visible
 |---|---|
 | Content | 4 featured projects — `featured: true` in `content/projects.ts`. Client, title, deliverables, image. `see all 28 projects →` |
 | Layout | Desktop: 2-col offset grid, tiles at differing scroll depths. Mobile: single column |
-| Visual | Ground `--cream`. Stripe divides tiles |
+| Visual | Ground `--cream` — the page's single continuous ground, same value as the WebGL fog. Tiles divide by whitespace (the stripe divider is retired — D16) |
 | Assets | Tier-A imagery only — the home page never shows a Tier-B capture ([[work#Asset tiers]]) |
-| Components | `WorkTile`, `Stripe`, `Reveal` |
+| Components | `WorkTile`, `Reveal` |
 
 **Featured selection** favours Tier A with a live URL and category spread. Candidates: Abbott SmartPack, Sun Pharma "Making India Heart Strong", Lodha Palava, Pidilite Fevicol Design Ideas.
 
@@ -259,34 +261,173 @@ Fallback:           Rules and labels present and visible
 
 **Purpose:** convert. The only section that does not defer to another page.
 
+**Built 2026-08-22** as `src/features/home/needs/`.
+
 | | |
 |---|---|
-| Content | Deck closing copy. `info@coffeedigital.in`. `start a project →` |
-| Layout | Full-bleed. Display type centred, email beneath |
-| Visual | Ground `--peach`. **This is where `--heat` earns its keep** — the CTA is the hottest element on the page |
-| Components | `Button`, `Stripe` |
+| Content | Headline `tell us what you need.` A sentence bar — `i need a` + one pill per selection. The **twelve confirmed services** from `content/services.ts`, grouped by their three confirmed pillars (Rule 0 — nothing here is authored) |
+| Layout | Centred. Headline, sentence bar (max 760px), then a 1/2/3-column option grid |
+| Visual | **No ground of its own** — the home page has one continuous surface, `--scene-backdrop` `#fff2db`, which is also `sceneConfig.colors.fog`. Bar on `--peach`, pills on `--paper`. **This is where `--heat` earns its keep**: the `next` button fills once a selection exists, and that is the section's one hot element |
+| Components | `FlowReveal`, `useFlip` |
+| Route out | `next` is a real `<Link>` to `/contact?need=…`. Query params, not `sessionStorage` — the link works pre-hydration and with JS off, is shareable, and lets `/contact` render the recap on the server. Unknown slugs are dropped, so a hand-edited URL cannot put unconfirmed text on the page |
 
-**Copy — confirmed, deck slide 34:**
+**Copy — confirmed, deck slide 34** (⚠️ *not currently used* — the built headline is
+`tell us what you need.`, which is the reference site's line verbatim. Swapping to
+this deck copy is a one-line change and is the Rule-0-cleanest option):
 > Do care to test us,
 > Throw us a challenge,
 > You'd find us more than eager!
 
-### Motion — heat wipe
+### Motion — heat arrival (built)
 
 ```
-Trigger:            Pointer enters CTA (desktop) / tap (mobile)
-Animation:          --heat fills the button from the pointer's entry edge;
-                    label inverts to --paper
+Trigger:            Selection becomes non-empty
+Animation:          `next` fills --heat, label inverts to --paper
 Duration:           --dur-fast
 Easing:             --ease-out-quint
 Scroll relationship: None
-Desktop:            Direction follows entry edge
-Mobile:             Fill from left on tap
-Purpose:            The single hottest interaction on the page marks the
-                    single most important action
-Fallback:           Static --heat rule beneath the label
+Desktop / Mobile:   Same
+Purpose:            The single hottest element on the page marks the single
+                    most important action — and it ARRIVES as the reward for
+                    having answered, rather than being present and disabled.
+                    This inverts the reference's disabled-until-valid gate:
+                    `next` is always a working link to /contact, so it is
+                    never a dead end and never depends on JS
+Fallback:           --paper ground, --ink-faint label. Still a working link
 ⚠️ Accessibility:   Label on a filled --heat ground must be ≥24px bold —
                     paper-on-heat is 3.86:1. See brand/palette
+```
+
+### Motion — headline word rise (built)
+
+```
+Trigger:            Heading enters viewport (once, latched)
+Animation:          Per word, from a clipped mask: yPercent 110 → 0 with a
+                    6° tilt unwinding to flat, pivoting on the bottom-left
+Duration:           react-spring { mass 1, tension 120, friction 26 }
+Stagger:            80ms — the same cadence the footer staggers its zones on,
+                    so the two closing surfaces share a timing grammar
+Scroll relationship: None. Fires once on enter
+Desktop / Mobile:   Same — five words is cheap at any size
+Purpose:            The headline is the section's only instruction and it is
+                    one sentence long. Revealed as a block, the eye has
+                    nowhere to start. Word by word it paces at reading speed,
+                    so the reader finishes it just as the grid settles — which
+                    is the moment they are being asked to act. The tilt is what
+                    stops it reading as a generic slide-up
+Split:              Words, NOT letters. Per-letter reads as an effect at this
+                    size and would put ~20 springs on screen for one line
+Fallback:           Reduced motion → global skipAnimation lands it at rest.
+                    No-JS → plain, fully visible <h2>
+```
+
+### Motion — row stagger (built)
+
+```
+Trigger:            Option grid enters viewport (once), one shared observer
+Animation:          Fade + rise 18px per row
+Duration:           --dur-slow
+Easing:             --ease-out-quint
+Stagger:            45ms down the flat reading order across all three columns
+Scroll relationship: None
+Desktop / Mobile:   Same
+Purpose:            Twelve options arriving as one block is a wall, and a wall
+                    gets skimmed. Staggering draws the eye down the first
+                    column and establishes these as a LIST TO READ rather than
+                    a graphic to glance at — the same job the headline's word
+                    stagger does one level up
+Budget:             45ms sits inside Design.md §9's 40–80ms sibling range, and
+                    twelve elements is exactly its stagger cap
+Fallback:           Rows render at full opacity, zero offset, before hydration
+                    and with JS disabled
+```
+
+### Motion — pill pop + bar reflow (built)
+
+```
+Trigger:            An option is toggled
+Animation:          Pill scales 0.6 → 1 with overshoot on enter; 1 → 0.8 with
+                    no overshoot on leave. SEPARATELY, every repositionable
+                    child of the bar (pills, `+`, `next`) FLIPs: its layout
+                    delta is inverted to a transform and played back to zero
+Duration:           Pill — react-spring (in { 0.8, 340, 18 }, out { 0.6, 420, 32 })
+                    Reflow — --dur-base on --ease-out-quint
+Scroll relationship: None
+Desktop / Mobile:   Same
+Purpose:            The grid sits below the bar, so a selection made down there
+                    must announce itself up here or the click reads as inert;
+                    the overshoot is that acknowledgement. THE POP ALONE IS NOT
+                    ENOUGH — adding a pill re-flows the bar, and without FLIP
+                    the `+` and `next` teleport in one frame, which reads as a
+                    glitch no matter how good the pill's easing is. Removal
+                    animates too; the reference pops pills in and snaps them
+                    out, which reads as a fault rather than a decision undone
+⚠️ Constraint:     FLIP, not animated width — width is a layout property and
+                    animating it is a review failure. See `use-flip.ts`
+Fallback:           Reduced motion → springs land instantly, FLIP does not play,
+                    layout updates in one step
+```
+
+### Motion — option pulse (built)
+
+```
+Trigger:            The `+` in the sentence bar is pressed
+Animation:          Lenis scrolls the grid to viewport centre; every UNSELECTED
+                    row's three parts scale 1 → 1.18 → 1, staggered 60ms
+Duration:           --dur-slow, --ease-in-out (the curve for motion that reverses)
+Scroll relationship: None
+Desktop / Mobile:   Same
+Purpose:            The `+` exists for a visitor who has read "i need a …" and
+                    has no idea what may follow it. It answers "what are my
+                    choices" by pointing at all of them at once, instead of
+                    opening a menu that would duplicate the grid already on the
+                    page. Selected rows sit the pulse out — it shows what is
+                    still on offer
+⚠️ Constraint:     The reference also animates each row's `column-gap`. That
+                    is a layout property; we animate scale only
+⚠️ Constraint:     Scrolling goes through `lenis.scrollTo`, NEVER
+                    `utils/scroll-to` — that helper locks the scroller
+                    (`html { overflow: hidden }`) for 100ms and the scroll
+                    lands as a jerk
+Fallback:           Reduced motion → instant scroll, no pulse
+```
+
+### Motion — click ping (built)
+
+```
+Trigger:            An option row is clicked
+Animation:          That row's three parts scale 1 → 0.93 → 1
+Duration:           --dur-base, --ease-out-quint
+Scroll relationship: None
+Desktop / Mobile:   Same
+Purpose:            The pill this click produces appears in the bar ABOVE the
+                    grid, often outside the viewport on a laptop. Without local
+                    feedback the row you pressed does nothing visible and the
+                    click feels lost. The row dips and springs back — a press,
+                    acknowledged where the finger is
+Precedence:         Declared after the pulse, so when both could apply the ping
+                    wins: the row you touched should answer you, not join the
+                    chorus
+Fallback:           Reduced motion → no ping; the pill and aria-pressed still change
+```
+
+### Motion — hover states (built)
+
+```
+Trigger:            Pointer enters / focus-visible
+Duration:           --dur-fast, --ease-out-quint, throughout
+Animation:          Option row  — fades to 60% AND its ↳ slides 3px right;
+                                  the `+` turns 90°
+                    Pill        — fades to 70%; its × turns 45° → 135°
+                    Bar `+`     — scales 1.08, glyph turns 90°
+                    `next`      — scales 1.03, arrow slides 5px right
+Purpose:            Opacity alone (all the reference does) reads as a dimmer
+                    switch. Something MOVING is what says "this is a control".
+                    Each rotation also previews the result: the row's `+` turning
+                    toward a cross, the pill's × turning further to say "gone"
+Keyboard:           Every hover has a :focus-visible twin — the behaviour is not
+                    pointer-only
+Fallback:           motion-reduce: disables the transform; colour/opacity remain
 ```
 
 ---

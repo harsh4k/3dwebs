@@ -536,14 +536,26 @@ export const sceneConfig: SceneConfig = {
     particle: { roughness: 0.98, metalness: 0, envMapIntensity: 0.08 },
   },
   glyph: {
-    // Surface-sampled bean (~14k baked). Subsample on tablet/mobile; do not upsample.
+    // Surface-sampled hero mark (~14k baked). Subsample on tablet/mobile; do not upsample.
     count: 14000,
-    // Flatter bean (coffee_beans1) — height-2 × 8 ≈ 16 tall, ~11 wide, thin in Z.
-    scale: 8,
+    // Flat extruded mark (reference/e.glb) — height-2 × 5.8 ≈ 12 tall, ~10.6 wide once turned
+    // face-on. Deliberately below the old bean's 8: the mark is wide rather than tall, and the
+    // camera has no aspect-aware framing, so anything past ~11 wide is cropped by the narrow
+    // horizontal FOV on a portrait phone.
+    scale: 5.8,
     particleSize: 0.12,
     sizeJitter: 0.55,
-    // Turned about Y so the glyph reads in 3D rather than face-on.
-    rotation: Math.PI / 7,
+    // The model is a plate extruded along its own X, so its face points down ±X: a quarter turn
+    // brings it to camera. The turn is **negative** — the +90° side shows the mark's back face,
+    // which reads as a mirrored logo (bean pair running upper-right → lower-left instead of
+    // upper-left → lower-right).
+    //
+    // **Exactly a quarter turn — do not back it off.** The two beans are identical in the mark and
+    // must render identical. They sit on a diagonal, so any off-axis turn puts one nearer the
+    // camera than the other: perspective then makes that one larger and its beads fatter, and the
+    // pair reads as two different weights. Dead-on keeps both at the same depth. The idle rock and
+    // cursor tilt still swing the plate a few degrees, which is where the depth cue comes from.
+    rotation: -(Math.PI / 2),
     center: [0, 11, 0],
     // Front-top-left — lights the X's large front faces so they read as the lit side, the
     // sides/back falling into shadow (drives both the baked form shade and the key light).

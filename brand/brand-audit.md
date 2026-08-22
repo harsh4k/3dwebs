@@ -183,7 +183,7 @@ Our creative decisions. Clearly ours, not the client's — and reversible.
 | Proposal | Where it's argued |
 |---|---|
 | **The Roast Ramp** — page ground walks paper → cream → peach on scroll | [[../Design|Design]] |
-| **The Stripe as structural motif** — dividers, scroll progress, page-transition wipe, work-tile mask | [[../Design|Design]] |
+| ~~**The Stripe as structural motif**~~ — ⚠️ **retired 2026-08-22** (brain.md D16). The artwork remains a confirmed brand asset in the deck; it is no longer used anywhere on the site | [[../Design|Design]] |
 | **The Bean as cursor and loader** | [[../Design|Design]] |
 | `--heat` reserved for one hot element per viewport | [[palette]] |
 | `--ink` `#3F2210` derived from the stripe rather than invented | [[palette#2 Derived ink]] |

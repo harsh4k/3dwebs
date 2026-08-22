@@ -5,7 +5,19 @@ import nextTs from 'eslint-config-next/typescript';
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts', 'reference/**', 'creds/**', 'skills/**']),
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+    'reference/**',
+    'creds/**',
+    'skills/**',
+    // Raw Originkit reference source — inert, unused by the app (see
+    // src/features/footer/site-footer.tsx's doc comment). Same reasoning as
+    // `reference/**` above; mirrored in tsconfig.json's `exclude`.
+    'src/components/originkit/**',
+  ]),
   {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',

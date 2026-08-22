@@ -14,7 +14,11 @@ export const SiteHeader = () => {
       isFixed
       position="right"
       logoLabel={site.name}
-      logoSrc="/assets/hand/logo.jpeg"
+      /* 72px WebP, not the 1254x1254 `logo.jpeg` source: the header slot is 36px, so the
+         full-size file was ~34x more pixels than it can show. Same crop, so the mark is
+         unchanged on screen. `logo.jpeg` stays on disk — `icon.tsx` and `apple-icon.tsx`
+         still generate the favicons from it at build time and want the resolution. */
+      logoSrc="/assets/hand/logo-72.webp"
       talkHref="/contact"
       talkLabel="let's talk"
       items={[...MENU_ITEMS]}

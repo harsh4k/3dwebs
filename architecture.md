@@ -17,29 +17,45 @@ Downstream: [[CLAUDE]] · [[hand-off]]
 
 | Layer | Choice | Rationale |
 |---|---|---|
-| Framework | **Next.js 15, App Router** | Four static pages, SEO-critical. SSG keeps the performance ceiling high |
+> **Verified against `package.json` on 2026-08-22.** This table is what is
+> installed, not what was planned. Where the two used to differ it was the table
+> that was wrong — see [[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)|brain D18]].
+
+| Layer | Choice | Rationale |
+|---|---|---|
+| Framework | **Next.js 16.2, App Router** (Turbopack) | Four pages plus a home gateway, SEO-critical. SSG keeps the performance ceiling high |
 | Language | **TypeScript, strict** | — |
 | Styling | **Tailwind v4 + CSS custom properties** | Validated by research; matches global defaults |
-| Animation | **GSAP 3.13+** — ScrollTrigger, SplitText, Flip, Observer | Free including all former Club plugins since May 2025 |
-| Smooth scroll | **Lenis** | RAF-driven, integrates cleanly with ScrollTrigger |
+| **3D / WebGL** | **three.js 0.180** | **The home page and the work carousel.** Adopted in practice, ratified in [[brain#D18 — WebGL is the home page, and D3 is superseded (2026-08-22)|D18]]. Raw three.js — no R3F, no Drei |
+| Springs / UI motion | **@react-spring/web** + **spring-text-engine** | Every reveal, the rotating word, the scroll cue. Global `skipAnimation` is how reduced motion is honoured |
+| Animation | **GSAP 3.15** | ⚠️ Now a **single** consumer — the staggered menu. See the note below |
+| Smooth scroll | **Lenis** | RAF-driven |
+| State | **Zustand** | Scroll store only (`hooks/smooth-scroll/use-scroll.ts`) |
 | Validation | **Zod** | Build-time content validation |
-| Email | **Resend** | Single dependency, no third-party consent surface |
+| Email | **Resend** | ⚠️ **Specified, not installed.** `/api/contact` exists; the mail layer does not |
 | Deploy | **Vercel** | |
 | Analytics | **Vercel Analytics** or **Plausible** | Cookieless — no consent banner ([[PRD#18 Analytics requirements]]) |
-| 3D | **None** | [[reference/trionn/notes#The single most valuable finding]] |
-| UI library | **None** | Eight hand-built primitives ([[Design#7 Components]]) |
+| UI library | **None** | Hand-built primitives ([[Design#7 Components]]) |
 | CMS | **None** | 28 fixed projects. Typed static modules |
+
+⚠️ **Two animation runtimes are live.** The rule "one animation system, not two"
+was written when GSAP was the only one; react-spring has since become the
+dominant one and GSAP is down to a single import in
+`use-staggered-menu.ts`. That is the reverse of the intended split and it is
+tracked in [[TBD#S9|TBD S9]] — either finish the move to springs and drop GSAP,
+or restate the rule. Do not add motion in a *third* way while this is open.
 
 ### Rejected, and why
 
 | Rejected | Reason |
 |---|---|
-| three.js / R3F / Drei | ~200KB to serve one hover effect. The reference itself ships OGL at ~10KB |
-| shadcn/ui, Radix, 21st.dev, OriginUI | Component-library defaults are the visual signature of templated design. Eight bespoke primitives is less code and more control |
+| **R3F / Drei** | The scene is written against raw three.js and does not need a reconciler. `@react-three/fiber` was installed but imported nowhere — removed 2026-08-22 |
+| shadcn/ui, Radix, 21st.dev, OriginUI | Component-library defaults are the visual signature of templated design. Bespoke primitives are less code and more control |
 | Sanity / Payload / Contentful | Fixed content, one editor, no publishing cadence. A CMS is a monthly bill for a problem we don't have |
-| Framer Motion | Would duplicate GSAP. One animation system, not two |
-| Redux / Zustand / Jotai | No cross-page state exists beyond a URL parameter |
+| Framer Motion | Would be a third motion runtime alongside react-spring and GSAP |
+| Redux / Jotai | Zustand already covers the only shared state (scroll) |
 | reCAPTCHA | A third-party script and a consent surface. Honeypot + rate limit + timing check is sufficient here |
+| **Vendored UI kits** | 2,713 lines of "originkit" hero code sat unreachable in `src/` until the 2026-08-22 cull ([[brain#D19 — The dead-code cull (2026-08-22)|D19]]). Paste-in sections do not survive contact with the palette lock |
 
 ## 2. Directory structure
 
@@ -73,11 +89,11 @@ coffeedigital/
 │   │
 │   ├── components/                 shared primitives only — the eight
 │   │   ├── Button.tsx  Link.tsx  Card.tsx  Field.tsx
-│   │   ├── Media.tsx   Stripe.tsx  Cursor.tsx  Reveal.tsx
+│   │   ├── Media.tsx   Cursor.tsx  Reveal.tsx        (Stripe.tsx deleted — D16)
 │   │
 │   ├── motion/                     the animation system
 │   │   ├── ScrollProvider.tsx      one Lenis instance, one ScrollTrigger registration
-│   │   ├── primitives/             maskReveal · stripeWipe · roastRamp
+│   │   ├── primitives/             maskReveal · roastRamp   (stripeWipe cancelled — D16)
 │   │   │                           counter · parallax · magnetic
 │   │   ├── useGsapContext.ts
 │   │   ├── useReducedMotion.ts
@@ -97,7 +113,7 @@ coffeedigital/
 │
 ├── public/
 │   ├── fonts/
-│   ├── brand/                      stripe.svg, bean-mark.svg, bean-pair.svg
+│   ├── brand/                      bean-mark.svg, bean-pair.svg  (stripe.svg deleted — D16)
 │   └── work/<slug>/                per-project imagery
 │
 ├── scripts/

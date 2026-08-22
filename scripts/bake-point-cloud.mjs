@@ -5,6 +5,14 @@
  * inward along the normal so the cloud has a thin shell (crease stays a valley).
  * Do not volume-fill — a filled bean reads as a blob.
  *
+ * **Pass `--shell 0` for a flat or double-sided mesh.** The offset walks along the
+ * vertex normal, so it only goes inward where the winding is outward-facing. On a
+ * Blender "double-sided" plate the two halves can wind opposite ways, and the offset
+ * then inflates one half while thinning the other — identical shapes bake to visibly
+ * different stroke weights. The tell is the normalised height printed at the end:
+ * anything above 2.000 means points were pushed outward. A flat plate is already a
+ * shell, so it loses nothing by skipping the offset.
+ *
  * The source GLB is a third-party mesh. Keep it in `reference/bean/` (gitignored).
  * Only the derived `points.bin` + manifest ship with the site.
  *

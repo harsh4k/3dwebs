@@ -6,6 +6,7 @@ import { projects } from "@/content/projects";
 import { prefersReducedMotion, wantsPointer } from "@/lib/scene/device";
 import { CaseModal } from "@/features/work/case-modal";
 import { useScroll } from "@/hooks/smooth-scroll/use-scroll";
+import { setCursorHint } from "@/components/common/user-cursor/user-cursor";
 
 import { applyBrandPalette, createCarouselConfig } from "./gl/config";
 import { setWorkCarouselVisible } from "./scene-gate";
@@ -113,6 +114,24 @@ export const WorkCarousel = () => {
       setReady(false);
     };
   }, [pageSlot, reduce]);
+
+  // Cursor hint — the canvas is the carousel's whole interactive surface, so hovering it
+  // at all is the signal (per-card precision lives inside the GL scene's own pointer
+  // picking and isn't exposed through its public API). Shell-only wiring: no `gl/` edits.
+  useEffect(() => {
+    if (reduce) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const onEnter = () => setCursorHint(true);
+    const onLeave = () => setCursorHint(false);
+    canvas.addEventListener("pointerenter", onEnter);
+    canvas.addEventListener("pointerleave", onLeave);
+    return () => {
+      canvas.removeEventListener("pointerenter", onEnter);
+      canvas.removeEventListener("pointerleave", onLeave);
+      setCursorHint(false);
+    };
+  }, [reduce]);
 
   const openActive = () => {
     const project = projects[active];
