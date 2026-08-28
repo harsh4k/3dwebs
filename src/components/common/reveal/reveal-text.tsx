@@ -65,7 +65,7 @@ export const RevealText = ({
 }: RevealTextProps) => {
   const active = useActActive(act);
 
-  /* No-JS / pre-hydration safety — same guard as `RevealItem`, `FlowReveal` and `FooterReveal`.
+  /* No-JS / pre-hydration safety — same guard as `RevealItem` and `FooterReveal`.
      `TextEngine` splits the copy into per-letter/per-word spans and paints each at its `*Out`
      state (`opacity: 0`, `blur(12px)`), so mounting it from the first paint served 186 hidden
      nodes on `/` alone. The text was in the DOM and invisible — the exact failure mode

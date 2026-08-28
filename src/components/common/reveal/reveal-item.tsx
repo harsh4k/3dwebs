@@ -70,7 +70,7 @@ export const RevealItem = ({
 }: RevealItemProps) => {
   const active = useActActive(act);
 
-  /* No-JS / pre-hydration safety — the same guard `FlowReveal` and `FooterReveal` already use.
+  /* No-JS / pre-hydration safety — the same guard `FooterReveal` already uses.
      `Inview`'s spring starts at `from` (`opacity: 0`), so mounting it from the first paint ships
      this content invisible-by-default: with JavaScript disabled it never comes back. That breaks
      "nothing may be hidden by default and revealed only by animation" and "works with JS disabled".

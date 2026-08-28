@@ -1,5 +1,5 @@
 import { closingCopy, site } from '@/content/site';
-import { NEEDS_PARAM, labelsForSlugs } from '@/features/home/needs';
+import { NEEDS_PARAM, labelsForSlugs } from '@/content/needs';
 import { InnerPage } from '@/features/page-shell/inner';
 
 /**

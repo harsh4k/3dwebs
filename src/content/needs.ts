@@ -1,7 +1,13 @@
 import { servicePillars } from '@/content/services';
 
 /**
- * The selectable options for the "tell us what you need" CTA.
+ * The confirmed service options a `?need=` query string can name.
+ *
+ * Originally the content behind a home-page "tell us what you need" picker. That
+ * section was never mounted and has been removed; this module survives it because
+ * `/contact` still resolves the `?need=` slugs the CTA was going to produce, and
+ * because that resolution is what keeps a hand-edited query string from putting
+ * unconfirmed copy on the page.
  *
  * ⚠️ **Rule 0.** Every label here is a *derived view* of `content/services.ts`,
  * which is deck slide 2 verbatim and confirmed. Nothing is authored in this
@@ -38,13 +44,13 @@ const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
-export const needGroups: NeedGroup[] = servicePillars.map((pillar) => ({
+const needGroups: NeedGroup[] = servicePillars.map((pillar) => ({
   pillar: pillar.name,
   pillarSlug: pillar.slug,
   options: pillar.items.map((label) => ({ slug: slugify(label), label })),
 }));
 
-export const needOptions: NeedOption[] = needGroups.flatMap((group) => group.options);
+const needOptions: NeedOption[] = needGroups.flatMap((group) => group.options);
 
 const BY_SLUG = new Map(needOptions.map((option) => [option.slug, option]));
 
@@ -66,14 +72,4 @@ export const labelsForSlugs = (slugs: readonly string[]): string[] => {
   }
 
   return labels;
-};
-
-/** `/contact` with the current selection attached. Empty selection → plain `/contact`. */
-export const contactHref = (slugs: readonly string[]): string => {
-  if (slugs.length === 0) return '/contact';
-
-  const params = new URLSearchParams();
-  for (const slug of slugs) params.append(NEEDS_PARAM, slug);
-
-  return `/contact?${params.toString()}`;
 };

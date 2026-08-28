@@ -1,7 +1,7 @@
 "use client";
 
 import { animated, useReducedMotion, useSpring } from "@react-spring/web";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { site } from "@/content/site";
 
@@ -12,51 +12,23 @@ const SIZE = 31;
 const LABEL_OX = SIZE * 0.9;
 const LABEL_OY = SIZE * 0.2 + 6;
 const TILT = 25;
-const HOVER_SCALE = 1.12;
 const CHROME =
   ".staggered-menu-header, .staggered-menu-panel, .sm-toggle, .sm-logo, .sm-talk, .sm-header-actions";
 
 /**
- * Hover-hint store — lets a sibling feature (currently just the work carousel) tell the
- * cursor to swap its label and scale up over an interactive surface. Same module-scope
- * store + `useSyncExternalStore` idiom `act-window.ts` already uses elsewhere in this
- * codebase for this exact kind of cross-component signal — no context, no provider.
- * (`scene-gate.ts` is a different, non-reactive polled getter/setter — not the same
- * pattern, don't cite it as precedent for this one.)
- */
-let cursorHint = false;
-const hintListeners = new Set<() => void>();
-
-export const setCursorHint = (active: boolean): void => {
-  if (cursorHint === active) return;
-  cursorHint = active;
-  hintListeners.forEach((listener) => listener());
-};
-
-const subscribeHint = (listener: () => void) => {
-  hintListeners.add(listener);
-  return () => hintListeners.delete(listener);
-};
-
-const getHintSnapshot = () => cursorHint;
-const getHintServerSnapshot = () => false;
-
-/**
  * Homepage pointer — Originkit UserCursor, ported to react-spring (Framer
- * Motion is rejected here). Fine pointers only. Label is the confirmed name,
- * unless a hinted surface (the work carousel) swaps it for "view".
+ * Motion is rejected here). Fine pointers only. Label is the confirmed name.
  */
 export const UserCursor = () => {
   const reduce = useReducedMotion();
   const [fine, setFine] = useState(false);
   const [visible, setVisible] = useState(false);
   const [pressed, setPressed] = useState(false);
-  const hint = useSyncExternalStore(subscribeHint, getHintSnapshot, getHintServerSnapshot);
   const last = useRef<{ x: number; y: number; t: number } | null>(null);
 
   const [arrow, arrowApi] = useSpring(() => ({ x: -9999, y: -9999, config: ARROW }));
   const [label, labelApi] = useSpring(() => ({ x: -9999, y: -9999, rotate: 0, config: LABEL }));
-  const scale = useSpring({ scale: pressed ? 0.92 : hint ? HOVER_SCALE : 1, config: PRESS });
+  const scale = useSpring({ scale: pressed ? 0.92 : 1, config: PRESS });
 
   useEffect(() => {
     if (!window.matchMedia) return;
@@ -135,7 +107,7 @@ export const UserCursor = () => {
         className="absolute top-0 left-0 origin-[0%_50%] rounded-full bg-paper px-2.5 py-1.5 font-display text-xs font-semibold leading-none text-ink"
         style={{ x: label.x, y: label.y, rotate: label.rotate, scale: scale.scale }}
       >
-        {hint ? "view" : site.name}
+        {site.name}
       </animated.div>
       <animated.div
         className="absolute top-0 left-0 origin-[0%_0%] text-ink"

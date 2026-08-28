@@ -32,7 +32,6 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { VignetteShader } from "three/examples/jsm/shaders/VignetteShader.js";
 
 import { subscribeToTicker } from "@/lib/animation/ticker";
-import { isWorkCarouselVisible } from "@/features/home/work-carousel/scene-gate";
 import {
   byTier,
   clampedPixelRatio,
@@ -54,7 +53,7 @@ import type { ParticleCloud } from "./particle-cloud";
 import { createPointerRelax } from "./pointer-relax";
 import type { PointerRelax } from "./pointer-relax";
 import { createRisingMotes } from "./rising-motes";
-import { isPageRevealed, markSceneStep } from "./scene-ready";
+import { isPageRevealed, markSceneReady, markSceneStep } from "./scene-ready";
 import { sceneConfig } from "./scene.config";
 import { createTreeParticles } from "./tree-particles";
 import { tuning } from "./tuning";
@@ -152,19 +151,30 @@ export const ParticleScene = () => {
     const treeT = { ...tree, density: scaled(tree.density, 1) };
     const dustT = { ...dust, count: scaled(dust.count, 200) };
 
-    const renderer = new WebGLRenderer({
-      // **Off on every tier, deliberately.** Everything visible renders through the
-      // EffectComposer's targets, which carry no MSAA samples — the default framebuffer that
-      // `antialias` multisamples only ever receives the final full-screen quad, so the flag
-      // bought zero smoothing for real memory + resolve bandwidth every frame. Edges are
-      // carried by the DPR clamp and the soft particle sprites instead.
-      antialias: false,
-      // The canvas is fully opaque (a backdrop mesh fills it), so skip blending against the page.
-      alpha: false,
-      stencil: false,
-      powerPreference: isMobile ? "default" : "high-performance",
-      preserveDrawingBuffer: debug,
-    });
+    // **WebGL may not be available at all** — blocked by policy, no GPU, or the browser is
+    // already at its context limit. `WebGLRenderer` throws in that case, and this effect is the
+    // only thing that ever reports scene progress, so an unhandled throw leaves the preloader
+    // holding a veil over a page that is otherwise perfectly readable. Hand the page over
+    // instead: `markSceneReady` is the documented escape hatch for exactly this.
+    let renderer: WebGLRenderer;
+    try {
+      renderer = new WebGLRenderer({
+        // **Off on every tier, deliberately.** Everything visible renders through the
+        // EffectComposer's targets, which carry no MSAA samples — the default framebuffer that
+        // `antialias` multisamples only ever receives the final full-screen quad, so the flag
+        // bought zero smoothing for real memory + resolve bandwidth every frame. Edges are
+        // carried by the DPR clamp and the soft particle sprites instead.
+        antialias: false,
+        // The canvas is fully opaque (a backdrop mesh fills it), so skip blending against the page.
+        alpha: false,
+        stencil: false,
+        powerPreference: isMobile ? "default" : "high-performance",
+        preserveDrawingBuffer: debug,
+      });
+    } catch {
+      markSceneReady();
+      return;
+    }
     renderer.setPixelRatio(clampedPixelRatio(tier));
     // **Shadows off on mobile.** The key light casts through a 4096² PCF-soft map over tens of
     // thousands of instanced spheres — by far the most expensive thing in the frame. The clouds keep
@@ -1062,7 +1072,7 @@ export const ParticleScene = () => {
     const budget = frameBudgetMs(tier);
     const unsubscribeTicker = subscribeToTicker(
       (time) => {
-        if (paused || !onScreen || document.hidden || isWorkCarouselVisible()) return;
+        if (paused || !onScreen || document.hidden) return;
         renderFrame(time);
       },
       () => budget,

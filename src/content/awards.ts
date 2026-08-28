@@ -69,19 +69,7 @@ const raw = [
 
 export const awards: Award[] = raw.map((a, i) => validate(AwardSchema, a, `award[${i}]`));
 
-/** 30. Jury seats excluded — a seat is a credential, not a win. */
-export const totalAwards = awards
-  .filter((a) => a.isAward)
-  .reduce((sum, a) => sum + a.count, 0);
-
-/** 11 distinct awarding organisations. */
+/** 11 distinct awarding organisations. The only figure the site currently prints —
+ *  `hand-overlay.tsx`. Totals, jury seats and the region split are derivable from
+ *  `awards` the day a page needs them; they are not kept as unused exports. */
 export const totalBodies = new Set(awards.map((a) => a.body)).size;
-
-/** 1. Named separately so the awards total stays honest. */
-export const jurySeats = awards.filter((a) => !a.isAward).length;
-
-export const awardsByRegion = {
-  international: awards.filter((a) => a.region === 'international'),
-  'asia-pacific': awards.filter((a) => a.region === 'asia-pacific'),
-  india: awards.filter((a) => a.region === 'india'),
-} as const;

@@ -62,36 +62,6 @@ export const frameBudgetMs = (tier: DeviceTier = deviceTier()): number => {
   return 14;
 };
 
-export const prefersReducedMotion = (): boolean =>
-  typeof window !== "undefined" &&
-  typeof window.matchMedia === "function" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/**
- * Best-effort "spend less here". Data Saver is the nearest web-exposed proxy for iOS Low Power Mode,
- * which has no API. Both inputs are absent on most desktops, so this only ever trips on a
- * constrained client.
- */
-export const isEnergySaver = (): boolean => {
-  if (typeof navigator === "undefined") return false;
-  const nav = navigator as Navigator & {
-    connection?: { saveData?: boolean };
-    deviceMemory?: number;
-  };
-  if (nav.connection?.saveData === true) return true;
-  if (typeof nav.deviceMemory === "number" && nav.deviceMemory > 0) {
-    return nav.deviceMemory <= 2;
-  }
-  return false;
-};
-
-/**
- * Whether to stop drawing once the scene has settled. WebGL keeps the last frame on the canvas, so a
- * frozen scene costs nothing. **Not used to skip the scroll sequence** — this scene *is* the scroll
- * narrative, so freezing it would break the page; it only drops the idle/ambient redraw.
- */
-export const sceneShouldFreeze = (tier: DeviceTier = deviceTier()): boolean =>
-  prefersReducedMotion() || (tier === "mobile" && isEnergySaver());
 
 /**
  * Point sizes and glow are set in device px, so a look tuned on a tall screen occupies a larger
