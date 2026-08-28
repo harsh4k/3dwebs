@@ -81,11 +81,21 @@ const subscribe = (listener: () => void): (() => void) => {
   };
 };
 
-/** `true` while the act is the one on screen. Drives the reveals' `enabled`. */
-export const useActActive = (act: RevealAct): boolean => {
-  const snapshot = useCallback(() => state[act], [act]);
+/** Subscribing to nothing, for callers that pass `null`. See `useActActive`. */
+const noopSubscribe = (): (() => void) => () => {};
+
+/**
+ * `true` while the act is the one on screen. Drives the reveals' `enabled`.
+ *
+ * Accepts `null` for reveals that are **not** driven by the scene at all — the sections below the
+ * pinned sequence trigger off `<RevealScope>` instead. They still have to call this hook (rules of
+ * hooks), so `null` short-circuits to a no-op subscription: the rAF loop is never started on their
+ * behalf and the answer is always `false`.
+ */
+export const useActActive = (act: RevealAct | null): boolean => {
+  const snapshot = useCallback(() => (act === null ? false : state[act]), [act]);
   // Server render: nothing is active — the page starts behind the preloader, so every reveal is in
   // its `Out` state in the first HTML and plays *in* once the veil lifts.
   const server = useCallback(() => false, []);
-  return useSyncExternalStore(subscribe, snapshot, server);
+  return useSyncExternalStore(act === null ? noopSubscribe : subscribe, snapshot, server);
 };

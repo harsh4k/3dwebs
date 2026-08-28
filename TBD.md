@@ -196,6 +196,25 @@ See [[audit-2026-08-22]] for the reasoning and the measurements behind each.
 
 ---
 
+### S8 — `stripe.svg` does not exist
+
+**Need:** the 186-band stripe asset described in [[Design#Stripe|Design §7]].
+**Owner:** Harsh
+**Affects:** the stripe's five jobs are all unbuilt, including [[specs/home-build#MAJOR — the rule draws|home §4's "the rule is the stripe"]]. Nothing in `public/` or `src/` references a stripe today; the services panels ship a plain `--rule` hairline instead, which draws scaleX 0→1 exactly as specced but without the barcode tones.
+**Recommendation:** produce the asset, then swap the hairline for it in `src/features/home/services/service-panel.tsx`. Purely additive — the motion and the geometry are already correct.
+
+---
+
+### S9 — Roast-ramp order around the services chapter
+
+**Need:** decide whether the ramp should walk monotonically down the home page.
+**Owner:** Harsh
+**Affects:** the home page now runs `--cream` (scene backdrop) → `--peach` (services) → `--cream` (work helix, `work-carousel.tsx`) → `--heat` (footer), so the ramp steps back one stop after services.
+**Current handling:** services is treated as a **self-contained inset chapter**, not a ramp stop — the `--ink` field the iris opens out of closes it off at both ends, so returning to cream afterwards reads as leaving a room rather than walking the ramp backwards.
+**Recommendation:** leave as is. If a monotonic walk is wanted instead, it is one class on `work-carousel.tsx:144` (`bg-cream` → `bg-peach`) plus a re-check of the carousel's own contrast.
+
+---
+
 ## 📋 Non-blocking gaps
 
 | # | Missing | Effect | Handling |

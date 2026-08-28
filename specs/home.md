@@ -232,16 +232,39 @@ The wave overlay teaser stays. `/work` stays the archive.
 
 **Purpose:** name the three pillars, route to `/services`. Three lines, no more.
 
+> ⚠️ **Runs before §3, not after.** The section is built between the tree hold and
+> the work helix, so the reading order on the page is hero → proof → **services** →
+> selected work → CTA. Implemented in `src/features/home/services/`.
+
 | | |
 |---|---|
-| Content | The three confirmed pillars, one line each. `explore services →` |
-| Layout | Three stacked rows, full-width, hairline-separated |
-| Visual | Ground has walked to `--peach` |
-| Components | `Reveal`, `Link` |
+| Content | The three confirmed pillars, one line each, with that pillar's four deck items beneath. `explore services →` |
+| Layout | Three stacked full-width rows. Each row is a `--paper` panel; right edges stay flush and left edges step in one unit per row, so the stack reads as dealt. Mobile drops the step |
+| Visual | `--peach` ground, opened through an aperture cut out of an `--ink` field |
+| Components | `IrisPanel`, `ServicePanel`, `Inview`, `Link` |
 
-**Copy — pillar names verbatim from the deck:** Digital Marketing & Strategy · Creative & Branding · Technology & Development. The single supporting line per pillar is **Proposed** and marked as such in [[services]].
+Panels carry **no border, no shadow, no radius** ([[../Design#Card|Design §7]]) — the ground and the indent do the separating.
 
-### Motion — row reveal
+**Copy — pillar names verbatim from the deck:** Digital Marketing & Strategy · Creative & Branding · Technology & Development. The single supporting line per pillar is **Proposed** and marked as such in [[services]]. The heading is `what we do`; there is deliberately **no lead paragraph** — the positioning line already appears in §1 and in the wave overlay.
+
+### Motion — the iris (MAJOR)
+
+```
+Trigger:            Section top travels from viewport bottom to 25% viewport
+Animation:          clip-path: circle(0 → 90% at 50% 45%) on the peach panel,
+                    over a full-bleed --ink field
+Duration:           None — scrubbed
+Easing:             --ease-linear (the curve is the scroll)
+Purpose:            Marks the chapter boundary between the pinned scene act and
+                    the services chapter. Every other boundary on this site is a
+                    wipe; this one is an aperture, because what it opens onto is
+                    the range of the work.
+Primitive:          Mask reveal
+Reduced:            No clip written at all — panel covers the ink field
+No-JS:              Same as reduced. The clip is only ever added, never removed
+```
+
+### Motion — row reveal (MINOR)
 
 ```
 Trigger:            Each row enters viewport

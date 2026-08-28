@@ -620,6 +620,134 @@ substance of the open [[TBD#S9|S9]] decision rather than a bundle tweak.
 
 ---
 
+## D21 — The Trionn section pipeline (2026-08-23)
+
+The client supplied their inspiration site (trionn.com) and asked for a site
+built in its language. Four of its sections were reverse-engineered out of its
+Turbopack bundles into standalone vanilla demos at
+`x:/Projects/websites/trionn-reference/` — `design-in-motion`, `client-stories`,
+`selected-work`, `site-footer` — and those are the brief for the home page below
+the Auralis sequence.
+
+**The Auralis sequence stays exactly as it is.** Hero, trophy, wave, bonsai, with
+our palette, our `e.glb` bean and our trophy. It is not up for renegotiation; the
+four new sections land *after* it. Final order:
+
+    hero · reward · bonsai · design in motion · client stories · selected work · footer
+
+The wave is not in that list because it is not a stop — it is the morph stage
+between trophy and bonsai, and it stays.
+
+### What crosses from the extracts, and what does not
+
+The extracts are transcriptions of TRIONN's compiled modules; each README says so
+in its own last line. This repo is **public**. So what gets taken is the
+*behaviour* — the pin maths, the helix geometry, the crossfade, the string
+physics — reimplemented in our React/TS against our tokens. What does not cross:
+
+| | Why |
+|---|---|
+| `css/trionn.css` (98,482 B, identical in all four) | TRIONN's compiled Tailwind. Load-bearing for the demos — every class in their markup resolves from it. Our markup is re-authored against our own Tailwind v4 config. This is the bulk of the port cost and the reason "drop the zip in" was never possible. |
+| `NeueHaasDisplay_Roman`, `PPEditorialNew_Ultralight` | Commercial (Monotype / Pangram Pangram). |
+| `FamiljenGrotesk`, `MartianMono` | SIL OFL, so *legal* — dropped anyway. We already load Jost, Onest, Outfit, Geist Mono and Oswald. Adding two more repeats the mistake this file already records about fetching seventeen families to use four. |
+| `images/orbit/*.jpg`, `images/projects/**` | TRIONN's Dribbble shots and client work. Replaced with our deck stills. |
+| `testimonials.js`, footer contact strings, `footer-lines.svg` | Their content and line art. See below. |
+
+### BlurTextReveal and FadeInOnScroll are not new primitives
+
+Both appear in all four extracts and both already exist here:
+
+- `BlurTextReveal` is `RevealText` — same `blur(12px)` to `blur(0)` plus opacity
+  stagger, per-letter or per-word, already on `spring-text-engine`.
+- `FadeInOnScroll` is `RevealItem` — same rise-and-fade on the same soft spring.
+
+Porting either would have been a straight violation of never-do #9. What the
+existing pair *cannot* do is trigger: both gate on `useActActive`, and
+`ACT_WINDOW` maps to **scene progress 0 to 1 across the pinned sequence**. The new
+sections sit past progress 1, in normal document flow. So the reveal primitives
+gain an in-view trigger mode backed by the existing `useDynamicInView` hook,
+rather than a parallel set of components. **Extend, don't duplicate.**
+
+Two things in the extracts *are* genuinely new and have no counterpart here —
+`HoverBlur` (the two-layer per-character blur swap) and `WordShiftButton`. They
+are the additions this entry authorises.
+
+### Client Stories has no content, and gets different content
+
+Coffee Digital has **zero confirmed testimonials**. `brand-audit.md` Confirmed
+has no testimonials section and `schema.ts` has no field for one, deliberately
+(Rule 0). Writing five quotes is precisely what Rule 0 exists to stop.
+
+The *mechanism* is worth keeping — a crossfading panel driven by a list on the
+left is a good device and we have real content for it. So that slot becomes
+**Recognition**, driven by the existing `src/content/awards.ts`: the left list is
+the awarding body (Cannes, One Show, D&AD, Webby, New York Festival, Goafest,
+Abby's, APAF), the right panel crossfades the verbatim citations. Every word
+traces to S1 slide 3, and it reuses `awardsFraming`, which was written for
+exactly this job.
+
+If the client ever supplies real testimonials, the section takes them unchanged —
+it is the same component with a different array.
+
+### The budget claim was not true
+
+CLAUDE.md says the per-route ceilings are "enforced in CI". **There is no CI.**
+No `.github/`, no budget script, no gzip check anywhere in the repo. The 445KB
+number is an assertion, not a gate — which is how `/` came to sit at 435.4KB with
+nobody noticing the margin had gone.
+
+Four sections will not fit in 9.6KB. They are dynamically imported and mounted on
+approach through `useDynamicInView`, so the *initial* `/` payload is unchanged and
+the sections arrive as the reader does. That is the honest description of what the
+ceiling now measures, and the ceiling is restated on that basis rather than
+quietly broken. **The number to hold is initial payload, not total.**
+
+### The animation rules describe a system that isn't here either
+
+CLAUDE.md says "All animation goes through `useGsapContext` — never a bare
+`gsap.to` in a component" and "One `ScrollTrigger` per section. Kill on
+unmount." Neither is true of this codebase:
+
+- **`useGsapContext` does not exist.** No such file, no such export, no caller.
+- **ScrollTrigger is never used.** It is not imported, not registered, and
+  `gsap.registerPlugin` appears nowhere in `src/`.
+- GSAP has exactly **one** consumer in the whole repo —
+  `use-staggered-menu.ts`. That is the same 29.8KB D20 identified as the largest
+  addressable item on every text page.
+
+So the four sections are **not** built on ScrollTrigger. They use the pin
+approach the extracts already prove: a tall spacer, `position: sticky`, and
+scroll progress read in a rAF loop. Three reasons, in order of weight:
+
+1. **It is the house pattern already.** `ParticleScene` drives the entire
+   Auralis sequence off scroll progress in a rAF loop with no ScrollTrigger
+   anywhere. Introducing a second, parallel scroll system for the sections
+   directly below it would mean two mechanisms racing on one page.
+2. **It costs nothing.** ScrollTrigger is a plugin on top of the 29.8KB core.
+   Adding it to `/` to do what forty lines of arithmetic already do is how the
+   budget got where it is.
+3. **The extracts are already GSAP-free** and their scroll maths is the thing
+   being ported. Re-wrapping it in ScrollTrigger would mean rewriting the one
+   part that is known-good.
+
+**The rules in CLAUDE.md are stale, not overridden.** They were written for a
+GSAP-driven site that never got built. They should be rewritten to describe the
+rAF-and-scroll-progress system that actually exists — that edit is outstanding
+and is listed in the open questions below.
+
+### The footer is scoped to home
+
+The extracted footer is WebGL fog plus a Web Audio synth. On `/services`, `/about`
+and `/contact` — 183.7KB against a 195KB ceiling — that is fatal. The new footer
+mounts on `/` only; `src/features/footer/site-footer.tsx` keeps serving the other
+four routes. Revisit only with a measurement.
+
+The fog is raw `getContext('webgl')`, not three.js, so it costs no new dependency.
+Three.js is already on `/` for `ParticleScene`, so Design in Motion's helix is
+likewise marginal-cost-only. **No new dependencies for any of the four.**
+
+---
+
 ## Open questions
 
 Tracked in [[TBD]]. Now that the blockers are closed:

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Inview } from "@/components/animation/springs/in-view";
 
 import { useActActive } from "./act-window";
+import { useRevealScope } from "./reveal-scope";
 
 import type { RevealAct } from "./act-window";
 import type { HTMLAttributes, ReactNode } from "react";
@@ -31,8 +32,12 @@ import type { Tags } from "@/types/springs";
 interface RevealItemProps extends Omit<HTMLAttributes<HTMLElement>, "children"> {
   /** Semantic element to render — `li`, `div`, `p`… */
   tag?: Tags;
-  /** Act whose on-screen window plays it in and out. */
-  act: RevealAct;
+  /**
+   * What plays it in and out. A `RevealAct` uses that act's window in scene progress — correct for
+   * the pinned overlays. `"scope"` defers to the nearest `<RevealScope>`, which is what the sections
+   * below the sequence use, since they are in ordinary flow and past scene progress 1.
+   */
+  act: RevealAct | "scope";
   /** Position within a group — staggers entry, and the exit in reverse. */
   index?: number;
   /** How many items in the group, so the exit can count down from the end. */
@@ -68,9 +73,14 @@ export const RevealItem = ({
   children,
   ...rest
 }: RevealItemProps) => {
-  const active = useActActive(act);
+  const scoped = act === "scope";
+  // Both are called unconditionally — rules of hooks. `useActActive(null)` never starts the rAF
+  // loop, and `useRevealScope()` outside a provider is a plain `false`, so only one is ever live.
+  const actActive = useActActive(scoped ? null : act);
+  const scopeActive = useRevealScope();
+  const active = scoped ? scopeActive : actActive;
 
-  /* No-JS / pre-hydration safety — the same guard `FlowReveal` and `FooterReveal` already use.
+  /* No-JS / pre-hydration safety — the same guard `FooterReveal` already uses.
      `Inview`'s spring starts at `from` (`opacity: 0`), so mounting it from the first paint ships
      this content invisible-by-default: with JavaScript disabled it never comes back. That breaks
      "nothing may be hidden by default and revealed only by animation" and "works with JS disabled".

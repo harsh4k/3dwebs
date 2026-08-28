@@ -1,0 +1,54 @@
+/*
+ * Selected Work — layout.
+ *
+ * **The default here is the stacked layout, and the pin is what departs from it.** That ordering is
+ * the whole point. The horizontal track only works if JavaScript has measured it and is writing a
+ * transform every frame; if the markup defaulted to `flex-row` inside `overflow: hidden`, then with
+ * JS disabled — or before hydration, or if the bundle fails — ten of the eleven projects would sit
+ * off-screen with no way to reach them. That is precisely the failure "nothing may be hidden by
+ * default and revealed only by animation" names.
+ *
+ * So: the section is a plain vertical list of cards until `data-pinned="true"` says otherwise, and
+ * `use-work-pin.ts` sets that attribute only once it has a stage to measure and has decided the
+ * viewport is wide enough and motion is welcome. Every no-JS, pre-hydration and reduced-motion
+ * reader gets the stacked version, which is complete and legible on its own terms.
+ */
+
+.work-stage {
+  height: auto;
+}
+
+.work-track {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6rem;
+}
+
+.work-panel {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* ---- engaged pin ------------------------------------------------------- */
+
+.work-stage[data-pinned="true"] {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+.work-stage[data-pinned="true"] .work-track {
+  flex-direction: row;
+  align-items: center;
+  width: max-content;
+  height: 100%;
+  gap: 0;
+  will-change: transform;
+}
+
+.work-stage[data-pinned="true"] .work-panel {
+  width: 50cqw;
+}

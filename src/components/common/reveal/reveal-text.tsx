@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import TextEngine from "spring-text-engine";
 
 import { useActActive } from "./act-window";
+import { useRevealScope } from "./reveal-scope";
 
 import type { RevealAct } from "./act-window";
 import type { ReactNode } from "react";
@@ -42,8 +43,12 @@ interface RevealTextProps {
   tag: "h1" | "h2" | "h3" | "p" | "span" | "div";
   /** Letter-by-letter (headings) or word-by-word (copy). */
   variant?: RevealVariant;
-  /** Act whose on-screen window plays it in and out. */
-  act: RevealAct;
+  /**
+   * What plays it in and out. A `RevealAct` uses that act's window in scene progress — correct for
+   * the pinned overlays. `"scope"` defers to the nearest `<RevealScope>`, which is what the sections
+   * below the sequence use, since they are in ordinary flow and past scene progress 1.
+   */
+  act: RevealAct | "scope";
   className?: string;
   /** Stagger the whole block behind the one before it, in ms. */
   delayIn?: number;
@@ -63,9 +68,14 @@ export const RevealText = ({
   delayIn = 0,
   children,
 }: RevealTextProps) => {
-  const active = useActActive(act);
+  const scoped = act === "scope";
+  // Both are called unconditionally — rules of hooks. `useActActive(null)` never starts the rAF
+  // loop, and `useRevealScope()` outside a provider is a plain `false`, so only one is ever live.
+  const actActive = useActActive(scoped ? null : act);
+  const scopeActive = useRevealScope();
+  const active = scoped ? scopeActive : actActive;
 
-  /* No-JS / pre-hydration safety — same guard as `RevealItem`, `FlowReveal` and `FooterReveal`.
+  /* No-JS / pre-hydration safety — same guard as `RevealItem` and `FooterReveal`.
      `TextEngine` splits the copy into per-letter/per-word spans and paints each at its `*Out`
      state (`opacity: 0`, `blur(12px)`), so mounting it from the first paint served 186 hidden
      nodes on `/` alone. The text was in the DOM and invisible — the exact failure mode

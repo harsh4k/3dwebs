@@ -2,9 +2,8 @@
  * @fileoverview Hooks for accessing and responding to window dimensions.
  *
  * - useWindowWidth: current window width
- * - useWindowSize: both width and height
  *
- * All three read from a **single shared store**: one debounced `resize`
+ * Reads from a **single shared store**: one debounced `resize`
  * listener is attached for the whole app (on the first mounted consumer) and
  * removed when the last consumer unmounts — instead of one listener + one
  * debounce timer per hook call. State is delivered through
@@ -69,14 +68,6 @@ const subscribe = (listener: () => void): (() => void) => {
     }
   };
 };
-
-export function useWindowSize(): WindowSize {
-  return useSyncExternalStore(
-    subscribe,
-    () => snapshot,
-    () => SERVER_SNAPSHOT,
-  );
-}
 
 export function useWindowWidth(): number {
   return useSyncExternalStore(

@@ -66,6 +66,14 @@ export default function RootLayout({
             all. It now mounts in `HomeView`, the only route that does.
             ⚠️ If another route ever introduces a spring, it must mount `<ReducedMotion />` too,
             or `prefers-reduced-motion` will be silently ignored there. */}
+        {/* homepage-stack bridge — development only, and inert unless this page
+            is running inside a frame. It reports scroll position to the TRIONN
+            comparison wrapper on :4180 and renders nothing. The NODE_ENV check
+            keeps it out of production builds entirely. Safe to delete. */}
+        {process.env.NODE_ENV === 'development' && (
+          // eslint-disable-next-line @next/next/no-sync-scripts
+          <script src="http://localhost:4180/bridge.js" />
+        )}
         <ScrollProvider>
           <AdaptiveGrid />
           {children}

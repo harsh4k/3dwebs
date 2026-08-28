@@ -29,7 +29,7 @@ export interface UseAdaptiveGridOptions {
  * Interpolates a font-size for `windowWidth` relative to `baseWidth`. `coef`
  * damps the effect: at 1 the size tracks the viewport 1:1, at 0 it stays flat.
  */
-export const interpolateFontSize = (
+const interpolateFontSize = (
   baseFontSize: number,
   baseWidth: number,
   windowWidth: number,

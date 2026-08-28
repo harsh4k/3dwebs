@@ -4,7 +4,6 @@ import { Preloader } from "@/components/common/preloader";
 import { ReducedMotion } from "@/components/common/reduced-motion";
 import { TuningPanel } from "@/components/common/tuning-panel";
 import { UserCursor } from "@/components/common/user-cursor";
-import { SiteFooter } from "@/features/footer/site-footer";
 import {
   HandOverlay,
   HeroOverlay,
@@ -12,10 +11,8 @@ import {
   TreeOverlay,
   WaveOverlay,
 } from "@/features/home/overlays";
-import { NeedsSection } from "@/features/home/needs";
 import { ParticleScene, sceneConfig } from "@/features/home/scene";
 import { SceneShell } from "@/features/home/scene-shell";
-import { WorkCarousel } from "@/features/home/work-carousel";
 import { SiteHeader } from "@/features/navigation/site-header";
 
 /**
@@ -71,13 +68,30 @@ export const HomeView = () => {
         </ScrollFade>
       </SceneShell>
       {/* Scroll length of the hero sequence, then a hold so the tree stays on screen
-          before the work helix. Hold is not part of scene progress (that is already 1). */}
+          at the end. Hold is not part of scene progress (that is already 1). */}
       <div aria-hidden className="w-full" style={{ height: `${sceneConfig.sequence.scrollVh}vh` }} />
       <div aria-hidden className="w-full" style={{ height: `${sceneConfig.sequence.treeHoldVh}vh` }} />
-      <WorkCarousel />
-      {/* specs/home.md §5 — the contact CTA, and the last thing before the close. */}
-      <NeedsSection />
-      <SiteFooter />
+      {/* --- The sections below the scene ------------------------------------------------
+          Removed 2026-08-23 at the client's request. The home page now ends with the scene.
+
+          What used to sit here, in this order (brain D21). Written as plain names
+          rather than JSX tags on purpose — as tags they turn up in every grep for
+          the components and read as though they were still mounted:
+            1. DesignInMotion   src/features/home/sections/design-in-motion/
+            2. Recognition      src/features/home/sections/recognition/
+            3. SelectedWork     src/features/home/sections/selected-work/
+            4. HomeFooter       src/features/home/sections/site-footer/
+
+          The components are all still on disk and still export normally — only the four
+          renders and their imports were taken out, so putting any of them back is a
+          one-line change. Nothing else references them from this route.
+
+          Note for whoever restores them: they sit past scene progress 1, in ordinary
+          document flow, so they trigger off `<RevealScope>` rather than the act window,
+          and they are imported directly rather than through `next/dynamic` — `ssr: false`
+          is not available to a Server Component in Next 16, and it would strip the
+          server-rendered fallback markup that makes the page whole with JavaScript off. */}
+
       {/* Black hold until the scene's assets and shaders are ready — see `Preloader`. */}
       <Preloader />
       {/* Dev-only live tuning panel for the pink particles + bloom — mounts only with `?tune`. */}

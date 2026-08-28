@@ -15,6 +15,25 @@ creds/
 # analysis (reference/trionn/*.md) IS committed.
 reference/trionn/html/
 
+# Full trionn.com site rip (2,420 files, 75MB — their images, video, audio and
+# brand assets). Same rule as above, and one more reason: Tailwind v4 auto-detects
+# content and skips gitignored paths, so leaving this untracked-but-visible makes
+# the build scan their markup and emit rules for assets we do not have.
+reference/trionn-reference.zip
+reference/trionn-reference/
+
+# Per-section trionn.com rips used to build src/features/home/sections/ (each
+# carries their trionn.css, images and JS). Same rule as the full rip above:
+# our written analysis is committed, their source is not.
+reference/client-stories.zip
+reference/client-stories/
+reference/design-in-motion.zip
+reference/design-in-motion/
+reference/selected-work.zip
+reference/selected-work/
+reference/site-footer.zip
+reference/site-footer/
+
 # GetLayers 4K master (~58MB) and its extract. Web derivatives live in
 # public/hero/ and ARE committed.
 reference/flower-field.zip
@@ -49,6 +68,10 @@ reference/dither-blur-carousel/
 
 # Cursor local debug logs and MCP config — not project source.
 .cursor/
+
+# Originkit agent scratch space + credentials. Its own INSTRUCTIONS.md says not
+# to commit it; installed component source lives in src/ or is removed.
+.originkit/
 
 # Harsh's GLOBAL Claude setup — 544 files, 13MB. It predates this project and
 # is not project code. It also vendors ~500 third-party agent skills whose
