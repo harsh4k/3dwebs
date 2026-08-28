@@ -1,0 +1,109 @@
+/*
+ * Design in Motion — layout.
+ *
+ * **The default is the static grid, and the pin is what departs from it.** Same inversion as
+ * `selected-work.css`, for the same reason: the WebGL sequence only exists once JavaScript has a
+ * canvas, a WebGL context and eleven decoded textures. If the markup defaulted to the pinned
+ * state, then with JS disabled — or before hydration, or if the context is refused, or if a
+ * texture 404s — the section would be a viewport-tall empty box. That is exactly the failure
+ * "nothing may be hidden by default and revealed only by animation" names.
+ *
+ * So the section is a plain responsive grid of the same stills until `data-pinned="true"` says
+ * otherwise, and `use-motion-scene.ts` sets that only once it has a stage to measure and has
+ * decided the viewport is wide enough and motion is welcome. It also *removes* it if the textures
+ * fail, which drops the reader back to the grid mid-visit rather than stranding them.
+ */
+
+.dim-stage {
+  position: relative;
+  height: auto;
+}
+
+/* The fallback. Visible whenever the pin is not engaged — which is the server render, no-JS,
+   reduced motion, narrow viewports, and any WebGL failure. */
+.dim-fallback {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .dim-fallback {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+.dim-canvas {
+  display: none;
+}
+
+/* ---- engaged pin ------------------------------------------------------- */
+
+.dim-stage[data-pinned="true"] {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.dim-stage[data-pinned="true"] .dim-fallback {
+  display: none;
+}
+
+.dim-stage[data-pinned="true"] .dim-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+/* ---- the headline halves ----------------------------------------------- */
+
+/*
+ * The two halves start stacked and slide apart as the section is scrolled, `--split` running 0 to
+ * 1. They are laid out in their resting position and *moved from* it, never moved *into* it — so
+ * with the pin off they simply sit where they belong and read as an ordinary headline.
+ */
+.dim-title {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dim-stage[data-pinned="true"] .dim-title__line--lead {
+  transform: translate3d(calc(var(--split, 0) * -50%), 0, 0);
+}
+
+.dim-stage[data-pinned="true"] .dim-title__line--trail {
+  transform: translate3d(calc(var(--split, 0) * 50%), 0, 0);
+}
+
+/* ---- the closing belts ------------------------------------------------- */
+
+/*
+ * Five bands that wipe up from the bottom to close the section and hand off to Recognition's
+ * `--ink` ground below. Bottom-anchored so they grow upward, and `scaleY` rather than `height` so
+ * the wipe is a transform — animating height would lay out five times a frame.
+ */
+.dim-belts {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  pointer-events: none;
+}
+
+.dim-belt {
+  flex: 1 1 0;
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  background: var(--ink);
+}
+
+/* The belts exist only to hand off out of the pinned sequence. With the pin off there is no
+   sequence to close, and five full-height bars over the fallback grid would simply hide it. */
+.dim-stage:not([data-pinned="true"]) .dim-belts {
+  display: none;
+}

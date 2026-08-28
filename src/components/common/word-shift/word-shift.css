@@ -1,0 +1,143 @@
+/*
+ * WordShiftButton — see `word-shift-button.tsx` for what it is and why.
+ *
+ * All motion is CSS transition, driven off the shared duration/easing tokens. That is deliberate:
+ * `tokens.css` already collapses every `--dur-*` to `--dur-instant` under
+ * `prefers-reduced-motion`, so the reduced branch comes for free and stays correct if the tokens
+ * are ever retuned. A Web Animations API version would have to re-read and re-apply that itself.
+ *
+ * `--shift` is the measured travel, written from JS once per resize. Everything else is static.
+ */
+
+.word-shift {
+  --shift: 0px;
+  --char-step: 30ms;
+  --char-dur: var(--dur-base);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ---- the word ---------------------------------------------------------- */
+
+.word-shift__word {
+  position: relative;
+  display: inline-flex;
+  white-space: pre;
+}
+
+.word-shift__char {
+  display: inline-block;
+  will-change: transform;
+  transform: translateX(0);
+  transition: transform var(--char-dur) var(--ease-out-quint);
+  /* Leaving reverses the order, so the letter nearest the arrow leads on the way back. */
+  transition-delay: calc((var(--n) - 1 - var(--i)) * var(--char-step));
+}
+
+.word-shift:hover .word-shift__char,
+.word-shift:focus-visible .word-shift__char {
+  transform: translateX(var(--shift));
+  transition-delay: calc(var(--i) * var(--char-step));
+}
+
+/* ---- the two arrows ---------------------------------------------------- */
+
+.word-shift__arrow {
+  position: absolute;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.625rem;
+  height: 0.5625rem;
+  margin-top: -0.28125rem;
+  pointer-events: none;
+  color: var(--ink);
+  will-change: transform, opacity;
+  transition:
+    transform var(--dur-fast) var(--ease-out-quint),
+    opacity var(--dur-fast) var(--ease-out-quint);
+}
+
+.word-shift__arrow--right {
+  right: 0;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.word-shift__arrow--left {
+  left: 0;
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+.word-shift:hover .word-shift__arrow--right,
+.word-shift:focus-visible .word-shift__arrow--right {
+  transform: translateX(120%);
+  opacity: 0;
+}
+
+.word-shift:hover .word-shift__arrow--left,
+.word-shift:focus-visible .word-shift__arrow--left {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* ---- the underline handover -------------------------------------------- */
+
+.word-shift__underline {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  pointer-events: none;
+}
+
+.word-shift__rule {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--ink);
+  will-change: transform;
+}
+
+/* Rest: the right-anchored rule is drawn and the left-anchored one is not. On hover they swap,
+   so the line reads as retreating to the right and being redrawn from the left rather than
+   simply fading — the two halves are never both visible at full width. */
+.word-shift__rule--right {
+  transform-origin: right center;
+  transform: scaleX(1);
+  transition: transform var(--dur-slow) var(--ease-out-quint);
+}
+
+.word-shift__rule--left {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--dur-base) var(--ease-out-quint);
+}
+
+.word-shift:hover .word-shift__rule--right,
+.word-shift:focus-visible .word-shift__rule--right {
+  transform: scaleX(0);
+}
+
+.word-shift:hover .word-shift__rule--left,
+.word-shift:focus-visible .word-shift__rule--left {
+  transform: scaleX(1);
+}
+
+/* Focus is carried by the component's own motion, but that is colour/position only — an explicit
+   ring is still required at 3:1 on every ground (a11y rules). */
+.word-shift:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}

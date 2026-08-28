@@ -1,0 +1,98 @@
+/*
+ * Recognition — the crossfading citation panel.
+ *
+ * **Every panel occupies the same grid cell.** This is the one piece of layout that is
+ * load-bearing rather than cosmetic, and it is why this is a grid and not a flex row or a stack of
+ * absolutely-positioned panels:
+ *
+ *   - `grid-area: 1 / 1` puts all eleven panels in a single cell, so the cell — and therefore the
+ *     section — is as tall as the LONGEST citation set. Without that the section changes height
+ *     every time it crossfades, and a section that resizes under the reader drags the whole page
+ *     up and down while they are trying to read it.
+ *   - Absolute positioning would also stack them, but it takes them out of flow, so the container
+ *     would collapse to nothing and the height would have to be measured and written by JS. The
+ *     grid does it in the layout engine, for free, and it stays correct when the font loads late
+ *     or the viewport changes.
+ *
+ * The inactive panels are `opacity: 0` but still laid out — that is what holds the height. They
+ * are `visibility: hidden` too, so they leave the accessibility tree and the tab order rather than
+ * sitting invisible on top of the live one.
+ *
+ * **Nothing here is hidden-by-default in the no-JS sense.** The first panel is `[data-active]`
+ * from the server, so with JavaScript off the section renders one complete citation and the full
+ * body list — see the fallback note in `recognition.tsx`.
+ */
+
+.recognition-deck {
+  display: grid;
+  align-items: start;
+}
+
+.recognition-panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--dur-slow) var(--ease-out-quint),
+    visibility 0s linear var(--dur-slow);
+}
+
+.recognition-panel[data-active="true"] {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--dur-slow) var(--ease-out-quint),
+    visibility 0s linear 0s;
+}
+
+/* ---- the rule and its `+` ---------------------------------------------- */
+
+.recognition-rule {
+  position: relative;
+  display: block;
+  height: 1px;
+  width: 100%;
+}
+
+/* Grown from 0 to full width by the scrub. It starts at 0 only once JS has armed it — the
+   server renders it full width, so a no-JS reader gets the rule rather than a gap. */
+.recognition-rule__line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  transform: translateY(-50%);
+  background: var(--overlay-line);
+}
+
+.recognition-rule[data-armed="true"] .recognition-rule__line {
+  width: var(--rule-width, 0%);
+}
+
+.recognition-rule__plus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -0.5rem;
+  margin-left: -0.5rem;
+  height: 1rem;
+  width: 1rem;
+  transform-origin: center center;
+  color: var(--paper);
+}
+
+/* While the scrub is running the `+` owns its transform outright and must not lag behind the
+   scroll; once the rule is fully drawn the cursor-follow takes over and the easing is applied
+   inline, per interaction. */
+.recognition-rule[data-following="true"] .recognition-rule__plus {
+  transition: transform var(--dur-fast) var(--ease-out-quint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The complete reduced version of "the rule draws itself in" is "the rule is there". The
+     cursor-follow is switched off in JS as well — this only covers the scrub. */
+  .recognition-rule[data-armed="true"] .recognition-rule__line {
+    width: 100%;
+  }
+}

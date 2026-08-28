@@ -1,0 +1,113 @@
+/*
+ * HoverBlur — see `hover-blur.tsx`.
+ *
+ * CSS animations rather than transitions, because this is a **one-shot that returns to rest**, not
+ * a state the element holds while hovered. With no `animation-fill-mode` the properties revert to
+ * their base values the moment the run ends, which is exactly the "both layers reset on completion,
+ * so the next hover replays it" behaviour — and it costs no timers, no cleanup and no JS at all.
+ */
+
+.hover-blur {
+  --char-step-out: 25ms;
+  --char-step-in: 40ms;
+  --char-dur-out: var(--dur-fast);
+  --char-dur-in: var(--dur-base);
+
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+  line-height: 1;
+  user-select: none;
+}
+
+.hover-blur__layer {
+  display: inline-flex;
+  white-space: pre;
+}
+
+.hover-blur__layer--clone {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hover-blur__char {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+/* Even indices lift, odd indices drop — the label splits apart rather than sliding as a block. */
+@keyframes hover-blur-out-even {
+  to {
+    transform: translateY(-10px);
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+@keyframes hover-blur-out-odd {
+  to {
+    transform: translateY(10px);
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+@keyframes hover-blur-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hover-blur:hover .hover-blur__layer--original .hover-blur__char,
+.hover-blur:focus-visible .hover-blur__layer--original .hover-blur__char,
+.group:hover .hover-blur .hover-blur__layer--original .hover-blur__char,
+.group:focus-visible .hover-blur .hover-blur__layer--original .hover-blur__char {
+  animation: hover-blur-out-even var(--char-dur-out) var(--ease-in-out) forwards;
+  animation-delay: calc(var(--i) * var(--char-step-out));
+  animation-fill-mode: none;
+}
+
+.hover-blur:hover .hover-blur__layer--original .hover-blur__char:nth-child(even),
+.hover-blur:focus-visible .hover-blur__layer--original .hover-blur__char:nth-child(even),
+.group:hover .hover-blur .hover-blur__layer--original .hover-blur__char:nth-child(even),
+.group:focus-visible .hover-blur .hover-blur__layer--original .hover-blur__char:nth-child(even) {
+  animation-name: hover-blur-out-odd;
+}
+
+/* The clone starts before the original has fully left — `--lead` is the overlap, measured from the
+   end of the outgoing run so the two never read as separate events. */
+.hover-blur:hover .hover-blur__layer--clone .hover-blur__char,
+.hover-blur:focus-visible .hover-blur__layer--clone .hover-blur__char,
+.group:hover .hover-blur .hover-blur__layer--clone .hover-blur__char,
+.group:focus-visible .hover-blur .hover-blur__layer--clone .hover-blur__char {
+  animation: hover-blur-in var(--char-dur-in) var(--ease-out-quint) forwards;
+  animation-delay: calc(
+    var(--char-dur-out) + (var(--n) - 1) * var(--char-step-out) + var(--i) * var(--char-step-in)
+  );
+  animation-fill-mode: none;
+}
+
+.hover-blur:hover .hover-blur__layer--clone,
+.hover-blur:focus-visible .hover-blur__layer--clone,
+.group:hover .hover-blur .hover-blur__layer--clone,
+.group:focus-visible .hover-blur .hover-blur__layer--clone {
+  opacity: 1;
+}
+
+/*
+ * Reduced motion: the durations collapse via `--dur-*`, but the *stagger* is this component's own
+ * and has to be collapsed here too — 40ms × 24 characters is still a second of sequencing even
+ * when each step is instant. Zeroing both steps makes it a single clean swap.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .hover-blur {
+    --char-step-out: 0ms;
+    --char-step-in: 0ms;
+  }
+}

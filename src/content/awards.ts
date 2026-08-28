@@ -73,3 +73,46 @@ export const awards: Award[] = raw.map((a, i) => validate(AwardSchema, a, `award
  *  `hand-overlay.tsx`. Totals, jury seats and the region split are derivable from
  *  `awards` the day a page needs them; they are not kept as unused exports. */
 export const totalBodies = new Set(awards.map((a) => a.body)).size;
+
+/**
+ * The awarding organisations, in the order they first appear above, each
+ * carrying its own citation lines verbatim.
+ *
+ * The Recognition section on `/` is indexed by this: the left-hand list is
+ * `name`, and the right-hand panel crossfades `lines`. Grouped rather than
+ * flat because three bodies carry more than one line — Abby Awards has three,
+ * the Asia Pacific Advertising Festival two — and a flat list would print the
+ * same organisation twice with nothing to tell the two panels apart.
+ *
+ * Derived, never retyped. This is the shape the file's header comment
+ * anticipated: totals and splits are computed from `awards` the day a page
+ * needs them, so a correction upstream cannot drift away from what renders.
+ */
+export interface AwardBody {
+  /** The organisation, exactly as `body` is written above. */
+  name: string;
+  /** Its citation lines, verbatim, in source order. */
+  lines: string[];
+  /**
+   * Individual awards this organisation represents. Jury seats are excluded —
+   * `isAward: false` — so a seat renders its line without inflating a count.
+   */
+  count: number;
+  region: Award['region'];
+}
+
+export const awardBodies: AwardBody[] = awards.reduce<AwardBody[]>((acc, award) => {
+  const existing = acc.find((entry) => entry.name === award.body);
+  if (existing) {
+    existing.lines.push(award.line);
+    if (award.isAward) existing.count += award.count;
+    return acc;
+  }
+  acc.push({
+    name: award.body,
+    lines: [award.line],
+    count: award.isAward ? award.count : 0,
+    region: award.region,
+  });
+  return acc;
+}, []);

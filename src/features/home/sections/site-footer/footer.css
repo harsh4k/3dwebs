@@ -1,0 +1,68 @@
+/*
+ * The home footer — the hairline field, the fog behind it, and the content over both.
+ *
+ * **Everything here is additive.** The content sits in normal flow on a flat `--ink` ground; the
+ * field and the fog are absolutely positioned behind it and carry no text. So with JavaScript off,
+ * with WebGL refused, or under reduced motion, what is lost is the smoke and the ringing — never a
+ * word, a link or an address. That is the difference between motion as enhancement and content
+ * hidden behind animation.
+ */
+
+.footer-field {
+  position: relative;
+  isolation: isolate;
+}
+
+/* The fog and the lines both sit behind the content, which needs no z-index of its own because it
+   comes later in the DOM. */
+.footer-fog,
+.footer-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+.footer-lines {
+  /* The field is generated into a fixed viewBox and stretched to whatever box it lands in — the
+     composition is proportional, so letting it distort is correct here. */
+  overflow: visible;
+}
+
+/*
+ * The visible hairline. Thin enough to read as a rule rather than a line of type, and its opacity
+ * is set per line from the field's intensity ramp so the stack has a gradient of presence.
+ */
+.footer-string {
+  fill: none;
+  stroke: var(--peach);
+  stroke-width: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+
+/*
+ * The hit twin. Transparent, twelve pixels wide, and the only thing in the field with a pointer
+ * surface — `stroke` rather than `all`, so the gaps between lines stay inert and a line only rings
+ * when the pointer is actually on it.
+ */
+.footer-string-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 12;
+  vector-effect: non-scaling-stroke;
+  pointer-events: stroke;
+}
+
+/* The field is a decorative surface, so it takes the pointer only where a line actually is. */
+.footer-lines[data-live="true"] {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Nothing rings, so nothing should invite a pluck. */
+  .footer-lines {
+    pointer-events: none;
+  }
+}
