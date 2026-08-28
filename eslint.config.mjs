@@ -13,6 +13,9 @@ const eslintConfig = defineConfig([
     'reference/**',
     'creds/**',
     'skills/**',
+    // Standalone extracted background package — its own tsconfig, its own three.js
+    // install, not part of the Next build. Mirrored in tsconfig.json's `exclude`.
+    'demo/**',
     // Raw Originkit reference source — inert, unused by the app (see
     // src/features/footer/site-footer.tsx's doc comment). Same reasoning as
     // `reference/**` above; mirrored in tsconfig.json's `exclude`.

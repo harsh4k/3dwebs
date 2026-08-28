@@ -1,0 +1,14 @@
+/** The background layer fills the screen; the page carries nothing else. */
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+#background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
